@@ -1,11 +1,25 @@
 const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017/qna';
+const dbName = 'qna2';
 
-const MONGODB_URL = 'mongodb://localhost:27017/qna2';
+let mongodb;
+let db;
 
-MongoClient.connect(MONGODB_URL, { useNewUrlParser: true }, (err, db) => {
-    console.log(`Connected successfully to server. `);
+const connect = (callback) => {
+    MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+        console.log(`Connected successfully to server.`);
+        mongodb = client.db(dbName);
+        db = client;
+        callback();
+    });
+}
 
+const get = () => {
+    return mongodb;
+}
+
+const close = () => {
     db.close();
-});
+}
 
-module.exports = { MongoClient };
+module.exports = { connect, get, close };

@@ -1,5 +1,3 @@
-require('./database/mongodb');
-
 /*QUESTION:
 tags: string[],
 question: string,
@@ -11,3 +9,12 @@ answers: [{
     isCorrectAnswer: boolean
 }]
 */
+const db = require('./../database/mongodb');
+
+const getQuestions = () => {
+    db.get().collection('questions').find({}).toArray((err, doc) => {
+        console.log(doc);
+    });
+}
+
+module.exports = { getQuestions };
