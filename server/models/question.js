@@ -12,7 +12,7 @@ answers: [{
 const db = require('./../database/mongodb');
 
 const getQuestions = () => {
-    db.get().collection('questions').find({}).toArray((err, doc) => {
+    db.getDb().collection('questions').find({}).toArray((err, doc) => {
         console.log(doc);
     });
 }

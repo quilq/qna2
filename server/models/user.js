@@ -6,7 +6,7 @@ password: string
 const db = require('./../database/mongodb');
 
 const getUsers = () => {
-    db.get().collection('users').find({}).toArray((err, doc) => {
+    db.getDb().collection('users').find({}).toArray((err, doc) => {
         console.log(doc);
     });
 };
