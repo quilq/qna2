@@ -17,4 +17,24 @@ const getQuestions = () => {
     });
 }
 
+//find questions by user/ by tag
+
+//create question
+
+//change question
+
+//upvote, downvote question
+
+//delete question
+
+//add answer
+
+//change answer
+
+//update correct answer
+
+//upvote, downvote answer
+
+//delete answer
+
 module.exports = { getQuestions };
