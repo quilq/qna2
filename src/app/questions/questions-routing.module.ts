@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { QuestionsComponent } from './questions.component';
+
 import { QuestionDetailsComponent } from './question-details/question-details.component';
+import { TagsComponent } from './tags/tags.component';
+import { UnansweredQuestionsComponent } from './unanswered-questions/unanswered-questions.component';
 
 const routes: Routes = [
-  {path: 'question-details/:id', component: QuestionDetailsComponent}
+  {path: 'questions/tags', component: TagsComponent},
+  {path: 'questions/unanswered-questions', component: UnansweredQuestionsComponent},
+  {path: 'questions/question-details/:id', component: QuestionDetailsComponent}
 ];
 
 @NgModule({

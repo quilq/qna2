@@ -3,7 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { QuestionsComponent } from './questions/questions.component';
 
 const routes: Routes = [
-  {path: '', component: QuestionsComponent}
+  {path: 'questions', component: QuestionsComponent},
+  {path: '', redirectTo: 'questions', pathMatch: 'full'},
+  {path: '**', component: QuestionsComponent}
 ];
 
 @NgModule({
