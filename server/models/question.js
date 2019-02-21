@@ -18,23 +18,57 @@ const getQuestions = () => {
 }
 
 //find questions by user/ by tag
+const findQuestionsByUser = () => {
+    
+}
+
+const findQuestionsByTag = () => {
+    
+}
 
 //create question
+const createQuestion = () => {
 
-//change question
+}
+
+//edit question
+const editQuestion = () => {
+    
+}
 
 //upvote, downvote question
+const voteQuestion = () => {
+    
+}
 
 //delete question
+const deleteQuestion = () => {
+    
+}
 
 //add answer
+const addAnswer = () => {
+    
+}
 
-//change answer
+//edit answer
+const editAnswer = () => {
+    
+}
 
 //update correct answer
+const updateCorrectAnswer = () => {
+    
+}
 
 //upvote, downvote answer
+const voteAnswer = () => {
+    
+}
 
 //delete answer
+const deleteAnswer = () => {
+    
+}
 
 module.exports = { getQuestions };
