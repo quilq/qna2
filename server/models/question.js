@@ -60,7 +60,6 @@ const voteQuestion = (question, upvote) => {
 
 //delete question
 const deleteQuestion = (question) => {
-    let question;
     db.getDb().collection('questions').deleteOne({ question: question }, (err, res) => {
         console.log('err: ', err, '| res: ', res);
     })
@@ -68,8 +67,7 @@ const deleteQuestion = (question) => {
 
 //add answer
 const addAnswer = (question, newAnswer) => {
-    let question;
-    db.getDb().collection('questions').updateOne({})
+    db.getDb().collection('questions').updateOne({question: question},{})
 }
 
 //edit answer
@@ -80,19 +78,20 @@ const editAnswer = (question, newAnswer, oldAnswer) => {
 
 //update correct answer
 const updateCorrectAnswer = (question, correctAnswer) => {
-    let question;
-    db.getDb().collection('questions').updateOne({})
+    db.getDb().collection('questions').updateOne(
+        {},
+        { $set: { 'answers.$[element].isCorrectAnswer': true } },  //update correct answer @ element
+        { arrayFilter: [{ 'element.answer': correctAnswer }] }  //where element.answer = correctAnswer
+    )
 }
 
 //upvote, downvote answer
 const voteAnswer = (question, answer, upvote) => {
-    let question;
     db.getDb().collection('questions').updateOne({})
 }
 
 //delete answer
 const deleteAnswer = (question, answer) => {
-    let question;
     db.getDb().collection('questions').updateOne({})
 }
 
