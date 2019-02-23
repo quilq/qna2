@@ -7,18 +7,21 @@ answers: [{
     answer: string,
     answeredByUser: user,
     isCorrectAnswer: boolean
+    votes: number
 }]
 */
 const db = require('./../database/mongodb');
 
-//find questions by user/ by tag
-const findQuestionsByUser = (user) => {
+//find questions by user(name)
+const findQuestionsByUser = (req, res) => {
+    let user = req.user;
     db.getDb().collection('questions').find({ askedByUser: user }).toArray((err, doc) => {
         console.log(doc);
+        res.send(doc);
     });
-
 }
 
+//find questions by tag
 const findQuestionsByTag = (tag) => {
     db.getDb().collection('questions').find({ tags: tag }).toArray((err, doc) => {
         console.log(doc);
@@ -62,7 +65,7 @@ const voteQuestion = (question, upvote) => {
 const deleteQuestion = (question) => {
     db.getDb().collection('questions').deleteOne({ question: question }, (err, res) => {
         console.log('err: ', err, '| res: ', res);
-    })
+    });
 }
 
 //add answer
@@ -72,30 +75,52 @@ const addAnswer = (question, newAnswer) => {
         { $push: { answers: newAnswer } },  //add new answer
         (err, res) => {
             console.log('err: ', err, '| res: ', res);
-        })
+        });
 }
 
 //edit answer
 const editAnswer = (question, newAnswer, oldAnswer) => {
-    db.getDb().collection('questions').updateOne(
-        {question: question},
-        {$set: {'answers.$[element].answer': newAnswer}},  //replace old answer with new answer
-        {arrayFilter: [{'element.answer': oldAnswer}]}
-        )
+    try {
+        db.getDb().collection('questions').updateOne(
+            { question: question },
+            { $set: { 'answers.$[element].answer': newAnswer } },  //replace old answer with new answer
+            { arrayFilter: [{ 'element.answer': oldAnswer }] }
+        );
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 //update correct answer
 const updateCorrectAnswer = (question, correctAnswer) => {
-    db.getDb().collection('questions').updateOne(
-        { question: question },
-        { $set: { 'answers.$[element].isCorrectAnswer': true } },  //update correct answer @ element
-        { arrayFilter: [{ 'element.answer': correctAnswer }] }  //where element.answer = correctAnswer
-    )
+    try {
+        db.getDb().collection('questions').updateOne(
+            { question: question },
+            { $set: { 'answers.$[element].isCorrectAnswer': true } },  //update correct answer @ element
+            { arrayFilter: [{ 'element.answer': correctAnswer }] }  //where element.answer = correctAnswer
+        );
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 //upvote, downvote answer
 const voteAnswer = (question, answer, upvote) => {
-    db.getDb().collection('questions').updateOne({})
+    let newVotes = 0;
+    if (upvote) {
+        newVotes = answer.votes + 1;
+    } else {
+        newVotes = answer.votes - 1;
+    }
+    try {
+        db.getDb().collection('questions').updateOne(
+            { question: question },
+            { $set: { 'answers.$[element].votes': newVotes } },  //update votes for the answer
+            { arrayFilter: [{ 'element.answer': answer }] }
+        );
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 //delete answer
@@ -105,7 +130,19 @@ const deleteAnswer = (question, answerToDelete) => {
         { $pull: { answers: { answer: answerToDelete } } },  //delete answerToDelete
         (err, res) => {
             console.log('err: ', err, '| res: ', res);
-        })
+        });
 }
 
-module.exports = { getQuestions };
+module.exports = {
+    findQuestionsByUser,
+    findQuestionsByTag,
+    createQuestion,
+    editQuestion,
+    voteQuestion,
+    deleteQuestion,
+    addAnswer,
+    updateCorrectAnswer,
+    editAnswer,
+    voteAnswer,
+    deleteAnswer
+};
