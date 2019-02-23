@@ -67,19 +67,27 @@ const deleteQuestion = (question) => {
 
 //add answer
 const addAnswer = (question, newAnswer) => {
-    db.getDb().collection('questions').updateOne({question: question},{})
+    db.getDb().collection('questions').updateOne(
+        { question: question },
+        { $push: { answers: newAnswer } },  //add new answer
+        (err, res) => {
+            console.log('err: ', err, '| res: ', res);
+        })
 }
 
 //edit answer
 const editAnswer = (question, newAnswer, oldAnswer) => {
-    let question;
-    db.getDb().collection('questions').updateOne({})
+    db.getDb().collection('questions').updateOne(
+        {question: question},
+        {$set: {'answers.$[element].answer': newAnswer}},  //replace old answer with new answer
+        {arrayFilter: [{'element.answer': oldAnswer}]}
+        )
 }
 
 //update correct answer
 const updateCorrectAnswer = (question, correctAnswer) => {
     db.getDb().collection('questions').updateOne(
-        {},
+        { question: question },
         { $set: { 'answers.$[element].isCorrectAnswer': true } },  //update correct answer @ element
         { arrayFilter: [{ 'element.answer': correctAnswer }] }  //where element.answer = correctAnswer
     )
@@ -91,8 +99,13 @@ const voteAnswer = (question, answer, upvote) => {
 }
 
 //delete answer
-const deleteAnswer = (question, answer) => {
-    db.getDb().collection('questions').updateOne({})
+const deleteAnswer = (question, answerToDelete) => {
+    db.getDb().collection('questions').updateOne(
+        { question: question },
+        { $pull: { answers: { answer: answerToDelete } } },  //delete answerToDelete
+        (err, res) => {
+            console.log('err: ', err, '| res: ', res);
+        })
 }
 
 module.exports = { getQuestions };
