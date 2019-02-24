@@ -14,26 +14,22 @@ router.get('/q/user', (req, res)=>{
 })
 
 //find questions by tag
-router.get('/q/:tag', (req, res)=>{
-    
-    findQuestionsByTag(tag)
+router.get('/q/tag', (req, res)=>{
+    findQuestionsByTag(req, res);
 })
 
 //create question insertOne(doc, options, callback)
 router.post('/q/add', (req, res)=>{
-
-    createQuestion(question)
+    createQuestion(req, res);
 })
 
 //edit question updateOne(filter, update, options)
 router.put('/q/edit', (req, res)=>{
-
-    editQuestion(question, newQuestion)
+    editQuestion(req, res);
 })
 
 //upvote, downvote question
 router.put('/q/vote', (req, res)=>{
-    
     voteQuestion(question, upvote)
 })
 

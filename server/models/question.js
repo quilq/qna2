@@ -14,7 +14,7 @@ const db = require('./../database/mongodb');
 
 //find questions by user(name)
 const findQuestionsByUser = (req, res) => {
-    let user = req.user;
+    let user = req.header('user');
     db.getDb().collection('questions').find({ askedByUser: user }).toArray((err, doc) => {
         console.log(doc);
         res.send(doc);
@@ -22,21 +22,26 @@ const findQuestionsByUser = (req, res) => {
 }
 
 //find questions by tag
-const findQuestionsByTag = (tag) => {
+const findQuestionsByTag = (req, res) => {
+    let tag = req.header('tag');
     db.getDb().collection('questions').find({ tags: tag }).toArray((err, doc) => {
         console.log(doc);
+        res.send(doc);
     });
 }
 
 //create question insertOne(doc, options, callback)
-const createQuestion = (question) => {
+const createQuestion = (req, res) => {
+    let question = req.body.question;
     db.getDb().collection('questions').insertOne(question, (err, res) => {
         console.log('err: ', err, '| res: ', res);
     })
 }
 
 //edit question updateOne(filter, update, options)
-const editQuestion = (question, newQuestion) => {
+const editQuestion = (req, res) => {
+    let question = req.body.question, 
+    newQuestion = req.body.newQuestion;
     db.getDb().collection('questions').updateOne(
         { question: question },
         { $set: { question: newQuestion } },
