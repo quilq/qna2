@@ -9,64 +9,58 @@ router.get('/', (req, res) => {
 });
 
 //find questions by user
-router.get('/q/user', (req, res)=>{
-    findQuestionsByUser(req, res);
+router.get('/q/user', (req, res) => {
+    question.findQuestionsByUser(req, res);
 })
 
 //find questions by tag
-router.get('/q/tag', (req, res)=>{
-    findQuestionsByTag(req, res);
+router.get('/q/tag', (req, res) => {
+    question.findQuestionsByTag(req, res);
 })
 
 //create question insertOne(doc, options, callback)
-router.post('/q/add', (req, res)=>{
-    createQuestion(req, res);
+router.post('/q/add', (req, res) => {
+    question.createQuestion(req, res);
 })
 
 //edit question updateOne(filter, update, options)
-router.put('/q/edit', (req, res)=>{
-    editQuestion(req, res);
+router.put('/q/edit', (req, res) => {
+    question.editQuestion(req, res);
 })
 
 //upvote, downvote question
-router.put('/q/vote', (req, res)=>{
-    voteQuestion(question, upvote)
+router.put('/q/vote', (req, res) => {
+    question.voteQuestion(req, res);
 })
 
 //delete question
-router.delete('/q/delete/:id', (req, res)=>{
-    
-    deleteQuestion(question)
+router.delete('/q/delete', (req, res) => {
+    question.deleteQuestion(req, res);
 })
 
 //add answer
-router.put('/a/add', (req, res)=>{
-    
-    addAnswer(question, newAnswer)
+router.put('/a/add', (req, res) => {
+    question.addAnswer(req, res);
 })
 
 //edit answer
-router.put('/a/edit', (req, res)=>{
-    
-    editAnswer(question, newAnswer, oldAnswer)
+router.put('/a/edit', (req, res) => {
+    question.editAnswer(req, res);
 })
 
 //update correct answer
-router.put('/a/update', (req, res)=>{
-    
-    updateCorrectAnswer(question, correctAnswer)
+router.put('/a/update', (req, res) => {
+    question.updateCorrectAnswer(req, res);
 })
 
 //upvote, downvote answer
-router.put('/a/vote', (req, res)=>{
-    
+router.put('/a/vote', (req, res) => {
+    question.voteAnswer(req, res);
 })
-voteAnswer(question, answer, upvote)
 
 //delete answer
-router.put('/a/delete', (req, res)=>{
-    
-    deleteAnswer(question, answerToDelete)
+router.put('/a/delete', (req, res) => {
+    question.deleteAnswer(req, res);
 })
 
 module.exports = router;

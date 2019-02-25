@@ -18,7 +18,6 @@ export class QuestionsService {
   findQuestionsByTag = (tag) => {
     let url = `api/q/tag`;
     return this.httpClient.get(url, {headers: {'tag': tag}});
-
   }
 
   //create question insertOne(doc, options, callback)
@@ -34,31 +33,45 @@ export class QuestionsService {
   }
 
   //upvote, downvote question
-  voteQuestion = (question, upvote) => {
+  voteQuestion = (question, upvote: boolean) => {
+    let url = `api/q/vote`;
+    return this.httpClient.put(url, {question, upvote});
   }
 
   //delete question
   deleteQuestion = (question) => {
+    let url = `api/q/delete`;
+    return this.httpClient.put(url, {question});
   }
 
   //add answer
   addAnswer = (question, newAnswer) => {
+    let url = `api/a/add`;
+    return this.httpClient.put(url, {question, newAnswer});
   }
 
-  //edit answer
+  //edit answer : TODO
   editAnswer = (question, newAnswer, oldAnswer) => {
+    let url = `api/a/edit`;
+    return this.httpClient.put(url, {question, newAnswer, oldAnswer});
   }
 
-  //update correct answer
+  //update correct answer : TODO
   updateCorrectAnswer = (question, correctAnswer) => {
+    let url = `api/a/update`;
+    return this.httpClient.put(url, {question, correctAnswer});
   }
 
-  //upvote, downvote answer
-  voteAnswer = (question, answer, upvote) => {
+  //upvote, downvote answer : TODO
+  voteAnswer = (question, answer, upvote: boolean) => {
+    let url = `api/a/vote`;
+    return this.httpClient.put(url, {question, answer, upvote});
   }
 
   //delete answer
   deleteAnswer = (question, answerToDelete) => {
+    let url = `api/a/delete`;
+    return this.httpClient.put(url, {question, answerToDelete});
   }
 
 }

@@ -15,7 +15,7 @@ const db = require('./../database/mongodb');
 //find questions by user(name)
 const findQuestionsByUser = (req, res) => {
     let user = req.header('user');
-    db.getDb().collection('questions').find({ askedByUser: user }).toArray((err, doc) => {
+    db.getDb().collection('questions').find({ askedByUser: user }).toArray((error, doc) => {
         console.log(doc);
         res.send(doc);
     });
@@ -24,7 +24,7 @@ const findQuestionsByUser = (req, res) => {
 //find questions by tag
 const findQuestionsByTag = (req, res) => {
     let tag = req.header('tag');
-    db.getDb().collection('questions').find({ tags: tag }).toArray((err, doc) => {
+    db.getDb().collection('questions').find({ tags: tag }).toArray((error, doc) => {
         console.log(doc);
         res.send(doc);
     });
@@ -33,8 +33,11 @@ const findQuestionsByTag = (req, res) => {
 //create question insertOne(doc, options, callback)
 const createQuestion = (req, res) => {
     let question = req.body.question;
-    db.getDb().collection('questions').insertOne(question, (err, res) => {
-        console.log('err: ', err, '| res: ', res);
+    db.getDb().collection('questions').insertOne(question, (error, result) => {
+        console.log('error: ', error, '| res: ', result);
+        if (result){
+            res.send(result);
+        }
     })
 }
 
@@ -45,14 +48,19 @@ const editQuestion = (req, res) => {
     db.getDb().collection('questions').updateOne(
         { question: question },
         { $set: { question: newQuestion } },
-        (err, res) => {
-            console.log('err: ', err, '| res: ', res);
+        (error, result) => {
+            console.log('error: ', error, '| res: ', result);
+            if (result){
+                res.send(result);
+            }
         });
 }
 
 //upvote, downvote question
-const voteQuestion = (question, upvote) => {
-    let newVotes = 0;
+const voteQuestion = (req, res) => {
+    let question = req.body.question, 
+    upvote = req.body.upvote,
+    newVotes = 0;
     if (upvote) {
         newVotes = question.votes + 1;
     } else {
@@ -61,30 +69,45 @@ const voteQuestion = (question, upvote) => {
     db.getDb().collection('questions').updateOne(
         { question: question },
         { $set: { 'question.votes': newVotes } },
-        (err, res) => {
-            console.log('err: ', err, '| res: ', res);
+        (error, result) => {
+            console.log('error: ', error, '| result: ', result);
+            if (result){
+                res.send(result);
+            }
         });
 }
 
 //delete question
-const deleteQuestion = (question) => {
-    db.getDb().collection('questions').deleteOne({ question: question }, (err, res) => {
-        console.log('err: ', err, '| res: ', res);
+const deleteQuestion = (req, res) => {
+    let question = req.body.question;
+    db.getDb().collection('questions').deleteOne({ question: question }, (error, result) => {
+        console.log('error: ', error, '| result: ', result);
+        if (result){
+            res.send(result);
+        }
     });
 }
 
 //add answer
-const addAnswer = (question, newAnswer) => {
+const addAnswer = (req, res) => {
+    let question = req.body.question, 
+    newAnswer = req.body.newAnswer;
     db.getDb().collection('questions').updateOne(
         { question: question },
         { $push: { answers: newAnswer } },  //add new answer
-        (err, res) => {
-            console.log('err: ', err, '| res: ', res);
+        (error, result) => {
+            console.log('error: ', error, '| res: ', result);
+            if (result){
+                res.send(result);
+            }
         });
 }
 
 //edit answer
-const editAnswer = (question, newAnswer, oldAnswer) => {
+const editAnswer = (req, res) => {
+    let question = req.body.question, 
+    newAnswer = req.body.newAnswer, 
+    oldAnswer = req.body.oldAnswer;
     try {
         db.getDb().collection('questions').updateOne(
             { question: question },
@@ -97,7 +120,9 @@ const editAnswer = (question, newAnswer, oldAnswer) => {
 }
 
 //update correct answer
-const updateCorrectAnswer = (question, correctAnswer) => {
+const updateCorrectAnswer = (req, res) => {
+    let question = req.body.question, 
+    correctAnswer = req.body.correctAnswer;
     try {
         db.getDb().collection('questions').updateOne(
             { question: question },
@@ -110,7 +135,10 @@ const updateCorrectAnswer = (question, correctAnswer) => {
 }
 
 //upvote, downvote answer
-const voteAnswer = (question, answer, upvote) => {
+const voteAnswer = (req, res) => {
+    let question = req.body.question, 
+    answer = req.body.answer, 
+    upvote = req.body.upvote;
     let newVotes = 0;
     if (upvote) {
         newVotes = answer.votes + 1;
@@ -129,12 +157,17 @@ const voteAnswer = (question, answer, upvote) => {
 }
 
 //delete answer
-const deleteAnswer = (question, answerToDelete) => {
+const deleteAnswer = (req, res) => {
+    let question = req.body.question, 
+    answerToDelete = req.body.answerToDelete;
     db.getDb().collection('questions').updateOne(
         { question: question },
         { $pull: { answers: { answer: answerToDelete } } },  //delete answerToDelete
-        (err, res) => {
-            console.log('err: ', err, '| res: ', res);
+        (error, result) => {
+            console.log('error: ', error, '| result: ', result);
+            if (result){
+                res.send(result);
+            }
         });
 }
 
