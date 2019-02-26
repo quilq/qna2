@@ -116,7 +116,8 @@ const editAnswer = (req, res) => {
         );
     } catch (e) {
         console.log(e);
-    }
+    };
+    res.send('edit-answer');
 }
 
 //update correct answer
@@ -132,6 +133,7 @@ const updateCorrectAnswer = (req, res) => {
     } catch (e) {
         console.log(e);
     }
+    res.send('updated-correct-answer');
 }
 
 //upvote, downvote answer
@@ -154,6 +156,7 @@ const voteAnswer = (req, res) => {
     } catch (e) {
         console.log(e);
     }
+    res.send('vote-answer');
 }
 
 //delete answer
