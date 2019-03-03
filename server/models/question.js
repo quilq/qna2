@@ -12,6 +12,13 @@ answers: [{
 */
 const db = require('./../database/mongodb');
 
+const getPopularQuestions = (req, res) => {
+    db.getDb().collection('questions').find().limit(20).toArray((error, doc) => {
+        console.log(doc);
+        res.send(doc);
+    })
+}
+
 //find questions by user(name)
 const findQuestionsByUser = (req, res) => {
     let user = req.header('user');
@@ -175,6 +182,7 @@ const deleteAnswer = (req, res) => {
 }
 
 module.exports = {
+    getPopularQuestions,
     findQuestionsByUser,
     findQuestionsByTag,
     createQuestion,

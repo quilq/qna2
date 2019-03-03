@@ -4,8 +4,8 @@ const router = express.Router();
 const user = require('../models/user');
 const question = require('../models/question');
 
-router.get('/', (req, res) => {
-    res.send('');
+router.get('/q', (req, res) => {
+    question.getPopularQuestions(req, res);
 });
 
 //find questions by user
