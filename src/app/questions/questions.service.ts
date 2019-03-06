@@ -10,9 +10,15 @@ export class QuestionsService {
 
   constructor(private httpClient: HttpClient) { }
 
+  //get questions
+  getQuestions = () => {
+    let url = `api/q`;
+    return this.httpClient.get(url);
+  }
+
   //find questions by user(name)
   findQuestionsByUser = (user : User) => {
-    let url = `api/q`;
+    let url = `api/q/user`;
     return this.httpClient.get(url, {headers: {'user': user.username}});
   }
 
