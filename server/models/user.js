@@ -11,4 +11,4 @@ const getUser = () => {
     });
 };
 
-module.exports = { getUsers };
+module.exports = { getUser };

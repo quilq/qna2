@@ -11,7 +11,7 @@ export class QuestionEffects {
 
     @Effect()
     getQuestions$ = this.actions$.pipe(
-        ofType(QuestionActions.ActionTypes.GetPopularQuestions),
+        ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
         switchMap(()=> {
             return this.questionService.getQuestions()
             .pipe(

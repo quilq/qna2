@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import * as QuestionActions from './store/question.actions';
 
 @Component({
   selector: 'app-questions',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuestionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: Store<any>) { }
 
   ngOnInit() {
+    this.store.dispatch(new QuestionActions.OnGetPopularQuestions());
   }
 
 }

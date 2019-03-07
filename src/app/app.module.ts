@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { QuestionsModule } from './questions/questions.module';
 import { UserModule } from './user/user.module';
 import { CoreModule } from './core/core.module';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CoreModule } from './core/core.module';
     UserModule,
     BrowserAnimationsModule,
     CoreModule,
+    StoreModule.forRoot({}),
     AppRoutingModule  //after other routes
   ],
   providers: [],

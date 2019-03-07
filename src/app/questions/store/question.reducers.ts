@@ -9,10 +9,10 @@ export const initialState: QuestionState = {
     questions: []
 }
 
-export function QuestionReducer(state: QuestionState, action: QuestionActions.Union): QuestionState {
+export function questionReducer(state: QuestionState, action: QuestionActions.Union): QuestionState {
     switch (action.type) {
         case QuestionActions.ActionTypes.GetPopularQuestions:
-            return state;
+            return {...state, questions: action.payload};
 
         default:
             return state;
