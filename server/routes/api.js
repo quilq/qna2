@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const user = require('../models/user');
-const question = require('../models/question');
+const { User } = require('../models/user');
+const { Question } = require('../models/question');
 
 router.get('/q', (req, res) => {
     question.getPopularQuestions(req, res);
@@ -61,6 +61,49 @@ router.put('/a/vote', (req, res) => {
 //delete answer
 router.put('/a/delete', (req, res) => {
     question.deleteAnswer(req, res);
+})
+
+
+//Get user info (private route)
+router.get('/user/me', authenticate, (req, res) => {
+    Question.findQuestionsByUser(req, res);
+})
+
+//Sign up route
+router.post('/user/signup', (req, res) => {
+    var body = { username: req.body.username, email: req.body.email, password: req.body.password };
+    var user = new User(body);
+    user.save().then(() => {
+        return user.generateAuthToken();
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
+    })
+})
+
+//Log in route
+router.post('/user/login', (req, res) => {
+    var body = { email: req.body.email, password: req.body.password };
+
+    //Find user
+    User.findByCredentials(body.email, body.password).then((user) => {
+        return user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(user);
+        });
+    }).catch((e) => {
+        console.log('log in error ', e);
+        res.status(400).send(e);
+    });
+})
+
+//Log out route
+router.delete('/user/me/token', authenticate, (req, res) => {
+    if (req.user) {
+        res.status(200).send();
+    } else {
+        res.status(400).send();
+    }
 })
 
 module.exports = router;
