@@ -1,15 +1,18 @@
 import { User } from '../user/user.model';
 
 export class Answer {
+    _id?: string;
     answer: string;
     answeredByUser: User;
     isCorrectAnswer: boolean;
+    answerVotes: number
 }
 
 export class Question {
+    _id?: string;
     tags: string[];
     question: string;
     askedByUser: User;
-    votes: number;
+    questionVotes: number;
     answers: Answer[];
 }

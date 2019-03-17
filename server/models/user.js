@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
-const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const { mongoose } = require('../database/mongoose');
 const { Question } = require('../models/question');
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new mongoose.Schema({
     _id: ObjectId,

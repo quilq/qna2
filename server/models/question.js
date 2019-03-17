@@ -33,7 +33,7 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
 
 //find questions by user(name)
 questionSchema.statics.findQuestionsByUser = function (req, res) {
-    const userId = req.header('user');
+    const userId = req.header('userId');
     const Question = this;
 
     Question.find({ 'askedByUser._id': new ObjectId(userId) }).toArray((err, doc) => {
@@ -88,7 +88,7 @@ questionSchema.statics.createQuestion = function (req, res) {
 
 //edit question
 questionSchema.statics.editQuestion = function (req, res) {
-    const questionId = req.body.id;
+    const questionId = req.body.questionId;
     const newQuestion = req.body.newQuestion;
     const Question = this;
 
@@ -113,8 +113,8 @@ questionSchema.statics.editQuestion = function (req, res) {
 
 //upvote, downvote question
 questionSchema.statics.voteQuestion = (req, res) => {
+    const questionId = req.body.questionId;
     let newVotes = 0;
-    const questionId = req.body.id;
     if (req.body.upvote) {
         newVotes = 1;
     } else {
@@ -138,7 +138,7 @@ questionSchema.statics.voteQuestion = (req, res) => {
 
 //delete question
 questionSchema.statics.deleteQuestion = function (req, res) {
-    const questionId = req.body.id;
+    const questionId = req.body.questionId;
     const Question = this;
 
     Question.findOneAndDelete({ _id: new ObjectId(questionId) }, (err, doc) => {
@@ -165,14 +165,14 @@ questionSchema.statics.findAnswersByUser = function (req, res) {
 
 //add answer
 questionSchema.statics.addAnswer = function (req, res) {
-    const questionId = req.body.id;
-    const answer = req.body.answer;
+    const questionId = req.body.questionId;
+    const newAnswer = req.body.newAnswer;
     const Question = this;
 
     Question.updateOne(
         { _id: new ObjectId(questionId) },
         //Push answer to answers array
-        { $push: { answers: answer } },
+        { $push: { answers: newAnswer } },
         (err, doc) => {
             if (err) {
                 console.log('Unable to update question votes ', err);
@@ -205,8 +205,8 @@ questionSchema.statics.editAnswer = function (req, res) {
 
 //update correct answer
 questionSchema.statics.updateCorrectAnswer = function (req, res) {
-    const questionId = req.body.id;
-    const i = req.body.i;
+    const questionId = req.body.questionId;
+    const correctAnswerId = req.body.correctAnswerId;
     const Question = this;
 
     Question.updateOne(
@@ -221,12 +221,10 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
         }
     )
 
-    object = {};
-    object['answers.' + i + '.isCorrectAnswer'] = true;
     Question.updateOne(
-        { _id: new ObjectId(questionId) },
+        { _id: new ObjectId(questionId), 'answers._id': correctAnswerId },
         {
-            $set: object
+            $set: { 'answers.$.isCorrectAnswer': true }
         },
         (err, doc) => {
             if (err) {

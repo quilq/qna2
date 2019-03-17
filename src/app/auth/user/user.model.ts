@@ -1,9 +1,9 @@
+import { Question } from '../../questions/question.model';
+
 export class User {
+    _id?: string;
     username: string;
     email: string;
-
-    constructor(username: string = '', email: string =''){
-        this.username = username;
-        this.email = email;
-    }
+    questions?: Question[] | null;
+    answers?: Question[] | null
 }

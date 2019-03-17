@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../user/user.model';
-import { Question, Answer } from './question.model';
+
+import { Question } from './question.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,77 +9,91 @@ import { Question, Answer } from './question.model';
 export class QuestionsService {
 
   constructor(private httpClient: HttpClient) { }
-  
+
   //get questions
   getQuestions = () => {
     let url = `api/q`;
     return this.httpClient.get(url);
   }
 
+  //find questions by id
+  findQuestionById = (id: string) => {
+    let url = `api/q/${id}`;
+    return this.httpClient.get(url);
+  }
+
   //find questions by user(name)
-  findQuestionsByUser = (user : User) => {
+  findQuestionsByUser = (userId: string) => {
     let url = `api/q/user`;
-    return this.httpClient.get(url, {headers: {'user': user.username}});
+    return this.httpClient.get(url, { headers: { 'userId': userId } });
   }
 
   //find questions by tag
   findQuestionsByTag = (tag: string) => {
     let url = `api/q/tag`;
-    return this.httpClient.get(url, {headers: {'tag': tag}});
+    return this.httpClient.get(url, { headers: { 'tag': tag } });
   }
 
-  //create question insertOne(doc, options, callback)
+  //create question
   createQuestion = (question: Question) => {
     let url = `api/q/add`;
-    return this.httpClient.post(url, question);
+    let token = localStorage.getItem('token');
+    return this.httpClient.post(url, question, { headers: { 'x-auth': token } });
   }
 
-  //edit question updateOne(filter, update, options)
-  editQuestion = (question: Question, newQuestion: Question) => {
+  //edit question
+  editQuestion = (questionId: string, newQuestion: string) => {
     let url = `api/q/edit`;
-    return this.httpClient.put(url, {question, newQuestion});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId, newQuestion }, { headers: { 'x-auth': token } });
   }
 
   //upvote, downvote question
-  voteQuestion = (question: Question, upvote: boolean) => {
+  voteQuestion = (questionId: string, upvote: boolean) => {
     let url = `api/q/vote`;
-    return this.httpClient.put(url, {question, upvote});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId, upvote }, { headers: { 'x-auth': token } });
   }
 
   //delete question
-  deleteQuestion = (question: Question) => {
+  deleteQuestion = (questionId: string) => {
     let url = `api/q/delete`;
-    return this.httpClient.put(url, {question});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId }, { headers: { 'x-auth': token } });
   }
 
   //add answer
-  addAnswer = (question: Question, newAnswer: Answer) => {
+  addAnswer = (questionId: string, newAnswer: string) => {
     let url = `api/a/add`;
-    return this.httpClient.put(url, {question, newAnswer});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId, newAnswer }, { headers: { 'x-auth': token } });
   }
 
   //edit answer
-  editAnswer = (question: Question, newAnswer: Answer, oldAnswer: Answer) => {
+  editAnswer = (questionId: string, answerId: string, newAnswer: string) => {
     let url = `api/a/edit`;
-    return this.httpClient.put(url, {question, newAnswer, oldAnswer});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId, answerId, newAnswer }, { headers: { 'x-auth': token } });
   }
 
   //update correct answer
-  updateCorrectAnswer = (question: Question, correctAnswer: string) => {
+  updateCorrectAnswer = (questionId: string, correctAnswerId: string) => {
     let url = `api/a/update`;
-    return this.httpClient.put(url, {question, correctAnswer});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId, correctAnswerId }, { headers: { 'x-auth': token } });
   }
 
   //upvote, downvote answer
-  voteAnswer = (question: Question, answer: Answer, upvote: boolean) => {
+  voteAnswer = (questionId: string, answerId: string, upvote: boolean) => {
     let url = `api/a/vote`;
-    return this.httpClient.put(url, {question, answer, upvote});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId, answerId, upvote }, { headers: { 'x-auth': token } });
   }
 
   //delete answer
-  deleteAnswer = (question: Question, answerToDelete: string) => {
+  deleteAnswer = (questionId: string, answerId: string) => {
     let url = `api/a/delete`;
-    return this.httpClient.put(url, {question, answerToDelete});
+    let token = localStorage.getItem('token');
+    return this.httpClient.put(url, { questionId, answerId }, { headers: { 'x-auth': token } });
   }
-
 }
