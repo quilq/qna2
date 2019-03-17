@@ -9,7 +9,7 @@ import { Question, Answer } from './question.model';
 export class QuestionsService {
 
   constructor(private httpClient: HttpClient) { }
-
+  
   //get questions
   getQuestions = () => {
     let url = `api/q`;

@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
-const { mongoose } = require('../database/mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
+const { mongoose } = require('../database/mongoose');
 const { Question } = require('../models/question');
 
 const userSchema = new mongoose.Schema({
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
 
 //Hash password before saving
 userSchema.pre('save', function (next) {
-    var user = this;
+    const user = this;    //Avoid arrow function (arrow functions explicitly prevent binding 'this')
     if (user.isModified('password')) {
         bcrypt.genSalt(12, (err, salt) => {
             bcrypt.hash(user.password, salt, (err, hash) => {
@@ -51,16 +51,17 @@ userSchema.pre('save', function (next) {
 
 //Generate token with instance method
 userSchema.methods.generateAuthToken = function () {
-    //Avoid arrow function for 'this' keyword
-    var user = this;
+    const user = this;
 
-    var token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET, { expiresIn: '1d' }).toString();
+    const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET, { expiresIn: '1d' })
+        .toString();
+
     return Promise.resolve(token);
 }
 
 //Find user with model method
 userSchema.statics.findByCredentials = function (email, password) {
-    var User = this; //Uppercase for model method
+    const User = this; //Uppercase for model method
 
     //Find user
     return User.findOne({ email }).then((user) => {
@@ -82,30 +83,28 @@ userSchema.statics.findByCredentials = function (email, password) {
 }
 
 userSchema.statics.findByToken = function (token) {
-    var User = this;
-    var decoded;
+    const User = this;
+    let decoded;
 
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);
-
     } catch (e) {
         return Promise.reject(e);
     }
 
-    return User.findOne({
-        _id: decoded._id,
-    });
+    return User.findOne({ _id: decoded._id });
 }
 
-//Modify object sent back to user (only send id & email)
+//Modify object sent back to user (only send id, email & username)
 userSchema.methods.toJSON = function () {
-    var user = this;
+    const user = this;
 
     //Convert mongo object to regular object
-    var userObject = user.toObject();
+    const userObject = user.toObject();
+
     return { _id: userObject._id, email: userObject.email, username: userObject.username }
 }
 
-var User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = { User };

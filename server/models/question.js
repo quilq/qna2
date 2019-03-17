@@ -22,9 +22,9 @@ const questionSchema = new mongoose.Schema({
 questionSchema.statics.getPopularQuestions = function (req, res) {
     const Question = this;
 
-    Question.find((error, doc) => {
-        if (error) {
-            console.log('Unable to fetch data ', error);
+    Question.find((err, doc) => {
+        if (err) {
+            console.log('Unable to fetch data ', err);
         } else {
             res.status(200).json(doc);
         }
@@ -33,241 +33,253 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
 
 //find questions by user(name)
 questionSchema.statics.findQuestionsByUser = function (req, res) {
+    const userId = req.header('user');
     const Question = this;
-    const user = req.header('user');
 
-    Question.find({ askedByUser: user }).toArray((error, doc) => {
-        console.log(doc);
-        res.send(doc);
+    Question.find({ 'askedByUser._id': new ObjectId(userId) }).toArray((err, doc) => {
+        if (err) {
+            console.log('Unable to fetch data ', err);
+        } else {
+            res.status(200).json(doc);
+        }
     });
 }
 
 //find questions by tag
 questionSchema.statics.findQuestionsByTag = function (req, res) {
-    const Question = this;
     const tag = req.header('tag');
+    const Question = this;
 
-    Question.find({ tags: tag }).toArray((error, doc) => {
-        console.log(doc);
-        res.send(doc);
+    Question.find({ tags: tag }).toArray((err, doc) => {
+        if (err) {
+            console.log('Unable to fetch data ', err);
+        } else {
+            res.status(200).json(doc);
+        }
     });
 }
 
 //find question by ID
-questionSchema.statics.findQuestionsByID = function (req, res) {
+questionSchema.statics.findQuestionById = function (req, res) {
+    const questionId = req.params.id;
     const Question = this;
 
-    Question.findById({ _id: new ObjectId(req.params.id) }, (error, doc) => {
-        if (error) {
-            console.log('Unable to fetch data ', error);
+    Question.findById({ _id: new ObjectId(questionId) }, (err, doc) => {
+        if (err) {
+            console.log('Unable to fetch data ', err);
         } else {
-            res.json(doc);
+            res.status(200).json(doc);
         }
-    })
+    });
 }
 
 //create question
 questionSchema.statics.createQuestion = function (req, res) {
     const Question = this;
 
-    Question.create(req.body, (error, result) => {
-        if (error) {
-            console.log('Cannot create question');
+    Question.create(req.body, (err, doc) => {
+        if (err) {
+            console.log('Unable to create question ', err);
+        } else {
+            res.status(200).send(doc);
         }
-        res.status(200).send(result);
     });
 }
 
 //edit question
 questionSchema.statics.editQuestion = function (req, res) {
-    const id = req.body._id;
+    const questionId = req.body.id;
     const newQuestion = req.body.newQuestion;
     const Question = this;
 
     Question.findOneAndUpdate(
         {
             //filter
-            _id: new ObjectId(id)
+            _id: new ObjectId(questionId)
         }, {
             //update
             $set: { question: newQuestion }
         }, {
             //option
             returnOriginal: false
-        }, (error, result) => {
-            if (error) {
-                console.log(error);
-            };
-            res.status(200).send(result);
+        }, (err, doc) => {
+            if (err) {
+                console.log('Unable to update question ', err);
+            } else {
+                res.status(200).send(doc);
+            }
         });
-
 }
 
 //upvote, downvote question
 questionSchema.statics.voteQuestion = (req, res) => {
-    const Question = this;
-    let question;
-    const upvote = req.body.upvote;
     let newVotes = 0;
-
-    Question.findById({ _id: new ObjectId(req.body._id) }, (error, doc) => {
-        question = doc;
-    })
-
-    if (upvote) {
-        newVotes = question.questionVotes + 1;
+    const questionId = req.body.id;
+    if (req.body.upvote) {
+        newVotes = 1;
     } else {
-        newVotes = question.questionVotes - 1;
+        newVotes = -1;
     }
+
+    const Question = this;
+
     Question.findOneAndUpdate(
-        { _id: new ObjectId(req.body._id) },
-        { $set: { 'question.questionVotes': newVotes } },
-        (error, result) => {
-            console.log('error: ', error, '| result: ', result);
-            if (result) {
-                res.send(result);
+        { _id: new ObjectId(questionId) },
+        // increase the questionVotes by newVotes
+        { $inc: { 'question.questionVotes': newVotes } },
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to update question votes ', err);
+            } else {
+                res.send('question-voted');
             }
         });
 }
 
 //delete question
 questionSchema.statics.deleteQuestion = function (req, res) {
+    const questionId = req.body.id;
     const Question = this;
-    let id = req.body._id;
 
-    Question.findOneAndDelete({ _id: new ObjectId(id) }, (error, result) => {
-        if (error) {
-            console.log(error);
-        };
-        res.status(200).send(result);
+    Question.findOneAndDelete({ _id: new ObjectId(questionId) }, (err, doc) => {
+        if (err) {
+            console.log('Unable to delete question ', err);
+        } else {
+            res.send('question-deleted');
+        }
     });
 }
 
 //Find answers by user with model method
 questionSchema.statics.findAnswersByUser = function (req, res) {
-    if (req.user) {
-        const Question = this;
-        let user = req.user;
-        let userAnswers;
+    const userId = req.header('user');
+    const Question = this;
 
-        Question.find(
-            {
-                answers: {
-                    $elemMatch: {
-                        answeredByUser: user.username
-                    }
-                }
-            }).then(docs => {
-                userAnswers = docs;
-                res.json(userAnswers);
-            });
-    }
+    Question.find({
+        answers: { 'answeredByUser._id': new ObjectId(userId) }
+    }).then(docs => {
+        res.json(docs);
+    });
+
 }
 
 //add answer
 questionSchema.statics.addAnswer = function (req, res) {
+    const questionId = req.body.id;
+    const answer = req.body.answer;
     const Question = this;
-    let id = req.body._id;
-    let answer = req.body.answer;
 
     Question.updateOne(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(questionId) },
         //Push answer to answers array
         { $push: { answers: answer } },
-        (error, result) => {
-            if (error) {
-                console.log(error);
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to update question votes ', err);
+            } else {
+                console.log(doc);
             }
-        }
-    )
+        });
 }
 
 //edit answer
 questionSchema.statics.editAnswer = function (req, res) {
+    const questionId = req.body.questionId;
+    const answerId = req.body.answerId;
+    const newAnswer = req.body.newAnswer;
     const Question = this;
-    let id = req.body._id,
-        oldAnswer = req.body.oldAnswer,
-        newAnswer = req.body.newAnswer;
 
     Question.updateOne(
-        { _id: new ObjectId(id) },
-        { $set: { 'answers.$[element].answer': newAnswer.answer } },
+        { _id: new ObjectId(questionId) },
+        { $set: { 'answers.$[element].answer': newAnswer } },
         //Filter answers array to update
-        { arrayFilters: [{ "element.answer": oldAnswer.answer }] },
-        (error, result) => {
-            if (error) {
-                console.log(error);
+        { arrayFilters: [{ 'element._id': answerId }] },
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to edit answer ', err);
+            } else {
+                console.log(doc);
             }
-        }
-    )
+        });
 }
 
 //update correct answer
 questionSchema.statics.updateCorrectAnswer = function (req, res) {
+    const questionId = req.body.id;
+    const i = req.body.i;
     const Question = this;
-    let id = req.body._id,
-        i = req.body.i;
 
     Question.updateOne(
-        { _id: new ObjectId(id), 'answers.isCorrectAnswer': true },
+        { _id: new ObjectId(questionId), 'answers.isCorrectAnswer': true },
         { $set: { 'answers.$.isCorrectAnswer': false } },
-        (error, result) => {
-            if (error) {
-                console.log(error);
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to update correct answer ', err);
+            } else {
+                console.log(doc);
             }
         }
     )
 
-    setObject = {};
-    setObject['answers.' + i + '.isCorrectAnswer'] = true;
+    object = {};
+    object['answers.' + i + '.isCorrectAnswer'] = true;
     Question.updateOne(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(questionId) },
         {
-            $set: setObject
+            $set: object
         },
-        (error, result) => {
-            if (error) {
-                console.log(error);
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to update correct answer ', err);
+            } else {
+                console.log(doc);
             }
         }
     )
 }
 
 //upvote, downvote answer
-questionSchema.statics.voteAnswer = function (req, res) {
-    let question = req.body.question,
-        answer = req.body.answer,
-        upvote = req.body.upvote;
+questionSchema.statics.voteAnswer = (req, res) => {
+    const questionId = req.body.questionId;
+    const answerId = req.body.answerId;
     let newVotes = 0;
-    if (upvote) {
-        newVotes = answer.answerVotes + 1;
+
+    if (req.body.upvote) {
+        newVotes = 1;
     } else {
-        newVotes = answer.answerVotes - 1;
+        newVotes = -1;
     }
-    try {
-        db.getDb().collection('questions').updateOne(
-            { question: question },
-            { $set: { 'answers.$[element].answerVotes': newVotes } },  //update votes for the answer
-            { arrayFilter: [{ 'element.answer': answer }] }
-        );
-    } catch (e) {
-        console.log(e);
-    }
-    res.send('vote-answer');
+
+    const Question = this;
+
+    Question.findOneAndUpdate(
+        { _id: new ObjectId(questionId) },
+        // increase the answerVotes by newVotes
+        { $inc: { 'answers.$[element].answerVotes': newVotes } },
+        { arrayFilter: [{ 'element._id': answerId }] },
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to update answer votes ', err);
+            } else {
+                res.send('answer-voted');
+            }
+        });
 }
 
 //delete answer
 questionSchema.statics.deleteAnswer = function (req, res) {
-    var Question = this;
-    let id = req.body._id,
-        answer = req.body.answer;
+    const questionId = req.body.questionId;
+    const answerId = req.body.answerId;
+    const Question = this;
 
     Question.updateOne(
-        { _id: new ObjectId(id) },
-        { $pull: { answers: { answer: answer.answer } } },
-        (error, result) => {
-            if (error) {
-                console.log(error);
+        { _id: new ObjectId(questionId) },
+        { $pull: { answers: { _id: new ObjectId(answerId) } } },
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to delete answer ', err);
+            } else {
+                res.send('answer-deleted');
             }
         }
     )

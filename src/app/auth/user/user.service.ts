@@ -8,7 +8,7 @@ import { User } from './user.model';
 export class UserService {
 
   constructor(private httpClient: HttpClient) { }
-
+  
   signin(userCredentials: {email: string, password: string}){
     let url = 'api/user/signin';
     return this.httpClient.post(url, {userCredentials});
