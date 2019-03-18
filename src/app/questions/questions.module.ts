@@ -19,10 +19,10 @@ import { QuestionEffects } from './store/question.effects';
     UnansweredQuestionsComponent
   ],
   imports: [
-    CommonModule,
-    QuestionsRoutingModule,
     StoreModule.forFeature('question', questionReducer),
-    EffectsModule.forFeature([QuestionEffects])
+    EffectsModule.forFeature([QuestionEffects]),
+    CommonModule,
+    QuestionsRoutingModule
   ]
 })
 export class QuestionsModule { }

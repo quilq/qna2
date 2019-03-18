@@ -14,7 +14,7 @@ export class AuthEffects {
     authSignin$: Observable<Action> = this.action$.pipe(
         ofType(AuthActions.ActionTypes.OnSignin),
         switchMap((action: AuthActions.OnSignin) => {
-            return this.userService.signin(action.payload)
+            return this.userService.signin(action.payload.email, action.payload.password)
             .pipe(
                 map((response: any)=>{
                     //grab user info from response
