@@ -23,7 +23,7 @@ export class Signin implements Action {
 
 export class OnSignup implements Action {
     readonly type = ActionTypes.OnSignup;
-    constructor(public payload: {user: User, password: string }) { }
+    constructor(public payload: {username: string, email: string, password: string }) { }
 }
 
 export class Signup implements Action {

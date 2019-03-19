@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { User } from './user.model';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,14 +13,26 @@ export class UserService {
     return this.httpClient.post(url, {email, password});
   }
 
-  signup(user: User, password: string){
+  signup(username: string, email: string, password: string){
     let url = 'api/user/signup';
-    return this.httpClient.post(url, { username: user.username, email: user.email, password });
+    return this.httpClient.post(url, {username, email, password});
   }
 
   signout(){
     let url = 'api/user/signout';
     let token = localStorage.getItem('token');
     return this.httpClient.delete(url, {headers: {'x-auth': token}});
+  }
+
+  //get user questions
+  findQuestionsByUser = (userId: string) => {
+    let url = `api/user/questions`;
+    return this.httpClient.get(url, { headers: { 'userId': userId } });
+  }
+
+  //get user answers
+  findAnswesByUser = (userId: string) => {
+    let url = `api/user/answers`;
+    return this.httpClient.get(url, { headers: { 'userId': userId } });
   }
 }

@@ -15,6 +15,7 @@ const initialState: AuthState = {
 
 export function authReducer(state: AuthState = initialState, action: AuthActions.Union): AuthState {
     switch (action.type) {
+        case AuthActions.ActionTypes.Signup:
         case AuthActions.ActionTypes.Signin:
             return {
                 ...state,

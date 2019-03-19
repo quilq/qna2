@@ -8,7 +8,7 @@ const { authenticate } = require('../middleware/authenticate');
 
 //fetch questions
 router.get('/q', (req, res) => {
-    Question.getPopularQuestions(req, res);
+    Question.GetPopularQuestions(req, res);
 });
 
 //Find questions by Id
@@ -72,7 +72,7 @@ router.put('/a/delete', authenticate, (req, res) => {
 })
 
 
-//Get user info (private route)      const userId = req.header('user');
+//Get user questions
 router.get('/user/questions', authenticate, (req, res) => {
     Question.findQuestionsByUser(req, res);
 });

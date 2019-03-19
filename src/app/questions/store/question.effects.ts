@@ -13,7 +13,7 @@ export class QuestionEffects {
     getQuestions$ = this.actions$.pipe(
         ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
         switchMap(()=> {
-            return this.questionService.getQuestions()
+            return this.questionService.GetPopularQuestions()
             .pipe(
                 map((questions: Question[]) => {
                     return new QuestionActions.GetPopularQuestions(questions);

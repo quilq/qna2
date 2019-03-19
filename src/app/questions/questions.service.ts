@@ -11,7 +11,7 @@ export class QuestionsService {
   constructor(private httpClient: HttpClient) { }
 
   //get questions
-  getQuestions = () => {
+  GetPopularQuestions = () => {
     let url = `api/q`;
     return this.httpClient.get(url);
   }
@@ -20,12 +20,6 @@ export class QuestionsService {
   findQuestionById = (id: string) => {
     let url = `api/q/${id}`;
     return this.httpClient.get(url);
-  }
-
-  //find questions by user(name)
-  findQuestionsByUser = (userId: string) => {
-    let url = `api/q/user`;
-    return this.httpClient.get(url, { headers: { 'userId': userId } });
   }
 
   //find questions by tag
