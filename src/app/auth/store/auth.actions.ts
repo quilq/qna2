@@ -5,8 +5,10 @@ import { User } from '../user/user.model';
 export enum ActionTypes {
     OnSignin = '[Auth] On Sign in',
     Signin = '[Auth] Sign in',
+
     OnSignup = '[Auth] On sign up',
     Signup = '[Auth] Sign up',
+    
     OnSignout = '[Auth] On sign out',
     Signout = '[Auth] Sign out',
 }

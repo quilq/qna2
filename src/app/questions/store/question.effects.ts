@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { QuestionsService } from '../questions.service';
 import {switchMap, map} from 'rxjs/operators'
 
-import * as QuestionActions from './question.actions';
 import { Question } from '../question.model';
+import { QuestionsService } from '../questions.service';
+import * as QuestionActions from './question.actions';
 
 @Injectable()
 export class QuestionEffects {

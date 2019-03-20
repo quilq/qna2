@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Router } from '@angular/router';
 import { Action } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 import * as AuthActions from './auth.actions';
 import { UserService } from '../user/user.service';
-import { Router } from '@angular/router';
 
 @Injectable()
 
@@ -46,7 +46,7 @@ export class AuthEffects {
                             this.router.navigate(['/user']);
                             return new AuthActions.Signup({ user, token });
                         } else {
-                            console.log('Sign in failed');
+                            console.log('Sign up failed');
                         }
                     })
                 )

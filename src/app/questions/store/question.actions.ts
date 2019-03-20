@@ -5,18 +5,38 @@ export enum ActionTypes {
     OnGetPopularQuestions = '[Question] On Get Popular Questions',
     GetPopularQuestions = '[Question] Get Popular Questions',
 
-    findQuestionById = '[Question] Find Question By Id',
-    findQuestionsByTag = '[Question] Find Question By Tag',
-    createQuestion = '[Question] Create Question',
-    editQuestion = '[Question] Edit Question',
-    voteQuestion = '[Question] Vote Question',
-    deleteQuestion = '[Question] Delete Question',
-    
-    addAnswer = '[Answer] Add Answer',
-    editAnswer = '[Answer] Edit Answer',
-    updateCorrectAnswer = '[Answer] Update Correct Answer',
-    voteAnswer = '[Answer] Vote Answer',
-    deleteAnswer = '[Answer] Delete Answer'
+    OnFindQuestionById = '[Question] On Find Question By Id',
+    FindQuestionById = '[Question] Find Question By Id',
+
+    OnFindQuestionsByTag = '[Question] On Find Question By Tag',
+    FindQuestionsByTag = '[Question] Find Question By Tag',
+
+    OnCreateQuestion = '[Question] On Create Question',
+    CreateQuestion = '[Question] Create Question',
+
+    OnEditQuestion = '[Question] On Edit Question',
+    EditQuestion = '[Question] Edit Question',
+
+    OnVoteQuestion = '[Question] On Vote Question',
+    VoteQuestion = '[Question] Vote Question',
+
+    OnDeleteQuestion = '[Question] On Delete Question',
+    DeleteQuestion = '[Question] Delete Question',
+
+    OnAddAnswer = '[Answer] On Add Answer',
+    AddAnswer = '[Answer] Add Answer',
+
+    OnEditAnswer = '[Answer] On Edit Answer',
+    EditAnswer = '[Answer] Edit Answer',
+
+    OnUpdateCorrectAnswer = '[Answer] On Update Correct Answer',
+    UpdateCorrectAnswer = '[Answer] Update Correct Answer',
+
+    OnVoteAnswer = '[Answer] On Vote Answer',
+    VoteAnswer = '[Answer] Vote Answer',
+
+    OnDeleteAnswer = '[Answer] On Delete Answer',
+    DeleteAnswer = '[Answer] Delete Answer'
 }
 
 export class OnGetPopularQuestions implements Action {
