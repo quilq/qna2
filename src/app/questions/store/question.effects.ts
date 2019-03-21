@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {switchMap, map} from 'rxjs/operators'
+import { switchMap, map, catchError } from 'rxjs/operators'
 
 import { Question } from '../question.model';
 import { QuestionsService } from '../questions.service';
@@ -10,17 +10,90 @@ import * as QuestionActions from './question.actions';
 export class QuestionEffects {
 
     @Effect()
-    getQuestions$ = this.actions$.pipe(
-        ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
-        switchMap(()=> {
-            return this.questionService.GetPopularQuestions()
-            .pipe(
-                map((questions: Question[]) => {
-                    return new QuestionActions.GetPopularQuestions(questions);
-                })
-            )
-        })
-    )
+    getQuestions$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
+            switchMap(() => {
+                return this.questionService.getPopularQuestions()
+                    .pipe(
+                        map((questions: Question[]) => {
+                            return new QuestionActions.GetPopularQuestions({ questions });
+                        }),
+                        //catchError()
+                    )
+            })
+        );
 
-    constructor(private actions$: Actions, private questionService: QuestionsService){}
+    @Effect()
+    findQuestionById$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnFindQuestionById),
+            switchMap((action: QuestionActions.OnFindQuestionById) => {
+                return this.questionService.findQuestionById(action.payload.id)
+                    .pipe(
+                        map((question: Question) => {
+                            if (question) {
+                                return new QuestionActions.FindQuestionById({ question });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    findQuestionsByTag$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnFindQuestionsByTag),
+            switchMap((action: QuestionActions.OnFindQuestionsByTag) => {
+                return this.questionService.findQuestionsByTag(action.payload.tag)
+                    .pipe(
+                        map((questions: Question[]) => {
+                            if (questions) {
+                                return new QuestionActions.FindQuestionsByTag({ tag: action.payload.tag, questions });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    createQuestion$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnCreateQuestion),
+            switchMap((action: QuestionActions.OnCreateQuestion) => {
+                return this.questionService.createQuestion(action.payload.question)
+                    .pipe(
+                        map((question: Question) => {
+                            if (question) {
+                                return new QuestionActions.CreateQuestion({ question });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    addAnswer$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnAddAnswer),
+            switchMap((action: QuestionActions.OnAddAnswer) => {
+                return this.questionService.addAnswer(action.payload.questionId, action.payload.newAnswer)
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'answer-added') {
+                                return new QuestionActions.AddAnswer({
+                                    questionId: action.payload.questionId,
+                                    newAnswer: action.payload.newAnswer
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    constructor(private actions$: Actions, private questionService: QuestionsService) { }
 }

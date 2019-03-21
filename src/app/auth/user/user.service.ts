@@ -24,15 +24,15 @@ export class UserService {
     return this.httpClient.delete(url, {headers: {'x-auth': token}});
   }
 
-  //get user questions
-  findQuestionsByUser = (userId: string) => {
-    let url = `api/user/questions`;
-    return this.httpClient.get(url, { headers: { 'userId': userId } });
-  }
+  // //get user questions
+  // findQuestionsByUser = (userId: string) => {
+  //   let url = `api/user/questions`;
+  //   return this.httpClient.get(url, { headers: { 'userId': userId } });
+  // }
 
-  //get user answers
-  findAnswesByUser = (userId: string) => {
-    let url = `api/user/answers`;
-    return this.httpClient.get(url, { headers: { 'userId': userId } });
-  }
+  // //get user answers
+  // findAnswesByUser = (userId: string) => {
+  //   let url = `api/user/answers`;
+  //   return this.httpClient.get(url, { headers: { 'userId': userId } });
+  // }
 }

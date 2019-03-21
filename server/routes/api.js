@@ -8,7 +8,12 @@ const { authenticate } = require('../middleware/authenticate');
 
 //fetch questions
 router.get('/q', (req, res) => {
-    Question.GetPopularQuestions(req, res);
+    Question.getPopularQuestions(req, res);
+});
+
+//fetch all tags
+router.get('/q/all-tags', (req, res) => {
+    Question.getTags(req, res);
 });
 
 //Find questions by Id
@@ -19,12 +24,12 @@ router.get('/q/:id', (req, res) => {
 //find questions by user
 router.get('/q/user', authenticate, (req, res) => {
     Question.findQuestionsByUser(req, res);
-})
+});
 
 //find questions by tag 
 router.get('/q/tag', (req, res) => {  
     Question.findQuestionsByTag(req, res);
-})
+});
 
 //create question
 router.post('/q/add', authenticate, (req, res) => {
@@ -72,15 +77,15 @@ router.put('/a/delete', authenticate, (req, res) => {
 })
 
 
-//Get user questions
-router.get('/user/questions', authenticate, (req, res) => {
-    Question.findQuestionsByUser(req, res);
-});
+// //Get user questions
+// router.get('/user/questions', authenticate, (req, res) => {
+//     Question.findQuestionsByUser(req, res);
+// });
 
-//Get user answers
-router.get('/user/answers', authenticate, (req, res) => {
-    Question.findAnswersByUser(req, res);
-});
+// //Get user answers
+// router.get('/user/answers', authenticate, (req, res) => {
+//     Question.findAnswersByUser(req, res);
+// });
 
 //Sign up route
 router.post('/user/signup', (req, res) => {

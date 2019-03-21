@@ -31,6 +31,20 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
     });
 }
 
+//get all tags
+questionSchema.statics.getTags = function (req, res) {
+    // const Question = this;
+
+    // Question.find((err, doc) => {
+    //     if (err) {
+    //         console.log('Unable to fetch data ', err);
+    //     } else {
+    //         res.status(200).json(doc);
+    //     }
+    // });
+    res.send('all-tags');
+}
+
 //find questions by user(name)
 questionSchema.statics.findQuestionsByUser = function (req, res) {
     const userId = req.header('userId');
@@ -178,6 +192,7 @@ questionSchema.statics.addAnswer = function (req, res) {
                 console.log('Unable to update question votes ', err);
             } else {
                 console.log(doc);
+                res.send('answer-added');
             }
         });
 }

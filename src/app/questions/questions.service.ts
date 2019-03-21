@@ -11,8 +11,14 @@ export class QuestionsService {
   constructor(private httpClient: HttpClient) { }
 
   //get questions
-  GetPopularQuestions = () => {
+  getPopularQuestions = () => {
     let url = `api/q`;
+    return this.httpClient.get(url);
+  }
+
+  //get popular tags
+  getTags = ()=>{
+    let url = `api/q/all-tags`;
     return this.httpClient.get(url);
   }
 
