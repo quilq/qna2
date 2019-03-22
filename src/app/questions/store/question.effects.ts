@@ -76,6 +76,46 @@ export class QuestionEffects {
         );
 
     @Effect()
+    editQuestion$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnEditQuestion),
+            switchMap((action: QuestionActions.OnEditQuestion) => {
+                return this.questionService.editQuestion(action.payload.questionId, action.payload.newQuestion)
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'question-updated') {
+                                return new QuestionActions.EditQuestion({
+                                    questionId: action.payload.questionId,
+                                    newQuestion: action.payload.newQuestion
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    voteQuestion$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnVoteQuestion),
+            switchMap((action: QuestionActions.VoteQuestion) => {
+                return this.questionService.voteQuestion(action.payload.questionId, action.payload.upvote)
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'question-voted') {
+                                return new QuestionActions.VoteQuestion({
+                                    questionId: action.payload.questionId,
+                                    upvote: action.payload.upvote
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
     addAnswer$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnAddAnswer),

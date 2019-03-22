@@ -15,11 +15,9 @@ export enum ActionTypes {
     OnCreateQuestion = '[Question] On Create Question',
     CreateQuestion = '[Question] Create Question',
 
-    //to implement
     OnEditQuestion = '[Question] On Edit Question',
     EditQuestion = '[Question] Edit Question',
 
-    //to implement
     OnVoteQuestion = '[Question] On Vote Question',
     VoteQuestion = '[Question] Vote Question',
 
@@ -86,6 +84,26 @@ export class CreateQuestion implements Action {
     constructor(public payload: { question: Question }) { }
 }
 
+export class OnEditQuestion implements Action {
+    readonly type = ActionTypes.OnEditQuestion;
+    constructor(public payload: { questionId: string, newQuestion: string }) { }
+}
+
+export class EditQuestion implements Action {
+    readonly type = ActionTypes.EditQuestion;
+    constructor(public payload: { questionId: string, newQuestion: string }) { }
+}
+
+export class OnVoteQuestion implements Action {
+    readonly type = ActionTypes.OnVoteAnswer;
+    constructor(public payload: { questionId: string, upvote: boolean }) { }
+}
+
+export class VoteQuestion implements Action {
+    readonly type = ActionTypes.VoteQuestion;
+    constructor(public payload: { questionId: string, upvote: boolean }) { }
+}
+
 export class OnAddAnswer implements Action {
     readonly type = ActionTypes.OnAddAnswer;
     constructor(public payload: { questionId: string, newAnswer: string }) { }
@@ -105,5 +123,9 @@ export type Union =
     | FindQuestionsByTag
     | OnCreateQuestion
     | CreateQuestion
+    | OnEditQuestion
+    | EditQuestion
+    | OnVoteQuestion
+    | VoteQuestion
     | OnAddAnswer
     | AddAnswer;

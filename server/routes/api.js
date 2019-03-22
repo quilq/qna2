@@ -76,7 +76,6 @@ router.put('/a/delete', authenticate, (req, res) => {
     Question.deleteAnswer(req, res);
 })
 
-
 // //Get user questions
 // router.get('/user/questions', authenticate, (req, res) => {
 //     Question.findQuestionsByUser(req, res);

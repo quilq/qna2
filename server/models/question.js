@@ -120,7 +120,7 @@ questionSchema.statics.editQuestion = function (req, res) {
             if (err) {
                 console.log('Unable to update question ', err);
             } else {
-                res.status(200).send(doc);
+                res.status(200).send('question-updated');
             }
         });
 }

@@ -41,6 +41,20 @@ export function questionReducer(state: QuestionState, action: QuestionActions.Un
                 unansweredQuestions: [...state.questions, action.payload.question]
             };
 
+        case QuestionActions.ActionTypes.EditQuestion:
+            return {
+                ...state,
+                //TO DO
+                //update question (questionId) with newQuestion
+            };
+
+        case QuestionActions.ActionTypes.VoteQuestion:
+            return {
+                ...state,
+                //TO DO
+                //update question (questionId) with newQuestion
+            };
+
         case QuestionActions.ActionTypes.AddAnswer:
             return {
                 ...state,
