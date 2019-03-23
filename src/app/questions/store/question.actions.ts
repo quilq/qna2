@@ -21,26 +21,21 @@ export enum ActionTypes {
     OnVoteQuestion = '[Question] On Vote Question',
     VoteQuestion = '[Question] Vote Question',
 
-    //to implement
     OnDeleteQuestion = '[Question] On Delete Question',
     DeleteQuestion = '[Question] Delete Question',
 
     OnAddAnswer = '[Answer] On Add Answer',
     AddAnswer = '[Answer] Add Answer',
 
-    //to implement
     OnEditAnswer = '[Answer] On Edit Answer',
     EditAnswer = '[Answer] Edit Answer',
 
-    //to implement
     OnUpdateCorrectAnswer = '[Answer] On Update Correct Answer',
     UpdateCorrectAnswer = '[Answer] Update Correct Answer',
 
-    //to implement
     OnVoteAnswer = '[Answer] On Vote Answer',
     VoteAnswer = '[Answer] Vote Answer',
 
-    //to implement
     OnDeleteAnswer = '[Answer] On Delete Answer',
     DeleteAnswer = '[Answer] Delete Answer'
 }
@@ -94,6 +89,16 @@ export class EditQuestion implements Action {
     constructor(public payload: { questionId: string, newQuestion: string }) { }
 }
 
+export class OnDeleteQuestion implements Action {
+    readonly type = ActionTypes.OnDeleteQuestion;
+    constructor(public payload: { questionId: string }) { }
+}
+
+export class DeleteQuestion implements Action {
+    readonly type = ActionTypes.DeleteQuestion;
+    constructor(public payload: { questionId: string }) { }
+}
+
 export class OnVoteQuestion implements Action {
     readonly type = ActionTypes.OnVoteAnswer;
     constructor(public payload: { questionId: string, upvote: boolean }) { }
@@ -114,6 +119,46 @@ export class AddAnswer implements Action {
     constructor(public payload: { questionId: string, newAnswer: string }) { }
 }
 
+export class OnEditAnswer implements Action {
+    readonly type = ActionTypes.OnEditAnswer;
+    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
+}
+
+export class EditAnswer implements Action {
+    readonly type = ActionTypes.EditAnswer;
+    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
+}
+
+export class OnUpdateCorrectAnswer implements Action {
+    readonly type = ActionTypes.OnUpdateCorrectAnswer;
+    constructor(public payload: { questionId: string, correctAnswerId: string }) { }
+}
+
+export class UpdateCorrectAnswer implements Action {
+    readonly type = ActionTypes.UpdateCorrectAnswer;
+    constructor(public payload: { questionId: string, correctAnswerId: string }) { }
+}
+
+export class OnVoteAnswer implements Action {
+    readonly type = ActionTypes.OnVoteAnswer;
+    constructor(public payload: { questionId: string, answerId: string, upvote: boolean }) { }
+}
+
+export class VoteAnswer implements Action {
+    readonly type = ActionTypes.VoteAnswer;
+    constructor(public payload: { questionId: string, answerId: string, upvote: boolean }) { }
+}
+
+export class OnDeleteAnswer implements Action {
+    readonly type = ActionTypes.OnDeleteAnswer;
+    constructor(public payload: { questionId: string, answerId: string }) { }
+}
+
+export class DeleteAnswer implements Action {
+    readonly type = ActionTypes.DeleteAnswer;
+    constructor(public payload: { questionId: string, answerId: string }) { }
+}
+
 export type Union =
     | OnGetPopularQuestions
     | GetPopularQuestions
@@ -125,7 +170,17 @@ export type Union =
     | CreateQuestion
     | OnEditQuestion
     | EditQuestion
+    | OnDeleteQuestion
+    | DeleteQuestion
     | OnVoteQuestion
     | VoteQuestion
     | OnAddAnswer
-    | AddAnswer;
+    | AddAnswer
+    | OnEditAnswer
+    | EditAnswer
+    | OnUpdateCorrectAnswer
+    | UpdateCorrectAnswer
+    | OnVoteAnswer
+    | VoteAnswer
+    | OnDeleteAnswer
+    | DeleteAnswer;

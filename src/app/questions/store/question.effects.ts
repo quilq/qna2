@@ -50,7 +50,10 @@ export class QuestionEffects {
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {
-                                return new QuestionActions.FindQuestionsByTag({ tag: action.payload.tag, questions });
+                                return new QuestionActions.FindQuestionsByTag({
+                                    tag: action.payload.tag,
+                                    questions
+                                });
                             }
                         }),
                         //catchError()
@@ -99,7 +102,7 @@ export class QuestionEffects {
     voteQuestion$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnVoteQuestion),
-            switchMap((action: QuestionActions.VoteQuestion) => {
+            switchMap((action: QuestionActions.OnVoteQuestion) => {
                 return this.questionService.voteQuestion(action.payload.questionId, action.payload.upvote)
                     .pipe(
                         map((response: string) => {
@@ -107,6 +110,25 @@ export class QuestionEffects {
                                 return new QuestionActions.VoteQuestion({
                                     questionId: action.payload.questionId,
                                     upvote: action.payload.upvote
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    deleteQuestion$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnDeleteQuestion),
+            switchMap((action: QuestionActions.OnDeleteQuestion) => {
+                return this.questionService.deleteQuestion(action.payload.questionId)
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'question-voted') {
+                                return new QuestionActions.DeleteQuestion({
+                                    questionId: action.payload.questionId,
                                 });
                             }
                         }),
@@ -135,5 +157,100 @@ export class QuestionEffects {
             })
         );
 
+    @Effect()
+    editAnswer$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnEditAnswer),
+            switchMap((action: QuestionActions.OnEditAnswer) => {
+                return this.questionService.editAnswer(
+                    action.payload.questionId,
+                    action.payload.answerId,
+                    action.payload.newAnswer
+                )
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'answer-edited') {
+                                return new QuestionActions.EditAnswer({
+                                    questionId: action.payload.questionId,
+                                    answerId: action.payload.answerId,
+                                    newAnswer: action.payload.newAnswer
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    updateCorrectAnswer$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnUpdateCorrectAnswer),
+            switchMap((action: QuestionActions.UpdateCorrectAnswer) => {
+                return this.questionService.updateCorrectAnswer(
+                    action.payload.questionId,
+                    action.payload.correctAnswerId
+                )
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'correct-answer-updated') {
+                                return new QuestionActions.UpdateCorrectAnswer({
+                                    questionId: action.payload.questionId,
+                                    correctAnswerId: action.payload.correctAnswerId
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    voteAnswer$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnVoteAnswer),
+            switchMap((action: QuestionActions.OnVoteAnswer) => {
+                return this.questionService.voteAnswer(
+                    action.payload.questionId,
+                    action.payload.answerId,
+                    action.payload.upvote
+                )
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'answer-voted') {
+                                return new QuestionActions.VoteAnswer({
+                                    questionId: action.payload.questionId,
+                                    answerId: action.payload.answerId,
+                                    upvote: action.payload.upvote
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
+
+    @Effect()
+    deleteAnswer$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnDeleteAnswer),
+            switchMap((action: QuestionActions.OnDeleteAnswer) => {
+                return this.questionService.deleteAnswer(
+                    action.payload.questionId,
+                    action.payload.answerId
+                )
+                    .pipe(
+                        map((response: string) => {
+                            if (response === 'answer-deleted') {
+                                return new QuestionActions.DeleteAnswer({
+                                    questionId: action.payload.questionId,
+                                    answerId: action.payload.answerId
+                                });
+                            }
+                        }),
+                        //catchError()
+                    )
+            })
+        );
     constructor(private actions$: Actions, private questionService: QuestionsService) { }
 }

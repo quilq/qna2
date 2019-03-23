@@ -48,6 +48,13 @@ export function questionReducer(state: QuestionState, action: QuestionActions.Un
                 //update question (questionId) with newQuestion
             };
 
+        case QuestionActions.ActionTypes.DeleteQuestion:
+            return {
+                ...state,
+                //TO DO
+                //delete question (questionId)
+            };
+
         case QuestionActions.ActionTypes.VoteQuestion:
             return {
                 ...state,
@@ -61,6 +68,34 @@ export function questionReducer(state: QuestionState, action: QuestionActions.Un
                 //TO DO:
                 //if add answer to unanswered question => remove question from unanswered question array
                 //add answer to corresponding question in question array
+            };
+
+        case QuestionActions.ActionTypes.UpdateCorrectAnswer:
+            return {
+                ...state,
+                //TO DO:
+                //update answer with questionId & answerId
+            };
+
+        case QuestionActions.ActionTypes.EditAnswer:
+            return {
+                ...state,
+                //TO DO:
+                //update answer with answerId
+            };
+
+        case QuestionActions.ActionTypes.VoteAnswer:
+            return {
+                ...state,
+                //TO DO:
+                //vote answer with questionId & answerId & upvote
+            };
+
+        case QuestionActions.ActionTypes.DeleteAnswer:
+            return {
+                ...state,
+                //TO DO:
+                //delete answer with questionId & answerId
             };
 
         default:

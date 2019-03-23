@@ -214,6 +214,7 @@ questionSchema.statics.editAnswer = function (req, res) {
                 console.log('Unable to edit answer ', err);
             } else {
                 console.log(doc);
+                res.send('answer-edited');
             }
         });
 }
@@ -231,24 +232,21 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to update correct answer ', err);
             } else {
-                console.log(doc);
+                Question.updateOne(
+                    { _id: new ObjectId(questionId), 'answers._id': correctAnswerId },
+                    { $set: { 'answers.$.isCorrectAnswer': true } },
+                    (err, doc) => {
+                        if (err) {
+                            console.log('Unable to update correct answer ', err);
+                        } else {
+                            res.send('correct-answer-updated');
+                        }
+                    }
+                )
             }
         }
     )
 
-    Question.updateOne(
-        { _id: new ObjectId(questionId), 'answers._id': correctAnswerId },
-        {
-            $set: { 'answers.$.isCorrectAnswer': true }
-        },
-        (err, doc) => {
-            if (err) {
-                console.log('Unable to update correct answer ', err);
-            } else {
-                console.log(doc);
-            }
-        }
-    )
 }
 
 //upvote, downvote answer
