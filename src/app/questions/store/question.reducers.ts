@@ -1,5 +1,5 @@
 import * as QuestionActions from './question.actions';
-import { Question } from '../question.model';
+import { Question, Answer } from '../question.model';
 
 export interface QuestionState {
     questions: Question[],
@@ -34,69 +34,128 @@ export function questionReducer(state: QuestionState, action: QuestionActions.Un
                 questionsByTag: { tag: action.payload.tag, questions: action.payload.questions }
             };
 
+        //TODO:
+        //Find unanswered questions
+
         case QuestionActions.ActionTypes.CreateQuestion:
             return {
                 ...state,
-                questions: [...state.questions, action.payload.question],
-                unansweredQuestions: [...state.questions, action.payload.question]
+                questions: [...state.questions, action.payload.question]
             };
 
         case QuestionActions.ActionTypes.EditQuestion:
-            return {
-                ...state,
-                //TO DO
-                //update question (questionId) with newQuestion
-            };
+            let newQuestions = state.questions;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    newQuestions[i].question = action.payload.newQuestion;
+                    break;
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.DeleteQuestion:
-            return {
-                ...state,
-                //TO DO
-                //delete question (questionId)
-            };
+            newQuestions = state.questions;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    newQuestions.splice(i, 1);
+                    break;
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.VoteQuestion:
-            return {
-                ...state,
-                //TO DO
-                //update question (questionId) with newQuestion
-            };
+            newQuestions = state.questions;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    if (action.payload.upvote) {
+                        newQuestions[i].questionVotes++;
+                    } else {
+                        newQuestions[i].questionVotes--;
+                    }
+                    break;
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.AddAnswer:
-            return {
-                ...state,
-                //TO DO:
-                //if add answer to unanswered question => remove question from unanswered question array
-                //add answer to corresponding question in question array
-            };
+            newQuestions = state.questions;
+            let newAnswer = new Answer();
+            newAnswer.answer = action.payload.newAnswer;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    newQuestions[i].answers.push(newAnswer);
+                    break;
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.UpdateCorrectAnswer:
-            return {
-                ...state,
-                //TO DO:
-                //update answer with questionId & answerId
-            };
+            newQuestions = state.questions;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
+                        if (newQuestions[i].answers[ii].isCorrectAnswer === true) {
+                            newQuestions[i].answers[ii].isCorrectAnswer = false;
+                            break;
+                        }
+                    }
+                    for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
+                        if (newQuestions[i].answers[ii]._id === action.payload.correctAnswerId) {
+                            newQuestions[i].answers[ii].isCorrectAnswer = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.EditAnswer:
-            return {
-                ...state,
-                //TO DO:
-                //update answer with answerId
-            };
+            newQuestions = state.questions;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
+                        if (newQuestions[i].answers[ii]._id === action.payload.answerId) {
+                            newQuestions[i].answers[ii].answer = action.payload.newAnswer;
+                            break;
+                        }
+                    }
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.VoteAnswer:
-            return {
-                ...state,
-                //TO DO:
-                //vote answer with questionId & answerId & upvote
-            };
+            newQuestions = state.questions;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
+                        if (newQuestions[i].answers[ii]._id === action.payload.answerId) {
+                            if (action.payload.upvote) {
+                                newQuestions[i].answers[ii].answerVotes++;
+                            } else {
+                                newQuestions[i].answers[ii].answerVotes--;
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.DeleteAnswer:
-            return {
-                ...state,
-                //TO DO:
-                //delete answer with questionId & answerId
-            };
+            newQuestions = state.questions;
+            for (let i = 0; i < newQuestions.length; i++) {
+                if (newQuestions[i]._id === action.payload.questionId) {
+                    for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
+                        if (newQuestions[i].answers[ii]._id === action.payload.answerId) {
+                            newQuestions[i].answers.splice(ii, 1);
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            return { ...state, questions: newQuestions };
 
         default:
             return state;
