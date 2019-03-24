@@ -24,7 +24,7 @@ export class AuthEffects {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);
                                 this.router.navigate(['/user']);
-                                return new AuthActions.Signin({ user, token });
+                                return new AuthActions.Signin({ ...user, token });
                             } else {
                                 console.log('Sign in failed');
                             }
@@ -33,7 +33,7 @@ export class AuthEffects {
                     )
             })
         )
-
+        
     @Effect()
     authSignup$: Observable<Action> = this.action$
         .pipe(
@@ -47,7 +47,7 @@ export class AuthEffects {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);
                                 this.router.navigate(['/user']);
-                                return new AuthActions.Signup({ user, token });
+                                return new AuthActions.Signup({ ...user, token });
                             } else {
                                 console.log('Sign up failed');
                             }

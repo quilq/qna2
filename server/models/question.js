@@ -4,13 +4,13 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const { User } = require('../models/user');
 
 const questionSchema = new mongoose.Schema({
-    _id: ObjectId,
+    // _id: ObjectId,
     tags: [String],
     question: String,
     askedByUser: { type: ObjectId, ref: 'User' },
     questionVotes: Number,
     answers: [{
-        _id: ObjectId,
+        // _id: ObjectId,
         answer: String,
         answeredByUser: { type: ObjectId, ref: 'User' },
         isCorrectAnswer: Boolean,

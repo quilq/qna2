@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { QuestionsRoutingModule } from './questions-routing.module';
 import { QuestionsComponent } from './questions.component';
@@ -13,16 +14,17 @@ import { QuestionEffects } from './store/question.effects';
 
 @NgModule({
   declarations: [
-    QuestionsComponent, 
-    QuestionDetailsComponent, 
-    TagsComponent, 
+    QuestionsComponent,
+    QuestionDetailsComponent,
+    TagsComponent,
     UnansweredQuestionsComponent
   ],
   imports: [
     StoreModule.forFeature('question', questionReducer),
     EffectsModule.forFeature([QuestionEffects]),
     CommonModule,
-    QuestionsRoutingModule
+    QuestionsRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class QuestionsModule { }

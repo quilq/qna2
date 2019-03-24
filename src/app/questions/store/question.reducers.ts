@@ -13,11 +13,14 @@ export interface QuestionState {
 }
 
 export const initialState: QuestionState = {
-    questions: null,
-    unansweredQuestions: null,
-    tags: null,
-    questionsByTag: null,
-    questionById: null
+    questions: [],
+    unansweredQuestions: [],
+    tags: [],
+    questionsByTag: {
+        tag: '',
+        questions: []
+    },
+    questionById: new Question()
 }
 
 export function questionReducer(state: QuestionState, action: QuestionActions.Union): QuestionState {

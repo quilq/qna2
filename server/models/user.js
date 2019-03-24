@@ -7,7 +7,7 @@ const { Question } = require('../models/question');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new mongoose.Schema({
-    _id: ObjectId,
+    // _id: ObjectId,
     username: {
         type: String,
         required: true,

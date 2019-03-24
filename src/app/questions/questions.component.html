@@ -1,3 +1,20 @@
-<p>
-  questions works!
-</p>
+<div>
+  <div>
+    TOP QUESTIONS
+  </div>
+
+  <div>
+    <span>Votes: ... </span>
+    <span>Number of answers: ... </span>
+    <span>Question:
+      <a routerLink="['/question-details', question._id]">...</a>
+    </span>
+  </div>
+
+  <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+    <span>Ask your question</span>
+    <input type="text" formControlName="newQuestion">
+    <span></span>
+  </form>
+
+</div>

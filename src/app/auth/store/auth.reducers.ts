@@ -8,7 +8,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-    user: null,
+    user: new User(),
     isAuthenticated: false,
     token: ''
 }
@@ -17,9 +17,12 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
     switch (action.type) {
         case AuthActions.ActionTypes.Signup:
         case AuthActions.ActionTypes.Signin:
+            let newUser = new User();
+            newUser.username = action.payload.username;
+            newUser.email = action.payload.email;
             return {
                 ...state,
-                user: action.payload.user,
+                user: newUser,
                 isAuthenticated: true,
                 token: action.payload.token
             };
