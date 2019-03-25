@@ -33,16 +33,18 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
 
 //get all tags
 questionSchema.statics.getTags = function (req, res) {
-    // const Question = this;
+    const Question = this;
+    let tags = [];
 
-    // Question.find((err, doc) => {
-    //     if (err) {
-    //         console.log('Unable to fetch data ', err);
-    //     } else {
-    //         res.status(200).json(doc);
-    //     }
-    // });
-    res.send('all-tags');
+    Question.find().forEach((err, doc) => {
+        doc.tags.forEach(tag => {
+            if (!tags.includes(tag)){
+                tags.push(tag);
+            }
+        })
+    }).then(() => {
+        res.send(tags);
+    })
 }
 
 //find questions by user(name)

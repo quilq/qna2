@@ -25,13 +25,12 @@ export class QuestionsComponent implements OnInit {
 
   onSubmit(){
     console.log(this.questionForm.value.newQuestion);
-    let newQuestion = new Question();
-    console.log(newQuestion);
-    let newUser = new User();
-    console.log(newUser);
 
-    this.store.dispatch(new QuestionActions.OnCreateQuestion({question: newQuestion}));
-    console.log(this.store)
+    let newQuestion = new Question();
+    let newUser = new User();
+    
+    // this.store.dispatch(new QuestionActions.OnCreateQuestion({question: newQuestion}));
+    // console.log(this.store)
   }
 
 }

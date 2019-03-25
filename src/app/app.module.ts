@@ -12,7 +12,6 @@ import { QuestionsModule } from './questions/questions.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { environment } from 'src/environments/environment';
-// import { reducers } from './store/app.index';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { environment } from 'src/environments/environment';
     AuthModule,
     QuestionsModule,
     AppRoutingModule,  //after other routes
-    // StoreModule.forRoot(reducers),
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
