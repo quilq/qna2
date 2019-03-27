@@ -8,20 +8,20 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
-  signin(email: string, password: string){
+  signin(email: string, password: string) {
     let url = 'api/user/signin';
-    return this.httpClient.post(url, {email, password});
+    return this.httpClient.post(url, { email, password });
   }
 
-  signup(username: string, email: string, password: string){
+  signup(username: string, email: string, password: string) {
     let url = 'api/user/signup';
-    return this.httpClient.post(url, {username, email, password});
+    return this.httpClient.post(url, { username, email, password }, { observe: 'response' });
   }
 
-  signout(){
+  signout() {
     let url = 'api/user/signout';
     let token = localStorage.getItem('token');
-    return this.httpClient.delete(url, {headers: {'x-auth': token}});
+    return this.httpClient.delete(url, { headers: { 'x-auth': token } });
   }
 
   // //get user questions

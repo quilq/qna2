@@ -92,13 +92,18 @@ router.put('/a/delete', authenticate, (req, res) => {
 //Sign up route
 router.post('/user/signup', (req, res) => {
     const body = { username: req.body.username, email: req.body.email, password: req.body.password };
+    console.log(body);
+    
     const user = new User(body);
+    console.log(user);
 
     user.save().then(() => {
         return user.generateAuthToken();
     }).then((token) => {
+        console.log(token);
         res.header('x-auth', token).send(user);
     }).catch((e) => {
+        console.log(e);
         res.status(400).send(e);
     });
 })

@@ -17,4 +17,10 @@
     <span></span>
   </form>
 
+  <div>-----------</div>
+  <div>All questions: </div>
+  <div *ngFor="let question of (questions$ | async)">
+    <div>{{question._id}}</div>
+  </div>
+
 </div>

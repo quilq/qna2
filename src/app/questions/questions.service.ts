@@ -36,8 +36,8 @@ export class QuestionsService {
 
   //create question
   createQuestion = (question: Question) => {
+    console.log('q: ', question);
     let url = `api/q/add`;
-
     return this.httpClient.post(url, question);
     // let token = localStorage.getItem('token');
     // return this.httpClient.post(url, question, { headers: { 'x-auth': token } });

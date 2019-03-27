@@ -13,10 +13,10 @@ const port = process.env.PORT;
 // app.use(compression());
 // app.use(helmet());
 
-app.use('/api', api);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/api', api);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}!`);

@@ -92,12 +92,15 @@ questionSchema.statics.findQuestionById = function (req, res) {
 //create question
 questionSchema.statics.createQuestion = function (req, res) {
     const Question = this;
+    
+    console.log(req.body);
 
     Question.create(req.body, (err, doc) => {
         if (err) {
             console.log('Unable to create question ', err);
         } else {
-            res.status(200).send(doc);
+            console.log(doc);
+            // res.status(200).send(doc);
         }
     });
 }

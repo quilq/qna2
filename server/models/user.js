@@ -53,7 +53,7 @@ userSchema.pre('save', function (next) {
 userSchema.methods.generateAuthToken = function () {
     const user = this;
 
-    const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET, { expiresIn: '1d' })
+    const token = jwt.sign({ _id: user._id.toHexString() }, process.env.JWT_SECRET, { expiresIn: '1d' })
         .toString();
 
     return Promise.resolve(token);
