@@ -1,26 +1,13 @@
-<div>
+<div fxLayout="row" fxLayoutAlign="space-between " class="main-page">
   <div>
-    TOP QUESTIONS
+    <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+      <span>Ask your question</span>
+      <input type="text" formControlName="newQuestion">
+      <span></span>
+    </form>
+
+    <router-outlet></router-outlet>
   </div>
 
-  <div>
-    <span>Votes: ... </span>
-    <span>Number of answers: ... </span>
-    <span>Question:
-      <!-- <a routerLink="['/question-details', question._id]">...</a> -->
-    </span>
-  </div>
-
-  <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
-    <span>Ask your question</span>
-    <input type="text" formControlName="newQuestion">
-    <span></span>
-  </form>
-
-  <div>-----------</div>
-  <div>All questions: </div>
-  <div *ngFor="let question of (questions$ | async)">
-    <div>{{question._id}}</div>
-  </div>
-
+  <app-sidebar></app-sidebar>
 </div>

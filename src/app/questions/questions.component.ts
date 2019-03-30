@@ -31,6 +31,7 @@ export class QuestionsComponent implements OnInit {
   questionForm = new FormGroup({
     newQuestion: new FormControl('')
   });
+  
   user: any;
 
   onSubmit() {

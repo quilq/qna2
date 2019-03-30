@@ -1,0 +1,11 @@
+@import '../../shared/style';
+
+.header {
+    .top-toolbar {
+        background-color: $dark-blue;
+    }
+
+    .bottom-toolbar {
+        background-color: $light-blue;
+    }
+}

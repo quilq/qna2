@@ -10,7 +10,7 @@ export class UserService {
 
   signin(email: string, password: string) {
     let url = 'api/user/signin';
-    return this.httpClient.post(url, { email, password });
+    return this.httpClient.post(url, { email, password }, { observe: 'response' });
   }
 
   signup(username: string, email: string, password: string) {

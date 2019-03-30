@@ -1,25 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { LeftSidenavComponent } from './left-sidenav/left-sidenav.component';
-import { RightSidenavComponent } from './right-sidenav/right-sidenav.component';
+import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
     HomeComponent, 
     HeaderComponent, 
-    FooterComponent, 
-    LeftSidenavComponent, 
-    RightSidenavComponent
+    FooterComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MaterialModule,
+    FlexLayoutModule,
+    SharedModule
   ],
-  exports: [HomeComponent]
+  exports: [
+    HomeComponent,
+    HeaderComponent,
+    FooterComponent
+  ]
 })
 export class CoreModule { }

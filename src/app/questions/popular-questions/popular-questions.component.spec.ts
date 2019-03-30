@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LeftSidenavComponent } from './left-sidenav.component';
+import { PopularQuestionsComponent } from './popular-questions.component';
 
-describe('LeftSidenavComponent', () => {
-  let component: LeftSidenavComponent;
-  let fixture: ComponentFixture<LeftSidenavComponent>;
+describe('PopularQuestionsComponent', () => {
+  let component: PopularQuestionsComponent;
+  let fixture: ComponentFixture<PopularQuestionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeftSidenavComponent ]
+      declarations: [ PopularQuestionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LeftSidenavComponent);
+    fixture = TestBed.createComponent(PopularQuestionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

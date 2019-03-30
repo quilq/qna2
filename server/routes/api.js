@@ -22,7 +22,7 @@ router.get('/q/:id', (req, res) => {
 });
 
 //find questions by user
-router.get('/q/user', authenticate, (req, res) => {
+router.get('/q/user', (req, res) => {
     Question.findQuestionsByUser(req, res);
 });
 
@@ -32,12 +32,12 @@ router.get('/q/tag', (req, res) => {
 });
 
 //create question
-router.post('/q/add', (req, res) => {
-    Question.createQuestion(req, res);
-});
-// router.post('/q/add', authenticate, (req, res) => {
+// router.post('/q/add', (req, res) => {
 //     Question.createQuestion(req, res);
 // });
+router.post('/q/add', authenticate, (req, res) => {
+    Question.createQuestion(req, res);
+});
 
 //edit question
 router.put('/q/edit', authenticate, (req, res) => {

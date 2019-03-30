@@ -1,8 +1,32 @@
-<nav>
-  <a routerLink='questions'>Home</a> | 
-  <a routerLink='questions'>All questions</a> | 
-  <a routerLink='questions'>Popular questions</a> | 
-  <a routerLink='questions/tags'>Tags</a> | 
-  <a routerLink='questions'>Hot</a> | 
-  <a routerLink='questions/unanswered-questions'>Unanswered</a>
-</nav>
+<mat-toolbar class="header">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" class="top-toolbar">
+    <nav>
+      <button mat-button routerLink="/home">Home</button>
+      <button mat-button routerLink="#">Explore</button>
+    </nav>
+    
+    <form>
+      <input>
+      <button>Search</button>
+    </form>
+
+    <nav *ngIf="!(isAuthenticated$ | async)">
+      <button mat-button routerLink="/signin"> Sign in </button>
+      <button mat-button routerLink="/signup"> Create account </button>
+    </nav>
+
+    <nav *ngIf="isAuthenticated$ | async">
+      <button mat-button routerLink="/user"> User page </button>
+      <button mat-button (click)="onSignout()"> Sign out </button>
+    </nav>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row class="bottom-toolbar">
+    <nav>
+      <button mat-button routerLink="/tags">Tags</button>
+      <button mat-button routerLink="/popular-questions">Popular questions</button>
+      <button mat-button routerLink="/unanswered-questions">Unanswered</button>
+    </nav>
+  </mat-toolbar-row>
+
+</mat-toolbar>

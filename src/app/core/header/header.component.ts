@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { AuthState } from '../../auth/store/auth.reducers';
+import { isAuthenticated } from 'src/app/auth/store/auth.selectors';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +12,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  isAuthenticated$: Observable<boolean>;
+
+  constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
+    this.isAuthenticated$ = this.store.select(isAuthenticated);
+  }
+
+  onSignout(){
+    console.log('Signed out!');
   }
 
 }

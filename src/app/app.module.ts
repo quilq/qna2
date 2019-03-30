@@ -5,13 +5,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { QuestionsModule } from './questions/questions.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
-import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
