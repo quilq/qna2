@@ -8,12 +8,14 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     HomeComponent, 
     HeaderComponent, 
-    FooterComponent
+    FooterComponent, 
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { SharedModule } from '../shared/shared.module';
   exports: [
     HomeComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    PageNotFoundComponent
   ]
 })
 export class CoreModule { }

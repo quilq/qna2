@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 import { Question } from './question.model';
-import { selectQuestion } from './store/question.selectors';
-import { Observable } from 'rxjs';
 import { QuestionState } from './store/question.reducers';
 import * as QuestionActions from './store/question.actions';
-
-import { selectUser } from '../auth/store/auth.selectors';
 
 @Component({
   selector: 'app-questions',

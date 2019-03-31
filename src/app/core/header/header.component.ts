@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AuthState } from '../../auth/store/auth.reducers';
-import { isAuthenticated } from 'src/app/auth/store/auth.selectors';
+import { isAuthenticated } from '../../auth/store/auth.selectors';
 
 @Component({
   selector: 'app-header',

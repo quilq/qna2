@@ -9,6 +9,9 @@ import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthEffects } from './store/auth.effects';
 import { authReducer } from './store/auth.reducers';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule } from '../material/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { authReducer } from './store/auth.reducers';
     StoreModule.forFeature('auth', authReducer),
     EffectsModule.forFeature([AuthEffects]),
     CommonModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    MaterialModule,
     AuthRoutingModule
   ]
 })

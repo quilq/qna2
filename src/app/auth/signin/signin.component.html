@@ -1,3 +1,19 @@
-<p>
-  signin works!
-</p>
+<form fxLayout="column" fxLayoutAlign="center center" [formGroup]="signinForm" (ngSubmit)="onSubmit()" class="full-page-60">
+  <mat-card fxLayout="column" fxLayoutAlign="center center">
+    <h3>Signin</h3>
+
+    <mat-form-field>
+      <input matInput type="text" placeholder="Email" formControlName="email">
+      <mat-icon matSuffix>email</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Password" formControlName="password">
+      <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+        {{hidePassword ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit">Sign in</button>
+  </mat-card>
+</form>
