@@ -21,30 +21,14 @@ export class QuestionsComponent implements OnInit {
 
   questions$: Observable<Question[]>
 
-  ngOnInit() {
-    this.store.dispatch(new QuestionActions.OnGetPopularQuestions());
-    this.questions$ = this.store.select(selectQuestion);
-
-    this.questions$.subscribe(qs => console.log('questions: ', qs));
-  }
+  ngOnInit() { }
 
   questionForm = new FormGroup({
     newQuestion: new FormControl('')
   });
-  
-  user: any;
 
   onSubmit() {
     console.log(this.questionForm.value.newQuestion);
-
-    // this.store.select(selectUser).subscribe(user => this.user = user);
-
-    // let newQuestion = new Question();
-    // newQuestion.question = this.questionForm.value.newQuestion;
-    // newQuestion.askedByUser = this.user;
-
-    // this.store.dispatch(new QuestionActions.OnCreateQuestion({question: newQuestion}));
-    // console.log(this.store)
   }
 
 }

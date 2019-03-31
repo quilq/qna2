@@ -2,9 +2,9 @@
   <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" class="top-toolbar">
     <nav>
       <button mat-button routerLink="/home">Home</button>
-      <button mat-button routerLink="#">Explore</button>
+      <button mat-button routerLink="/questions">Explore</button>
     </nav>
-    
+
     <form>
       <input>
       <button>Search</button>
@@ -23,10 +23,8 @@
 
   <mat-toolbar-row class="bottom-toolbar">
     <nav>
-      <button mat-button routerLink="/tags">Tags</button>
-      <button mat-button routerLink="/popular-questions">Popular questions</button>
-      <button mat-button routerLink="/unanswered-questions">Unanswered</button>
+      <button mat-button routerLink="questions/tags">Tags</button>
+      <button mat-button routerLink="questions/unanswered-questions">Unanswered</button>
     </nav>
   </mat-toolbar-row>
-
 </mat-toolbar>

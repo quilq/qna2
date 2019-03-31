@@ -1,9 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="space-between " class="main-page">
+<div fxLayout="row" fxLayoutAlign="space-between " class="full-page-80">
   <div>
     <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
       <span>Ask your question</span>
       <input type="text" formControlName="newQuestion">
-      <span></span>
+      <button (click)="onSubmit()">Ask</button>
     </form>
 
     <router-outlet></router-outlet>

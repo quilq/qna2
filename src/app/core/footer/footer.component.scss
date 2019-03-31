@@ -1,5 +1,16 @@
-@import '../../shared/style';
+@import '../../shared/style/style';
 
 .footer {
     background-color: $light-blue;
+
+    mat-list {
+
+        mat-list-item {
+            height: 32px;
+        }
+
+        mat-list-item:first-child {
+            font-weight: bold;
+        }
+    }
 }
