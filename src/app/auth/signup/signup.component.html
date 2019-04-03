@@ -6,11 +6,19 @@
     <mat-form-field>
       <input matInput type="text" placeholder="Username" formControlName="username">
       <mat-icon matSuffix>person</mat-icon>
+      <mat-error
+        *ngIf="signupForm.get('username').invalid && (signupForm.get('username').dirty || signupForm.get('username').touched)">
+        Username required
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <input matInput type="text" placeholder="Email" formControlName="email">
       <mat-icon matSuffix>email</mat-icon>
+      <mat-error
+        *ngIf="signupForm.get('email').invalid && (signupForm.get('email').dirty || signupForm.get('email').touched)">
+        Invalid email
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -18,8 +26,15 @@
       <mat-icon matSuffix (click)="hidePassword = !hidePassword">
         {{hidePassword ? 'visibility_off' : 'visibility'}}
       </mat-icon>
+      <mat-error
+        *ngIf="signupForm.get('password').invalid && (signupForm.get('password').dirty || signupForm.get('password').touched)">
+        Password required (min 6 char)
+      </mat-error>
     </mat-form-field>
 
     <button mat-raised-button type="submit">Sign up</button>
+    <a routerLink="/signin">Sign in instead</a>
   </mat-card>
+
+  <a>Forgot password</a>
 </form>
