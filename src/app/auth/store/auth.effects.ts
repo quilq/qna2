@@ -23,7 +23,7 @@ export class AuthEffects {
                             console.log(response);
 
                             //for observe: 'response' => access .body to get info
-                            let user = { username: response.body.username, email: response.body.email };
+                            let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
                             if (user) {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);
@@ -49,7 +49,7 @@ export class AuthEffects {
 
                             console.log(response);
 
-                            let user = { username: response.body.username, email: response.body.email };
+                            let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
                             if (user) {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);

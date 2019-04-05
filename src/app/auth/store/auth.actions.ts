@@ -20,7 +20,7 @@ export class OnSignin implements Action {
 
 export class Signin implements Action {
     readonly type = ActionTypes.Signin;
-    constructor(public payload: { username: string, email: string, token: string }) { }
+    constructor(public payload: {_id: string, username: string, email: string, token: string }) { }
 }
 
 export class OnSignup implements Action {
@@ -30,7 +30,7 @@ export class OnSignup implements Action {
 
 export class Signup implements Action {
     readonly type = ActionTypes.Signup;
-    constructor(public payload: { username: string, email: string, token: string }) { }
+    constructor(public payload: {_id: string, username: string, email: string, token: string }) { }
 }
 export class OnSignout implements Action {
     readonly type = ActionTypes.OnSignout;

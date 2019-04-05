@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { AuthState } from '../../auth/store/auth.reducers';
 import { isAuthenticated } from '../../auth/store/auth.selectors';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -17,10 +18,13 @@ export class HeaderComponent implements OnInit {
   constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
-    this.isAuthenticated$ = this.store.select(isAuthenticated);
+    this.store.select(isAuthenticated).subscribe(x => console.log('TEST AUTH ', x));
+
+    this.isAuthenticated$ = this.store.select('auth')
+      .pipe(map(authState => authState.isAuthenticated));
   }
 
-  onSignout(){
+  onSignout() {
     console.log('Signed out!');
   }
 

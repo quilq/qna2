@@ -20,6 +20,7 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
             let newUser = new User();
             newUser.username = action.payload.username;
             newUser.email = action.payload.email;
+            newUser._id = action.payload._id;
             return {
                 ...state,
                 user: newUser,
