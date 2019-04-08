@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 
 import { Question } from './question.model';
 import { QuestionState } from './store/question.reducers';
+import { UserService } from '../auth/user/user.service';
+import { User } from '../auth/user/user.model';
 import * as QuestionActions from './store/question.actions';
 
 @Component({
@@ -14,18 +16,38 @@ import * as QuestionActions from './store/question.actions';
 })
 export class QuestionsComponent implements OnInit {
 
-  constructor(private store: Store<QuestionState>) { }
+  constructor(private store: Store<QuestionState>, private userService: UserService) { }
 
-  questions$: Observable<Question[]>
+  // questions$: Observable<Question[]>
+  isAuthenticated : boolean;
+  user: User;
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.userService.isAuthenticated().subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    this.userService.getUser().subscribe(user => this.user = user);
+    //check if questions are loaded? => if no => load questions
+   }
 
   questionForm = new FormGroup({
-    newQuestion: new FormControl('')
+    newQuestion: new FormControl(''),
+    tag: new FormControl('')
   });
 
   onSubmit() {
     console.log(this.questionForm.value.newQuestion);
+
+    let newQuestion = new Question();
+    newQuestion.askedByUser = this.user;
+    newQuestion.question = this.questionForm.value.newQuestion;
+    newQuestion.tags.push(this.questionForm.value.tag);
+
+    if (this.isAuthenticated){
+      this.store.dispatch(new QuestionActions.OnCreateQuestion({question: newQuestion}));
+    } else {
+      //TODO: ALERT
+      console.log('sign in to continue !');
+      this.userService.toSignin();
+    }
   }
 
 }

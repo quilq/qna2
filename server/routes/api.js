@@ -17,7 +17,7 @@ router.get('/q/all-tags', (req, res) => {
 });
 
 //Find questions by Id
-router.get('/q/:id', (req, res) => {  
+router.get('/q/:id', (req, res) => {
     Question.findQuestionById(req, res);
 });
 
@@ -27,7 +27,7 @@ router.get('/q/user', (req, res) => {
 });
 
 //find questions by tag 
-router.get('/q/tag', (req, res) => {  
+router.get('/q/tag', (req, res) => {
     Question.findQuestionsByTag(req, res);
 });
 
@@ -37,6 +37,9 @@ router.get('/q/tag', (req, res) => {
 // });
 router.post('/q/add', authenticate, (req, res) => {
     Question.createQuestion(req, res);
+    // Question.createQuestion(req, res).then((question) => {
+    //     User.addUserQuestion(req.user._id, question._id);
+    // }).catch(e => console.log('err ', e));
 });
 
 //edit question
@@ -79,23 +82,20 @@ router.put('/a/delete', authenticate, (req, res) => {
     Question.deleteAnswer(req, res);
 })
 
-// //Get user questions
-// router.get('/user/questions', authenticate, (req, res) => {
-//     Question.findQuestionsByUser(req, res);
-// });
+//Get user questions
+router.get('/user/questions', authenticate, (req, res) => {
+    Question.findQuestionsByUser(req, res);
+});
 
-// //Get user answers
-// router.get('/user/answers', authenticate, (req, res) => {
-//     Question.findAnswersByUser(req, res);
-// });
+//Get user answers
+router.get('/user/answers', authenticate, (req, res) => {
+    Question.findAnswersByUser(req, res);
+});
 
 //Sign up route
 router.post('/user/signup', (req, res) => {
     const body = { username: req.body.username, email: req.body.email, password: req.body.password };
-    console.log(body);
-    
     const user = new User(body);
-    console.log(user);
 
     user.save().then(() => {
         return user.generateAuthToken();

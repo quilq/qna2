@@ -2,6 +2,7 @@ import * as QuestionActions from './question.actions';
 import { Question, Answer } from '../question.model';
 
 export interface QuestionState {
+    hasLoaded: boolean,
     questions: Question[],
     unansweredQuestions: Question[],
     tags: string[],
@@ -13,6 +14,7 @@ export interface QuestionState {
 }
 
 export const initialState: QuestionState = {
+    hasLoaded: false,
     questions: [],
     unansweredQuestions: [],
     tags: [],
@@ -26,7 +28,7 @@ export const initialState: QuestionState = {
 export function questionReducer(state: QuestionState, action: QuestionActions.Union): QuestionState {
     switch (action.type) {
         case QuestionActions.ActionTypes.GetPopularQuestions:
-            return { ...state, questions: action.payload.questions };
+            return { ...state, hasLoaded: true, questions: action.payload.questions };
 
         case QuestionActions.ActionTypes.FindQuestionById:
             return { ...state, questionById: action.payload.question };

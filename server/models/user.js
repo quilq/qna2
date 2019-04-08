@@ -30,8 +30,8 @@ const userSchema = new mongoose.Schema({
         require: true,
         minlength: 6
     },
-    questions: [{ type: ObjectId, ref: 'Question' }],
-    answers: [{ type: ObjectId, ref: 'Question' }]
+    // questions: [{ type: ObjectId, ref: 'Question' }],
+    // answers: [{ type: ObjectId, ref: 'Question' }]
 });
 
 //Hash password before saving
@@ -104,6 +104,58 @@ userSchema.methods.toJSON = function () {
 
     return { _id: userObject._id, email: userObject.email, username: userObject.username }
 }
+
+// userSchema.statics.addUserQuestion = function (userId, questionId) {
+//     const user = this;
+//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
+//         $push: { questions: new ObjectId(questionId) }
+//     }, (err, res) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log(res);
+//         }
+//     });
+// }
+
+// userSchema.statics.addUserAnswer = function (userId, questionId) {
+//     const user = this;
+//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
+//         $push: { answers: new ObjectId(questionId) }
+//     }, (err, res) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log(res);
+//         }
+//     });
+// }
+
+// userSchema.statics.deleteUserQuestion = function (userId, questionId) {
+//     const user = this;
+//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
+//         $pull: { questions: new ObjectId(questionId) }
+//     }, (err, res) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log(res);
+//         }
+//     });
+// }
+
+// userSchema.statics.deleteUserAnswer = function (userId, questionId) {
+//     const user = this;
+//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
+//         $pull: { answers: new ObjectId(questionId) }
+//     }, (err, res) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log(res);
+//         }
+//     });
+// }
 
 const User = mongoose.model('User', userSchema);
 

@@ -1,16 +1,17 @@
 import { Question } from '../../questions/question.model';
 
 export class User {
-    _id?: string;
+    _id: string;
     username: string;
     email: string;
-    questions: Question[];
-    answers: Question[]
+    // questions: Question[];
+    // answers: Question[]
 
-    constructor(username = '', email = '', questions = [], answers = []) {
+    constructor(_id = '', username = '', email = '') {
+        this._id = _id;
         this.username = username;
         this.email = email;
-        this.questions = questions;
-        this.answers = answers
+        // this.questions = questions;
+        // this.answers = answers
     }
 }

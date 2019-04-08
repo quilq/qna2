@@ -1,8 +1,10 @@
 <div fxLayout="row" fxLayoutAlign="space-between " class="full-page-80">
   <div>
-    <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+    <!-- (ngSubmit)="onSubmit()" -->
+    <form [formGroup]="questionForm" >
       <span>Ask your question</span>
-      <input type="text" formControlName="newQuestion">
+      <input type="text" formControlName="newQuestion" placeholder="your question">
+      <input type="text" formControlName="tags" placeholder="tags">
       <button (click)="onSubmit()">Ask</button>
     </form>
 

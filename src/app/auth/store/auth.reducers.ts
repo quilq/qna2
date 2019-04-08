@@ -17,10 +17,7 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
     switch (action.type) {
         case AuthActions.ActionTypes.Signup:
         case AuthActions.ActionTypes.Signin:
-            let newUser = new User();
-            newUser.username = action.payload.username;
-            newUser.email = action.payload.email;
-            newUser._id = action.payload._id;
+            let newUser = new User(action.payload._id, action.payload.username, action.payload.email);
             return {
                 ...state,
                 user: newUser,

@@ -66,9 +66,11 @@ export class QuestionEffects {
         .pipe(
             ofType(QuestionActions.ActionTypes.OnCreateQuestion),
             switchMap((action: QuestionActions.OnCreateQuestion) => {
+                console.log('action payload', action.payload);
                 return this.questionService.createQuestion(action.payload.question)
                     .pipe(
                         map((question: Question) => {
+                            console.log('create question effects ', question);
                             if (question) {
                                 return new QuestionActions.CreateQuestion({ question });
                             }

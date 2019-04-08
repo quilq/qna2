@@ -23,12 +23,12 @@ export class AuthEffects {
                             console.log(response);
 
                             //for observe: 'response' => access .body to get info
-                            let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
-                            if (user) {
+                            // let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
+                            if (response.body._id) {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);
                                 this.router.navigate(['/user']);
-                                return new AuthActions.Signin({ ...user, token });
+                                return new AuthActions.Signin({ ...response.body, token });
                             } else {
                                 console.log('Sign in failed');
                             }
@@ -49,12 +49,12 @@ export class AuthEffects {
 
                             console.log(response);
 
-                            let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
-                            if (user) {
+                            // let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
+                            if (response.body._id) {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);
                                 this.router.navigate(['/user']);
-                                return new AuthActions.Signup({ ...user, token });
+                                return new AuthActions.Signup({ ...response.body, token });
                             } else {
                                 console.log('Sign up failed');
                             }

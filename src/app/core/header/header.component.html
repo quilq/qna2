@@ -14,7 +14,7 @@
       <button mat-button routerLink="/signup"> Create account </button>
     </nav>
 
-    <nav *ngIf="isAuthenticated$ | async">
+    <nav *ngIf="(isAuthenticated$ | async)">
       <button mat-button routerLink="/user"> User page </button>
       <button mat-button (click)="onSignout()"> Sign out </button>
     </nav>

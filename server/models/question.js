@@ -38,7 +38,7 @@ questionSchema.statics.getTags = function (req, res) {
 
     Question.find().forEach((err, doc) => {
         doc.tags.forEach(tag => {
-            if (!tags.includes(tag)){
+            if (!tags.includes(tag)) {
                 tags.push(tag);
             }
         })
@@ -92,17 +92,25 @@ questionSchema.statics.findQuestionById = function (req, res) {
 //create question
 questionSchema.statics.createQuestion = function (req, res) {
     const Question = this;
-    
-    console.log(req.body);
 
+    console.log('create question req body: ', req.body);
+
+    // return Question.create(req.body).then(question => {
+    //     if (!question){
+    //         return Promise.reject();
+    //     }
+
+    //     return Promise.resolve(question);
+    // })
     Question.create(req.body, (err, doc) => {
         if (err) {
             console.log('Unable to create question ', err);
         } else {
-            console.log(doc);
-            // res.status(200).send(doc);
+            console.log('successfully create question: ', doc);
+            res.status(200).send(doc);
         }
     });
+
 }
 
 //edit question
@@ -165,6 +173,7 @@ questionSchema.statics.deleteQuestion = function (req, res) {
             console.log('Unable to delete question ', err);
         } else {
             res.send('question-deleted');
+            User.deleteUserQuestion(req.user._id, questionId);
         }
     });
 }
@@ -198,8 +207,11 @@ questionSchema.statics.addAnswer = function (req, res) {
             } else {
                 console.log(doc);
                 res.send('answer-added');
+                User.addUserAnswer(req.user._id, questionId);
             }
-        });
+        }
+    );
+
 }
 
 //edit answer
@@ -296,6 +308,8 @@ questionSchema.statics.deleteAnswer = function (req, res) {
                 console.log('Unable to delete answer ', err);
             } else {
                 res.send('answer-deleted');
+                console.log(doc);
+                User.deleteUserAnswer(req.user._id, questionId);
             }
         }
     )
