@@ -1,10 +1,28 @@
 <div fxLayout="row" fxLayoutAlign="space-between " class="full-page-80">
   <div>
     <!-- (ngSubmit)="onSubmit()" -->
-    <form [formGroup]="questionForm" >
+    <form [formGroup]="questionForm">
       <span>Ask your question</span>
-      <input type="text" formControlName="newQuestion" placeholder="your question">
-      <input type="text" formControlName="tags" placeholder="tags">
+
+      <mat-form-field>
+        <input matInput type="text" formControlName="newQuestion" placeholder="your question">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-chip-list #tagList>
+          <mat-chip  *ngFor="let tag of tags" [selectable]="selectable"
+          [removable]="removable" (removed)="remove(tag)">
+            {{tag}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+
+          <input placeholder="your tag" [matChipInputFor]="tagList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <!-- <input type="text" formControlName="tag" placeholder="tag"> -->
+        <!-- <button (click)="addTag()">Add tag</button> -->
+      </mat-form-field>
+
       <button (click)="onSubmit()">Ask</button>
     </form>
 
