@@ -9,6 +9,7 @@ import { QuestionState } from './store/question.reducers';
 import { UserService } from '../auth/user/user.service';
 import { User } from '../auth/user/user.model';
 import * as QuestionActions from './store/question.actions';
+import { isAuthenticated, selectUser } from '../auth/store/auth.selectors';
 
 @Component({
   selector: 'app-questions',
@@ -16,25 +17,25 @@ import * as QuestionActions from './store/question.actions';
   styleUrls: ['./questions.component.scss']
 })
 export class QuestionsComponent implements OnInit {
-
-  constructor(private store: Store<QuestionState>, private userService: UserService) { }
-
   // questions$: Observable<Question[]>
   isAuthenticated: boolean;
   user: User;
+  
+  constructor(
+    private store: Store<QuestionState>,
+    private userService: UserService) { }
 
   visible = true;
   selectable = true;
   removable = true;  //delete current tag
   addOnBlur = true;
-  
+
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: string[] = [];
 
   ngOnInit() {
-    this.userService.isAuthenticated().subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
-    this.userService.getUser().subscribe(user => this.user = user);
-    //check if questions are loaded? => if no => load questions
+    this.store.select(isAuthenticated).subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    this.store.select(selectUser).subscribe(user => this.user = user);
   }
 
   questionForm = new FormGroup({
@@ -46,7 +47,7 @@ export class QuestionsComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our tag
+    // Add tag
     if ((value || '').trim()) {
       this.tags.push(value.trim());
     }

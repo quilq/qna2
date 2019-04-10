@@ -7,14 +7,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { QuestionsRoutingModule } from './questions-routing.module';
 import { QuestionsComponent } from './questions.component';
+import { PopularQuestionsComponent } from './popular-questions/popular-questions.component';
 import { QuestionDetailsComponent } from './question-details/question-details.component';
 import { TagsComponent } from './tags/tags.component';
 import { UnansweredQuestionsComponent } from './unanswered-questions/unanswered-questions.component';
-import { questionReducer } from './store/question.reducers';
 import { QuestionEffects } from './store/question.effects';
+import { questionReducer } from './store/question.reducers';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
-import { PopularQuestionsComponent } from './popular-questions/popular-questions.component';
 
 @NgModule({
   declarations: [
@@ -24,15 +24,16 @@ import { PopularQuestionsComponent } from './popular-questions/popular-questions
     UnansweredQuestionsComponent,
     PopularQuestionsComponent
   ],
+
   imports: [
+    StoreModule.forFeature('question', questionReducer),
+    EffectsModule.forFeature([QuestionEffects]),
     CommonModule,
-    QuestionsRoutingModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MaterialModule,
     SharedModule,
-    StoreModule.forFeature('question', questionReducer),
-    EffectsModule.forFeature([QuestionEffects])
+    QuestionsRoutingModule,
   ]
 })
 export class QuestionsModule { }

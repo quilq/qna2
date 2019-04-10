@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError } from 'rxjs/operators'
+import { switchMap, map, catchError, tap } from 'rxjs/operators'
+import { EMPTY, Observable } from 'rxjs';
+import { Action } from '@ngrx/store';
 
 import { Question } from '../question.model';
 import { QuestionsService } from '../questions.service';
@@ -10,7 +12,7 @@ import * as QuestionActions from './question.actions';
 export class QuestionEffects {
 
     @Effect()
-    getQuestions$ = this.actions$
+    getQuestions$: Observable<Action> = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
             switchMap(() => {
@@ -19,7 +21,7 @@ export class QuestionEffects {
                         map((questions: Question[]) => {
                             return new QuestionActions.GetPopularQuestions({ questions });
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -28,15 +30,18 @@ export class QuestionEffects {
     findQuestionById$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnFindQuestionById),
+            tap(() => console.log('findQuestionById effect called 1')),
             switchMap((action: QuestionActions.OnFindQuestionById) => {
+                console.log('findQuestionById effect called 2');
                 return this.questionService.findQuestionById(action.payload.id)
                     .pipe(
+                        tap(() => console.log('findQuestionById effect called 3')),
                         map((question: Question) => {
                             if (question) {
                                 return new QuestionActions.FindQuestionById({ question });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -56,7 +61,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -75,7 +80,7 @@ export class QuestionEffects {
                                 return new QuestionActions.CreateQuestion({ question });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -95,7 +100,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -115,7 +120,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -134,7 +139,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -154,7 +159,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -179,7 +184,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -202,7 +207,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -227,7 +232,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );
@@ -250,7 +255,7 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         );

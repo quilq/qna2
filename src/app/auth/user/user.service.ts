@@ -1,12 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-
-import { User } from './user.model';
-import { AuthState } from '../store/auth.reducers';
-import { selectUser, isAuthenticated } from '../store/auth.selectors';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -16,16 +9,7 @@ export class UserService {
 
   constructor(
     private httpClient: HttpClient,
-    private store: Store<AuthState>,
     private router: Router) { }
-
-  getUser(): Observable<User> {
-    return this.store.select(selectUser);
-  }
-
-  isAuthenticated(): Observable<boolean> {
-    return this.store.select(isAuthenticated);
-  }
 
   toSignin() {
     this.router.navigate(['/signin']);

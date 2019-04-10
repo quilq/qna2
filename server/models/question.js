@@ -52,7 +52,7 @@ questionSchema.statics.findQuestionsByUser = function (req, res) {
     const userId = req.header('userId');
     const Question = this;
 
-    Question.find({ 'askedByUser._id': new ObjectId(userId) }).toArray((err, doc) => {
+    Question.find({ 'askedByUser._id': userId }).toArray((err, doc) => {
         if (err) {
             console.log('Unable to fetch data ', err);
         } else {
@@ -78,9 +78,11 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
 //find question by ID
 questionSchema.statics.findQuestionById = function (req, res) {
     const questionId = req.params.id;
+    console.log('question id', questionId);
     const Question = this;
 
-    Question.findById({ _id: new ObjectId(questionId) }, (err, doc) => {
+    // Question.findById({ _id: new ObjectId(questionId) }, (err, doc) => {
+    Question.findById({ _id: questionId }, (err, doc) => {
         if (err) {
             console.log('Unable to fetch data ', err);
         } else {
@@ -122,7 +124,7 @@ questionSchema.statics.editQuestion = function (req, res) {
     Question.findOneAndUpdate(
         {
             //filter
-            _id: new ObjectId(questionId)
+            _id: questionId
         }, {
             //update
             $set: { question: newQuestion }
@@ -151,7 +153,7 @@ questionSchema.statics.voteQuestion = (req, res) => {
     const Question = this;
 
     Question.findOneAndUpdate(
-        { _id: new ObjectId(questionId) },
+        { _id: questionId },
         // increase the questionVotes by newVotes
         { $inc: { 'question.questionVotes': newVotes } },
         (err, doc) => {
@@ -168,7 +170,7 @@ questionSchema.statics.deleteQuestion = function (req, res) {
     const questionId = req.body.questionId;
     const Question = this;
 
-    Question.findOneAndDelete({ _id: new ObjectId(questionId) }, (err, doc) => {
+    Question.findOneAndDelete({ _id: questionId }, (err, doc) => {
         if (err) {
             console.log('Unable to delete question ', err);
         } else {
@@ -184,7 +186,7 @@ questionSchema.statics.findAnswersByUser = function (req, res) {
     const Question = this;
 
     Question.find({
-        answers: { 'answeredByUser._id': new ObjectId(userId) }
+        answers: { 'answeredByUser._id': userId }
     }).then(docs => {
         res.json(docs);
     });
@@ -198,7 +200,7 @@ questionSchema.statics.addAnswer = function (req, res) {
     const Question = this;
 
     Question.updateOne(
-        { _id: new ObjectId(questionId) },
+        { _id: questionId },
         //Push answer to answers array
         { $push: { answers: newAnswer } },
         (err, doc) => {
@@ -222,7 +224,7 @@ questionSchema.statics.editAnswer = function (req, res) {
     const Question = this;
 
     Question.updateOne(
-        { _id: new ObjectId(questionId) },
+        { _id: questionId },
         { $set: { 'answers.$[element].answer': newAnswer } },
         //Filter answers array to update
         { arrayFilters: [{ 'element._id': answerId }] },
@@ -243,14 +245,14 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
     const Question = this;
 
     Question.updateOne(
-        { _id: new ObjectId(questionId), 'answers.isCorrectAnswer': true },
+        { _id: questionId, 'answers.isCorrectAnswer': true },
         { $set: { 'answers.$.isCorrectAnswer': false } },
         (err, doc) => {
             if (err) {
                 console.log('Unable to update correct answer ', err);
             } else {
                 Question.updateOne(
-                    { _id: new ObjectId(questionId), 'answers._id': correctAnswerId },
+                    { _id: questionId, 'answers._id': correctAnswerId },
                     { $set: { 'answers.$.isCorrectAnswer': true } },
                     (err, doc) => {
                         if (err) {
@@ -281,7 +283,7 @@ questionSchema.statics.voteAnswer = (req, res) => {
     const Question = this;
 
     Question.findOneAndUpdate(
-        { _id: new ObjectId(questionId) },
+        { _id: questionId },
         // increase the answerVotes by newVotes
         { $inc: { 'answers.$[element].answerVotes': newVotes } },
         { arrayFilter: [{ 'element._id': answerId }] },
@@ -301,8 +303,8 @@ questionSchema.statics.deleteAnswer = function (req, res) {
     const Question = this;
 
     Question.updateOne(
-        { _id: new ObjectId(questionId) },
-        { $pull: { answers: { _id: new ObjectId(answerId) } } },
+        { _id: questionId },
+        { $pull: { answers: { _id: answerId } } },
         (err, doc) => {
             if (err) {
                 console.log('Unable to delete answer ', err);

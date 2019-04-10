@@ -25,7 +25,7 @@ export const initialState: QuestionState = {
     questionById: new Question()
 }
 
-export function questionReducer(state: QuestionState, action: QuestionActions.Union): QuestionState {
+export function questionReducer(state: QuestionState = initialState, action: QuestionActions.Union): QuestionState {
     switch (action.type) {
         case QuestionActions.ActionTypes.GetPopularQuestions:
             return { ...state, hasLoaded: true, questions: action.payload.questions };

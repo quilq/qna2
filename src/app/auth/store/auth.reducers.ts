@@ -7,7 +7,7 @@ export interface AuthState {
     token: string
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
     user: new User(),
     isAuthenticated: false,
     token: ''

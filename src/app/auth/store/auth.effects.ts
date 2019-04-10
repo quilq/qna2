@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { Observable, EMPTY } from 'rxjs';
+import { switchMap, map, tap, catchError } from 'rxjs/operators';
 
 import * as AuthActions from './auth.actions';
 import { UserService } from '../user/user.service';
@@ -33,7 +33,7 @@ export class AuthEffects {
                                 console.log('Sign in failed');
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         )
@@ -42,6 +42,7 @@ export class AuthEffects {
     authSignup$: Observable<Action> = this.action$
         .pipe(
             ofType(AuthActions.ActionTypes.OnSignup),
+            tap(() => console.log('on sign up effect called!')),
             switchMap((action: AuthActions.OnSignup) => {
                 return this.userService.signup(action.payload.username, action.payload.email, action.payload.password)
                     .pipe(
@@ -59,7 +60,7 @@ export class AuthEffects {
                                 console.log('Sign up failed');
                             }
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         )
@@ -76,7 +77,7 @@ export class AuthEffects {
                             this.router.navigate(['/']);
                             return new AuthActions.Signout();
                         }),
-                        //catchError()
+                        catchError(() => EMPTY)
                     )
             })
         )

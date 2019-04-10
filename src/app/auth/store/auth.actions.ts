@@ -1,7 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { User } from '../user/user.model';
-
 export enum ActionTypes {
     OnSignin = '[Auth] On Sign in',
     Signin = '[Auth] Sign in',

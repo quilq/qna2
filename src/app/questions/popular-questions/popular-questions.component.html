@@ -1,3 +1,4 @@
-<p>
-  popular-questions works!
-</p>
+<div *ngFor="let question of questions">
+  <a [routerLink]="['question-details', question._id]">Question: {{question.question}}</a>
+  <div>Asked by user: {{question.askedByUser}}</div>
+</div>

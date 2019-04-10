@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 import { AuthState } from '../store/auth.reducers';
-import * as AuthActions from '../store/auth.actions';
 import { User } from './user.model';
-import { UserService } from './user.service';
+import { selectUser } from '../store/auth.selectors';
 
 @Component({
   selector: 'app-user',
@@ -15,10 +13,10 @@ import { UserService } from './user.service';
 export class UserComponent implements OnInit {
 
   user : User;
-  constructor(private store: Store<AuthState>, private userService: UserService) { }
+  constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
-    this.userService.getUser().subscribe(user => this.user = user);
+    this.store.select(selectUser).subscribe(user => this.user = user);
   }
 
 }

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AuthState } from '../../auth/store/auth.reducers';
-import { UserService } from '../../auth/user/user.service';
+import { isAuthenticated } from '../../auth/store/auth.selectors';
 import * as AuthActions from './../../auth/store/auth.actions';
 
 @Component({
@@ -15,10 +15,10 @@ export class HeaderComponent implements OnInit {
 
   isAuthenticated$: Observable<boolean>;
 
-  constructor(private store: Store<AuthState>, private userService: UserService) { }
+  constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
-    this.isAuthenticated$ = this.userService.isAuthenticated();
+    this.isAuthenticated$ = this.store.select(isAuthenticated);
   }
 
   onSignout() {

@@ -22,8 +22,8 @@ import { AuthModule } from './auth/auth.module';
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
-    AuthModule,
     QuestionsModule,
+    AuthModule,
     AppRoutingModule,  //after other routes
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
