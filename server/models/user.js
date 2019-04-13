@@ -83,6 +83,7 @@ userSchema.statics.findByCredentials = function (email, password) {
 }
 
 userSchema.statics.findByToken = function (token) {
+    console.log('findbytoken called');
     const User = this;
     let decoded;
 

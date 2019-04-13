@@ -95,25 +95,43 @@ questionSchema.statics.findQuestionById = function (req, res) {
 questionSchema.statics.createQuestion = function (req, res) {
     const Question = this;
 
-    console.log('create question req body: ', req.body);
-
-    // return Question.create(req.body).then(question => {
-    //     if (!question){
-    //         return Promise.reject();
-    //     }
-
-    //     return Promise.resolve(question);
-    // })
     Question.create(req.body, (err, doc) => {
         if (err) {
             console.log('Unable to create question ', err);
         } else {
             console.log('successfully create question: ', doc);
-            res.status(200).send(doc);
+            res.status(200).json(doc);
         }
     });
 
 }
+
+
+//upvote, downvote question
+questionSchema.statics.voteQuestion = function(req, res) {
+    const questionId = req.body.questionId;
+    let newVotes = 0;
+    if (req.body.upvote) {
+        newVotes = 1;
+    } else {
+        newVotes = -1;
+    }
+
+    const Question = this;
+
+    Question.findOneAndUpdate(
+        { _id: questionId },
+        // increase the questionVotes by newVotes
+        { $inc: { questionVotes: newVotes } },
+        (err, doc) => {
+            if (err) {
+                console.log('Unable to update question votes ', err);
+            } else {
+                res.json('question-voted');
+            }
+        });
+}
+
 
 //edit question
 questionSchema.statics.editQuestion = function (req, res) {
@@ -135,32 +153,7 @@ questionSchema.statics.editQuestion = function (req, res) {
             if (err) {
                 console.log('Unable to update question ', err);
             } else {
-                res.status(200).send('question-updated');
-            }
-        });
-}
-
-//upvote, downvote question
-questionSchema.statics.voteQuestion = (req, res) => {
-    const questionId = req.body.questionId;
-    let newVotes = 0;
-    if (req.body.upvote) {
-        newVotes = 1;
-    } else {
-        newVotes = -1;
-    }
-
-    const Question = this;
-
-    Question.findOneAndUpdate(
-        { _id: questionId },
-        // increase the questionVotes by newVotes
-        { $inc: { 'question.questionVotes': newVotes } },
-        (err, doc) => {
-            if (err) {
-                console.log('Unable to update question votes ', err);
-            } else {
-                res.send('question-voted');
+                res.status(200).json('question-updated');
             }
         });
 }
@@ -170,12 +163,14 @@ questionSchema.statics.deleteQuestion = function (req, res) {
     const questionId = req.body.questionId;
     const Question = this;
 
+    console.log('question Id to delete', questionId);
+
     Question.findOneAndDelete({ _id: questionId }, (err, doc) => {
         if (err) {
             console.log('Unable to delete question ', err);
         } else {
-            res.send('question-deleted');
-            User.deleteUserQuestion(req.user._id, questionId);
+            res.json('question-deleted');
+            // User.deleteUserQuestion(req.user._id, questionId);
         }
     });
 }
@@ -205,11 +200,11 @@ questionSchema.statics.addAnswer = function (req, res) {
         { $push: { answers: newAnswer } },
         (err, doc) => {
             if (err) {
-                console.log('Unable to update question votes ', err);
+                console.log('Unable to add answer ', err);
             } else {
-                console.log(doc);
-                res.send('answer-added');
-                User.addUserAnswer(req.user._id, questionId);
+                console.log('result ',doc);
+                res.json('answer-added');
+                // User.addUserAnswer(req.user._id, questionId);
             }
         }
     );
@@ -233,7 +228,7 @@ questionSchema.statics.editAnswer = function (req, res) {
                 console.log('Unable to edit answer ', err);
             } else {
                 console.log(doc);
-                res.send('answer-edited');
+                res.json('answer-edited');
             }
         });
 }
@@ -258,7 +253,7 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
                         if (err) {
                             console.log('Unable to update correct answer ', err);
                         } else {
-                            res.send('correct-answer-updated');
+                            res.json('correct-answer-updated');
                         }
                     }
                 )
@@ -269,7 +264,7 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
 }
 
 //upvote, downvote answer
-questionSchema.statics.voteAnswer = (req, res) => {
+questionSchema.statics.voteAnswer = function (req, res) {
     const questionId = req.body.questionId;
     const answerId = req.body.answerId;
     let newVotes = 0;
@@ -286,12 +281,12 @@ questionSchema.statics.voteAnswer = (req, res) => {
         { _id: questionId },
         // increase the answerVotes by newVotes
         { $inc: { 'answers.$[element].answerVotes': newVotes } },
-        { arrayFilter: [{ 'element._id': answerId }] },
+        { arrayFilters: [{ 'element._id': answerId }] },
         (err, doc) => {
             if (err) {
                 console.log('Unable to update answer votes ', err);
             } else {
-                res.send('answer-voted');
+                res.json('answer-voted');
             }
         });
 }
@@ -309,9 +304,9 @@ questionSchema.statics.deleteAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to delete answer ', err);
             } else {
-                res.send('answer-deleted');
+                res.json('answer-deleted');
                 console.log(doc);
-                User.deleteUserAnswer(req.user._id, questionId);
+                // User.deleteUserAnswer(req.user._id, questionId);
             }
         }
     )

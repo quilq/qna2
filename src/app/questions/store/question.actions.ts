@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Question } from '../question.model';
+import { Question, Answer } from '../question.model';
 
 export enum ActionTypes {
     OnGetPopularQuestions = '[Question] On Get Popular Questions',
@@ -100,7 +100,7 @@ export class DeleteQuestion implements Action {
 }
 
 export class OnVoteQuestion implements Action {
-    readonly type = ActionTypes.OnVoteAnswer;
+    readonly type = ActionTypes.OnVoteQuestion;
     constructor(public payload: { questionId: string, upvote: boolean }) { }
 }
 
@@ -111,22 +111,22 @@ export class VoteQuestion implements Action {
 
 export class OnAddAnswer implements Action {
     readonly type = ActionTypes.OnAddAnswer;
-    constructor(public payload: { questionId: string, newAnswer: string }) { }
+    constructor(public payload: { questionId: string, newAnswer: Answer }) { }
 }
 
 export class AddAnswer implements Action {
     readonly type = ActionTypes.AddAnswer;
-    constructor(public payload: { questionId: string, newAnswer: string }) { }
+    constructor(public payload: { questionId: string, newAnswer: Answer }) { }
 }
 
 export class OnEditAnswer implements Action {
     readonly type = ActionTypes.OnEditAnswer;
-    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
+    constructor(public payload: { questionId: string, answerId: string, newAnswer: Answer }) { }
 }
 
 export class EditAnswer implements Action {
     readonly type = ActionTypes.EditAnswer;
-    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
+    constructor(public payload: { questionId: string, answerId: string, newAnswer: Answer }) { }
 }
 
 export class OnUpdateCorrectAnswer implements Action {

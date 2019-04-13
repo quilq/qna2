@@ -69,6 +69,7 @@ export function questionReducer(state: QuestionState = initialState, action: Que
             return { ...state, questions: newQuestions };
 
         case QuestionActions.ActionTypes.VoteQuestion:
+            console.log(action.payload);
             newQuestions = state.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
@@ -84,8 +85,7 @@ export function questionReducer(state: QuestionState = initialState, action: Que
 
         case QuestionActions.ActionTypes.AddAnswer:
             newQuestions = state.questions;
-            let newAnswer = new Answer();
-            newAnswer.answer = action.payload.newAnswer;
+            let newAnswer = action.payload.newAnswer;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     newQuestions[i].answers.push(newAnswer);

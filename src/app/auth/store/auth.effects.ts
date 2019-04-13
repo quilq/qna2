@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { Observable, EMPTY } from 'rxjs';
 import { switchMap, map, tap, catchError } from 'rxjs/operators';
+import { Observable, EMPTY } from 'rxjs';
+import { Action } from '@ngrx/store';
+import { Router } from '@angular/router';
 
-import * as AuthActions from './auth.actions';
 import { UserService } from '../user/user.service';
+import * as AuthActions from './auth.actions';
 
 @Injectable()
 
@@ -29,11 +29,31 @@ export class AuthEffects {
                                 localStorage.setItem('token', token);
                                 this.router.navigate(['/user']);
                                 return new AuthActions.Signin({ ...response.body, token });
-                            } else {
-                                console.log('Sign in failed');
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        );
+
+    @Effect()
+    authenticateUser: Observable<Action> = this.action$
+        .pipe(
+            ofType(AuthActions.ActionTypes.OnAuthenticateUser),
+            switchMap((action: AuthActions.OnAuthenticateUser) => {
+                return this.userService.authenticateUser(action.payload.token)
+                    .pipe(
+                        map((response: any) => {
+                            return new AuthActions.Signin({ ...response, token: action.payload.token })
+                        }),
+                        catchError((error) => {
+                            console.log('Error: ', error.error.message);
+                            localStorage.removeItem('token');
+                            return EMPTY;
+                        })
                     )
             })
         )
@@ -56,11 +76,12 @@ export class AuthEffects {
                                 localStorage.setItem('token', token);
                                 this.router.navigate(['/user']);
                                 return new AuthActions.Signup({ ...response.body, token });
-                            } else {
-                                console.log('Sign up failed');
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         )
@@ -77,7 +98,10 @@ export class AuthEffects {
                             this.router.navigate(['/']);
                             return new AuthActions.Signout();
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         )

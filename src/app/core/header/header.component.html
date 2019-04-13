@@ -4,17 +4,19 @@
       <button mat-button routerLink="/home">Home</button>
     </nav>
 
-    <form>
-      <input>
-      <button>Search</button>
-    </form>
+    <mat-form-field appearance="standard">
+      <input matInput placeholder="Enter key words to search" type="search">
+      <button mat-raised-button>Search</button>
+    </mat-form-field>
 
-    <nav *ngIf="!(isAuthenticated$ | async)">
+    <!-- <nav *ngIf="!(isAuthenticated$ | async)"> -->
+    <nav *ngIf="!(isAuthenticated)">
       <button mat-button routerLink="/signin"> Sign in </button>
       <button mat-button routerLink="/signup"> Create account </button>
     </nav>
 
-    <nav *ngIf="(isAuthenticated$ | async)">
+    <!-- <nav *ngIf="(isAuthenticated$ | async)"> -->
+    <nav *ngIf="(isAuthenticated)">
       <button mat-button routerLink="/user"> User page </button>
       <button mat-button (click)="onSignout()"> Sign out </button>
     </nav>
@@ -22,7 +24,7 @@
 
   <mat-toolbar-row class="bottom-toolbar">
     <nav>
-      <button mat-button routerLink="/questions">Explore</button>
+      <button mat-button routerLink="/questions">Popular questions</button>
       <button mat-button routerLink="questions/tags">Tags</button>
       <button mat-button routerLink="questions/unanswered-questions">Unanswered</button>
     </nav>

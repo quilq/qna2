@@ -1,3 +1,76 @@
-<div>Question: {{question.question}}</div>
-<div>Question Id: {{question._id}}</div>
-<div>Asked by user: {{question.askedByUser}}</div>
+<div>
+    <div>Question Id: {{question._id}}</div>
+
+    <mat-divider></mat-divider>
+
+    <div> Tags:
+        <span *ngFor="let tag of question.tags; let i = index">
+            {{i+1}}. {{tag}} |
+        </span>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div>
+        Question:
+        <div>{{question.question}}</div>
+
+        <!-- <button mat-raised-button (click)="editQuestion()">Edit</button> -->
+        <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
+    </div>
+
+
+    <mat-divider></mat-divider>
+
+    <div>Asked by user: {{question.askedByUser}}</div>
+
+    <mat-divider></mat-divider>
+
+    <div>
+        Question votes:
+        <div> {{question.questionVotes}}</div>
+
+        <button mat-raised-button (click)="voteQuestion(question._id, true)">+1</button>
+
+        <button mat-raised-button (click)="voteQuestion(question._id, false)">-1</button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div *ngFor="let answer of question.answers; let i = index">
+        Answers {{i+1}}:
+        <div> {{answer._id}}</div>
+
+        <div>
+            <div> {{answer.answer}} </div>
+            <!-- <button mat-raised-button>Edit</button> -->
+            <button mat-raised-button (click)="updateCorrectAnswer(question._id, answer._id)">Mark as correct answer</button>
+
+            <button mat-raised-button (click)="deleteAnswer(question._id, answer._id)">Delete</button>
+        </div>
+
+        <div> {{answer.answeredByUser}}</div>
+
+        <div> {{answer.isCorrectAnswer}}</div>
+
+        <div>
+            Answer votes:
+            <div> {{answer.answerVotes}}</div>
+
+            <button mat-raised-button (click)="voteAnswer(question._id, answer._id, true)">+1</button>
+
+            <button mat-raised-button (click)="voteAnswer(question._id, answer._id, false)">-1</button>
+        </div>
+
+        <mat-divider></mat-divider>
+    </div>
+</div>
+
+<form [formGroup]="answerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <textarea formControlName="newAnswer" matInput placeholder="your answer" rows="3">
+        </textarea>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button>Add</button>
+</form>

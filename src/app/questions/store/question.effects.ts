@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, tap } from 'rxjs/operators'
+import { switchMap, map, catchError, mergeMap } from 'rxjs/operators'
 import { EMPTY, Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import { Question } from '../question.model';
 import { QuestionsService } from '../questions.service';
@@ -21,7 +22,10 @@ export class QuestionEffects {
                         map((questions: Question[]) => {
                             return new QuestionActions.GetPopularQuestions({ questions });
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -30,18 +34,18 @@ export class QuestionEffects {
     findQuestionById$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnFindQuestionById),
-            tap(() => console.log('findQuestionById effect called 1')),
             switchMap((action: QuestionActions.OnFindQuestionById) => {
-                console.log('findQuestionById effect called 2');
                 return this.questionService.findQuestionById(action.payload.id)
                     .pipe(
-                        tap(() => console.log('findQuestionById effect called 3')),
                         map((question: Question) => {
                             if (question) {
                                 return new QuestionActions.FindQuestionById({ question });
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -61,7 +65,10 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -80,7 +87,10 @@ export class QuestionEffects {
                                 return new QuestionActions.CreateQuestion({ question });
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -100,7 +110,10 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -112,15 +125,21 @@ export class QuestionEffects {
             switchMap((action: QuestionActions.OnVoteQuestion) => {
                 return this.questionService.voteQuestion(action.payload.questionId, action.payload.upvote)
                     .pipe(
-                        map((response: string) => {
+                        mergeMap((response: string) => {
                             if (response === 'question-voted') {
-                                return new QuestionActions.VoteQuestion({
-                                    questionId: action.payload.questionId,
-                                    upvote: action.payload.upvote
-                                });
+                                return [
+                                    new QuestionActions.VoteQuestion({
+                                        questionId: action.payload.questionId,
+                                        upvote: action.payload.upvote
+                                    }),
+                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
+                                ];
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -133,13 +152,17 @@ export class QuestionEffects {
                 return this.questionService.deleteQuestion(action.payload.questionId)
                     .pipe(
                         map((response: string) => {
-                            if (response === 'question-voted') {
+                            if (response === 'question-deleted') {
+                                this.router.navigate(['/']);
                                 return new QuestionActions.DeleteQuestion({
                                     questionId: action.payload.questionId,
                                 });
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -151,15 +174,22 @@ export class QuestionEffects {
             switchMap((action: QuestionActions.OnAddAnswer) => {
                 return this.questionService.addAnswer(action.payload.questionId, action.payload.newAnswer)
                     .pipe(
-                        map((response: string) => {
-                            if (response === 'answer-added') {
-                                return new QuestionActions.AddAnswer({
-                                    questionId: action.payload.questionId,
-                                    newAnswer: action.payload.newAnswer
-                                });
+                        map((response: any) => {
+                            console.log(response.body);
+                            if (response.body === 'answer-added') {
+                                return [
+                                    new QuestionActions.AddAnswer({
+                                        questionId: action.payload.questionId,
+                                        newAnswer: action.payload.newAnswer
+                                    }),
+                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
+                                ];
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -184,7 +214,10 @@ export class QuestionEffects {
                                 });
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -199,15 +232,21 @@ export class QuestionEffects {
                     action.payload.correctAnswerId
                 )
                     .pipe(
-                        map((response: string) => {
+                        mergeMap((response: string) => {
                             if (response === 'correct-answer-updated') {
-                                return new QuestionActions.UpdateCorrectAnswer({
-                                    questionId: action.payload.questionId,
-                                    correctAnswerId: action.payload.correctAnswerId
-                                });
+                                return [
+                                    new QuestionActions.UpdateCorrectAnswer({
+                                        questionId: action.payload.questionId,
+                                        correctAnswerId: action.payload.correctAnswerId
+                                    }),
+                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
+                                ];
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -223,16 +262,22 @@ export class QuestionEffects {
                     action.payload.upvote
                 )
                     .pipe(
-                        map((response: string) => {
+                        mergeMap((response: string) => {
                             if (response === 'answer-voted') {
-                                return new QuestionActions.VoteAnswer({
-                                    questionId: action.payload.questionId,
-                                    answerId: action.payload.answerId,
-                                    upvote: action.payload.upvote
-                                });
+                                return [
+                                    new QuestionActions.VoteAnswer({
+                                        questionId: action.payload.questionId,
+                                        answerId: action.payload.answerId,
+                                        upvote: action.payload.upvote
+                                    }),
+                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
+                                ];
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
@@ -247,17 +292,24 @@ export class QuestionEffects {
                     action.payload.answerId
                 )
                     .pipe(
-                        map((response: string) => {
+                        mergeMap((response: string) => {
                             if (response === 'answer-deleted') {
-                                return new QuestionActions.DeleteAnswer({
-                                    questionId: action.payload.questionId,
-                                    answerId: action.payload.answerId
-                                });
+                                return [
+                                    new QuestionActions.DeleteAnswer({
+                                        questionId: action.payload.questionId,
+                                        answerId: action.payload.answerId
+                                    }),
+                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
+                                ];
                             }
                         }),
-                        catchError(() => EMPTY)
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
                     )
             })
         );
-    constructor(private actions$: Actions, private questionService: QuestionsService) { }
+
+    constructor(private actions$: Actions, private questionService: QuestionsService, private router: Router) { }
 }

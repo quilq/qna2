@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [],
@@ -18,7 +19,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDividerModule
   ],
   exports: [
     MatToolbarModule,
@@ -28,7 +30,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDividerModule
   ]
 })
 export class MaterialModule { }

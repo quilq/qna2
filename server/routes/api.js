@@ -37,9 +37,6 @@ router.get('/q/tag', (req, res) => {
 // });
 router.post('/q/add', authenticate, (req, res) => {
     Question.createQuestion(req, res);
-    // Question.createQuestion(req, res).then((question) => {
-    //     User.addUserQuestion(req.user._id, question._id);
-    // }).catch(e => console.log('err ', e));
 });
 
 //edit question
@@ -49,11 +46,13 @@ router.put('/q/edit', authenticate, (req, res) => {
 
 //upvote, downvote question
 router.put('/q/vote', authenticate, (req, res) => {
+    console.log('vote question server');
     Question.voteQuestion(req, res);
 })
 
 //delete question
-router.delete('/q/delete', authenticate, (req, res) => {
+router.put('/q/delete', authenticate, (req, res) => {
+    console.log('delete question server');
     Question.deleteQuestion(req, res);
 })
 
@@ -127,6 +126,16 @@ router.post('/user/signin', (req, res) => {
 router.delete('/user/signout', authenticate, (req, res) => {
     if (req.user) {
         res.status(200).send();
+    } else {
+        res.status(400).send();
+    }
+})
+
+//Authenticate user
+router.get('/user/auth', authenticate, (req, res) => {
+    console.log('auth server')
+    if (req.user) {
+        res.status(200).send(req.user);
     } else {
         res.status(400).send();
     }

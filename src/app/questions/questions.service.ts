@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Question } from './question.model';
+import { Question, Answer } from './question.model';
 import { UserService } from '../auth/user/user.service';
 import { QuestionState } from './store/question.reducers';
 import { hasLoaded } from './store/question.selectors';
@@ -55,7 +55,7 @@ export class QuestionsService {
     let token = this.userService.getToken();
     return this.httpClient.put(url, { questionId, newQuestion }, { headers: { 'x-auth': token } });
   }
-  
+
   //upvote, downvote question
   voteQuestion = (questionId: string, upvote: boolean) => {
     let url = `api/q/vote`;
@@ -65,13 +65,15 @@ export class QuestionsService {
 
   //delete question
   deleteQuestion = (questionId: string) => {
+    console.log('question id front end', questionId);
     let url = `api/q/delete`;
     let token = this.userService.getToken();
     return this.httpClient.put(url, { questionId }, { headers: { 'x-auth': token } });
   }
 
   //add answer
-  addAnswer = (questionId: string, newAnswer: string) => {
+  addAnswer = (questionId: string, newAnswer: Answer) => {
+    console.log('new answer ', newAnswer);
     let url = `api/a/add`;
     let token = this.userService.getToken();
     return this.httpClient.put(url, { questionId, newAnswer }, { headers: { 'x-auth': token } });

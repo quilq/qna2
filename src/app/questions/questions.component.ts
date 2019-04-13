@@ -20,7 +20,7 @@ export class QuestionsComponent implements OnInit {
   // questions$: Observable<Question[]>
   isAuthenticated: boolean;
   user: User;
-  
+
   constructor(
     private store: Store<QuestionState>,
     private userService: UserService) { }
@@ -33,15 +33,15 @@ export class QuestionsComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: string[] = [];
 
-  ngOnInit() {
-    this.store.select(isAuthenticated).subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
-    this.store.select(selectUser).subscribe(user => this.user = user);
-  }
-
   questionForm = new FormGroup({
     newQuestion: new FormControl(''),
     tag: new FormControl('')
   });
+
+  ngOnInit() {
+    this.store.select(isAuthenticated).subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    this.store.select(selectUser).subscribe(user => this.user = user);
+  }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -76,6 +76,9 @@ export class QuestionsComponent implements OnInit {
       console.log('sign in to continue !');
       this.userService.toSignin();
     }
+
+    this.questionForm.reset('');
+    this.tags = [];
   }
 
 }
