@@ -30,6 +30,11 @@ export class QuestionsService {
     return this.httpClient.get(url);
   }
 
+  getUnansweredQuestions = () => {
+    let url = `api/q/unanswered-questions`;
+    return this.httpClient.get(url);
+  }
+
   //find questions by id
   findQuestionById = (id: string) => {
     let url = `api/q/${id}`;

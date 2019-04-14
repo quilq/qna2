@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { QuestionState } from '../store/question.reducers';
+import { Question } from '../question.model';
+import { getUnansweredQuestions } from '../store/question.selectors';
+import * as QuestionActions from '../store/question.actions';
 
 @Component({
   selector: 'app-unanswered-questions',
@@ -7,9 +14,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UnansweredQuestionsComponent implements OnInit {
 
-  constructor() { }
+  unansweredQuestions$ : Observable<Question[]>;
+
+  constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
+    console.log('unanswered-question component init');
+    this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions());
+    this.unansweredQuestions$ = this.questionStore.select(getUnansweredQuestions);
+    this.unansweredQuestions$.subscribe(q => console.log('un q', q));
   }
 
 }

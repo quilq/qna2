@@ -1,3 +1,8 @@
-<p>
-  unanswered-questions works!
-</p>
+<div *ngFor="let question of (unansweredQuestions$ | async)">
+  <div>
+    {{question.question}}
+  </div>
+  <div>
+    {{question._id}}
+  </div>
+</div>

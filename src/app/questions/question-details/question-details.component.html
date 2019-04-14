@@ -15,8 +15,13 @@
         Question:
         <div>{{question.question}}</div>
 
-        <!-- <button mat-raised-button (click)="editQuestion()">Edit</button> -->
         <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
+        <button mat-raised-button (click)="onEditQuestion()" *ngIf="!canEditQuestion">Edit</button>
+        <mat-form-field *ngIf="canEditQuestion">
+            <textarea matInput placeholder="New question" rows="3" #newQuestion></textarea>
+            <button mat-raised-button (click)="editQuestion(question._id, newQuestion.value)">Edit</button>
+            <button mat-raised-button (click)="onCancelEditQuestion()">Cancel</button>
+        </mat-form-field>
     </div>
 
 
@@ -43,10 +48,19 @@
 
         <div>
             <div> {{answer.answer}} </div>
-            <!-- <button mat-raised-button>Edit</button> -->
-            <button mat-raised-button (click)="updateCorrectAnswer(question._id, answer._id)">Mark as correct answer</button>
+            <mat-icon *ngIf="answer.isCorrectAnswer">check_circle</mat-icon>
+
+            <button mat-raised-button (click)="updateCorrectAnswer(question._id, answer._id)">
+                Mark as correct answer
+            </button>
 
             <button mat-raised-button (click)="deleteAnswer(question._id, answer._id)">Delete</button>
+            <button mat-raised-button (click)="onEditAnswer()" *ngIf="!canEditAnswer">Edit</button>
+            <mat-form-field *ngIf="canEditAnswer">
+                <textarea matInput placeholder="New answer" rows="3" #newAnswer></textarea>
+                <button mat-raised-button (click)="editAnswer(question._id, answer._id, newAnswer.value)">Edit</button>
+                <button mat-raised-button (click)="onCancelEditAnswer()">Cancel</button>
+            </mat-form-field>
         </div>
 
         <div> {{answer.answeredByUser}}</div>

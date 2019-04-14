@@ -6,6 +6,12 @@ export enum ActionTypes {
     OnGetPopularQuestions = '[Question] On Get Popular Questions',
     GetPopularQuestions = '[Question] Get Popular Questions',
 
+    OnGetUnansweredQuestions = '[Question] On Get Unanswered Questions',
+    GetUnansweredQuestions = '[Question] Get Unanswered Questions',
+
+    OnGetTags = '[Question] On Get Tags',
+    GetTags = '[Question] Get Tags',
+
     OnFindQuestionById = '[Question] On Find Question By Id',
     FindQuestionById = '[Question] Find Question By Id',
 
@@ -47,6 +53,24 @@ export class OnGetPopularQuestions implements Action {
 export class GetPopularQuestions implements Action {
     readonly type = ActionTypes.GetPopularQuestions;
     constructor(public payload: { questions: Question[] }) { }
+}
+
+export class OnGetUnansweredQuestions implements Action {
+    readonly type = ActionTypes.OnGetUnansweredQuestions;
+}
+
+export class GetUnansweredQuestions implements Action {
+    readonly type = ActionTypes.GetUnansweredQuestions;
+    constructor(public payload: { questions: Question[] }) { }
+}
+
+export class OnGetTags implements Action {
+    readonly type = ActionTypes.OnGetTags;
+}
+
+export class GetTags implements Action {
+    readonly type = ActionTypes.GetTags;
+    constructor(public payload: { tags: string[] }) { }
 }
 
 export class OnFindQuestionById implements Action {
@@ -121,12 +145,12 @@ export class AddAnswer implements Action {
 
 export class OnEditAnswer implements Action {
     readonly type = ActionTypes.OnEditAnswer;
-    constructor(public payload: { questionId: string, answerId: string, newAnswer: Answer }) { }
+    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
 }
 
 export class EditAnswer implements Action {
     readonly type = ActionTypes.EditAnswer;
-    constructor(public payload: { questionId: string, answerId: string, newAnswer: Answer }) { }
+    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
 }
 
 export class OnUpdateCorrectAnswer implements Action {
@@ -162,6 +186,10 @@ export class DeleteAnswer implements Action {
 export type Union =
     | OnGetPopularQuestions
     | GetPopularQuestions
+    | OnGetUnansweredQuestions
+    | GetUnansweredQuestions
+    | OnGetTags
+    | GetTags
     | OnFindQuestionById
     | FindQuestionById
     | OnFindQuestionsByTag

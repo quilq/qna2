@@ -36,14 +36,26 @@ questionSchema.statics.getTags = function (req, res) {
     const Question = this;
     let tags = [];
 
-    Question.find().forEach((err, doc) => {
-        doc.tags.forEach(tag => {
-            if (!tags.includes(tag)) {
-                tags.push(tag);
+    Question.find({}, 'tags', (err, docs) => {
+        docs.forEach(tag => {
+            console.log('tag ', ...tag.tags);
+            if (!tags.includes(...tag.tags)) {
+                tags.push(...tag.tags);
             }
-        })
-    }).then(() => {
-        res.send(tags);
+        });
+        res.json(tags);
+    });
+}
+
+questionSchema.statics.getUnansweredQuestions = function(req, res) {
+    const Question = this;
+    
+    Question.find({answers: {$size: 0}}, (err, docs) => {
+        if (err) {
+            console.log('Unable to find unanswered questions ', err);
+        } else {
+            res.status(200).json(docs);
+        }
     })
 }
 
@@ -52,7 +64,7 @@ questionSchema.statics.findQuestionsByUser = function (req, res) {
     const userId = req.header('userId');
     const Question = this;
 
-    Question.find({ 'askedByUser._id': userId }).toArray((err, doc) => {
+    Question.find({ 'askedByUser._id': userId }, (err, doc) => {
         if (err) {
             console.log('Unable to fetch data ', err);
         } else {
@@ -66,7 +78,7 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
     const tag = req.header('tag');
     const Question = this;
 
-    Question.find({ tags: tag }).toArray((err, doc) => {
+    Question.find({ tags: tag }, (err, doc) => {
         if (err) {
             console.log('Unable to fetch data ', err);
         } else {

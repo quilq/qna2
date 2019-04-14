@@ -16,6 +16,10 @@ router.get('/q/all-tags', (req, res) => {
     Question.getTags(req, res);
 });
 
+router.get('/q/unanswered-questions', (req, res) => {
+    Question.getUnansweredQuestions(req, res);
+})
+
 //Find questions by Id
 router.get('/q/:id', (req, res) => {
     Question.findQuestionById(req, res);

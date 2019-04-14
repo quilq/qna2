@@ -26,7 +26,6 @@ export class UserService {
   }
 
   authenticateUser(token: string) {
-    console.log('auth called. Token: ', token);
     let url = `api/user/auth`;
     return this.httpClient.get(url, { headers: { 'x-auth': token } });
   }

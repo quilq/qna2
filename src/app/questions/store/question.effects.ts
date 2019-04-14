@@ -51,6 +51,46 @@ export class QuestionEffects {
         );
 
     @Effect()
+    getUnansweredQuestions$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnGetUnansweredQuestions),
+            switchMap(() => {
+                return this.questionService.getUnansweredQuestions()
+                    .pipe(
+                        map((questions: Question[]) => {
+                            if (questions) {
+                                return new QuestionActions.GetUnansweredQuestions({ questions });
+                            }
+                        }),
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        )
+
+    @Effect()
+    getTags$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnGetTags),
+            switchMap(() => {
+                return this.questionService.getTags()
+                    .pipe(
+                        map((tags: string[]) => {
+                            if (tags) {
+                                return new QuestionActions.GetTags({ tags });
+                            }
+                        }),
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        )
+
+    @Effect()
     findQuestionsByTag$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnFindQuestionsByTag),
@@ -102,12 +142,15 @@ export class QuestionEffects {
             switchMap((action: QuestionActions.OnEditQuestion) => {
                 return this.questionService.editQuestion(action.payload.questionId, action.payload.newQuestion)
                     .pipe(
-                        map((response: string) => {
+                        mergeMap((response: string) => {
                             if (response === 'question-updated') {
-                                return new QuestionActions.EditQuestion({
-                                    questionId: action.payload.questionId,
-                                    newQuestion: action.payload.newQuestion
-                                });
+                                return [
+                                    new QuestionActions.EditQuestion({
+                                        questionId: action.payload.questionId,
+                                        newQuestion: action.payload.newQuestion
+                                    }),
+                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
+                                ];
                             }
                         }),
                         catchError((error) => {
@@ -174,9 +217,9 @@ export class QuestionEffects {
             switchMap((action: QuestionActions.OnAddAnswer) => {
                 return this.questionService.addAnswer(action.payload.questionId, action.payload.newAnswer)
                     .pipe(
-                        map((response: any) => {
-                            console.log(response.body);
-                            if (response.body === 'answer-added') {
+                        mergeMap((response: string) => {
+                            console.log(response);
+                            if (response === 'answer-added') {
                                 return [
                                     new QuestionActions.AddAnswer({
                                         questionId: action.payload.questionId,
@@ -205,13 +248,16 @@ export class QuestionEffects {
                     action.payload.newAnswer
                 )
                     .pipe(
-                        map((response: string) => {
+                        mergeMap((response: string) => {
                             if (response === 'answer-edited') {
-                                return new QuestionActions.EditAnswer({
-                                    questionId: action.payload.questionId,
-                                    answerId: action.payload.answerId,
-                                    newAnswer: action.payload.newAnswer
-                                });
+                                return [
+                                    new QuestionActions.EditAnswer({
+                                        questionId: action.payload.questionId,
+                                        answerId: action.payload.answerId,
+                                        newAnswer: action.payload.newAnswer
+                                    }),
+                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
+                                ];
                             }
                         }),
                         catchError((error) => {

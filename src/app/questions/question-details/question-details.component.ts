@@ -20,7 +20,9 @@ export class QuestionDetailsComponent implements OnInit {
 
   question: Question;
   user: User;
-  isAuthenticated: boolean;
+  isAuthenticated = false;
+  canEditQuestion = false;
+  canEditAnswer = false;
 
   answerForm = new FormGroup({
     newAnswer: new FormControl('')
@@ -57,13 +59,39 @@ export class QuestionDetailsComponent implements OnInit {
     }
   }
 
-  // editQuestion(questionId: string, newQuestion: string){
-  // if (isAuthenticated) {
-  //   this.userService.toSignin();
-  // } else {
-  //   this.questionStore.dispatch(new QuestionActions.OnEditQuestion({questionId, newQuestion}));
-  //}
-  // }
+  onEditQuestion(){
+    this.canEditQuestion = true;
+  }
+
+  onCancelEditQuestion(){
+    this.canEditQuestion = false;
+  }
+
+  editQuestion(questionId: string, newQuestion: string){
+    if (!isAuthenticated) {
+      this.userService.toSignin();
+    } else {
+      this.questionStore.dispatch(new QuestionActions.OnEditQuestion({questionId, newQuestion}));
+      this.onCancelEditQuestion();
+    }
+  }
+
+  onEditAnswer(){
+    this.canEditAnswer = true;
+  }
+
+  onCancelEditAnswer(){
+    this.canEditAnswer = false;
+  }
+
+  editAnswer(questionId: string, answerId: string, newAnswer: string){
+    if (!isAuthenticated) {
+      this.userService.toSignin();
+    } else {
+      this.questionStore.dispatch(new QuestionActions.OnEditAnswer({questionId, answerId, newAnswer}));
+      this.onCancelEditAnswer();
+    }
+  }
 
   deleteQuestion(questionId: string) {
     if (!isAuthenticated) {

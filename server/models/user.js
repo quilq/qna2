@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
 const { mongoose } = require('../database/mongoose');
-const { Question } = require('../models/question');
-const ObjectId = mongoose.Schema.Types.ObjectId;
+// const { Question } = require('../models/question');
+// const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new mongoose.Schema({
     // _id: ObjectId,
@@ -83,7 +83,6 @@ userSchema.statics.findByCredentials = function (email, password) {
 }
 
 userSchema.statics.findByToken = function (token) {
-    console.log('findbytoken called');
     const User = this;
     let decoded;
 
@@ -105,58 +104,6 @@ userSchema.methods.toJSON = function () {
 
     return { _id: userObject._id, email: userObject.email, username: userObject.username }
 }
-
-// userSchema.statics.addUserQuestion = function (userId, questionId) {
-//     const user = this;
-//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
-//         $push: { questions: new ObjectId(questionId) }
-//     }, (err, res) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             console.log(res);
-//         }
-//     });
-// }
-
-// userSchema.statics.addUserAnswer = function (userId, questionId) {
-//     const user = this;
-//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
-//         $push: { answers: new ObjectId(questionId) }
-//     }, (err, res) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             console.log(res);
-//         }
-//     });
-// }
-
-// userSchema.statics.deleteUserQuestion = function (userId, questionId) {
-//     const user = this;
-//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
-//         $pull: { questions: new ObjectId(questionId) }
-//     }, (err, res) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             console.log(res);
-//         }
-//     });
-// }
-
-// userSchema.statics.deleteUserAnswer = function (userId, questionId) {
-//     const user = this;
-//     user.findOneAndUpdate({ _id: new ObjectId(userId) }, {
-//         $pull: { answers: new ObjectId(questionId) }
-//     }, (err, res) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             console.log(res);
-//         }
-//     });
-// }
 
 const User = mongoose.model('User', userSchema);
 

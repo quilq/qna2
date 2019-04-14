@@ -30,6 +30,12 @@ export function questionReducer(state: QuestionState = initialState, action: Que
         case QuestionActions.ActionTypes.GetPopularQuestions:
             return { ...state, hasLoaded: true, questions: action.payload.questions };
 
+        case QuestionActions.ActionTypes.GetUnansweredQuestions:
+            return { ...state, unansweredQuestions: action.payload.questions };
+
+            case QuestionActions.ActionTypes.GetTags:
+            return { ...state, tags: action.payload.tags };
+
         case QuestionActions.ActionTypes.FindQuestionById:
             return { ...state, questionById: action.payload.question };
 
