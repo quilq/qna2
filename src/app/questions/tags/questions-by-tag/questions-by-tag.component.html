@@ -1,0 +1,11 @@
+<div>
+  {{tag}}
+</div>
+<div *ngFor="let question of questionsByTag; let i = index">
+  Question {{i}}.
+  <a [routerLink]="['/questions/question-details', question._id]" class="question-title"> {{question.question}}</a>
+  <div>
+    {{question._id}}
+  </div>
+  <mat-divider></mat-divider>
+</div>

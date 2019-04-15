@@ -13,7 +13,7 @@ import * as QuestionActions from './question.actions';
 export class QuestionEffects {
 
     @Effect()
-    getQuestions$: Observable<Action> = this.actions$
+    getPopularQuestions$: Observable<Action> = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
             switchMap(() => {
@@ -21,6 +21,24 @@ export class QuestionEffects {
                     .pipe(
                         map((questions: Question[]) => {
                             return new QuestionActions.GetPopularQuestions({ questions });
+                        }),
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        );
+
+    @Effect()
+    getRecentQuestions$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnGetRecentQuestions),
+            switchMap(() => {
+                return this.questionService.getRecentQuestions()
+                    .pipe(
+                        map((questions: Question[]) => {
+                            return new QuestionActions.GetRecentQuestions({ questions });
                         }),
                         catchError((error) => {
                             console.log('Error: ', error);

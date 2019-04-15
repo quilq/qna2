@@ -6,10 +6,14 @@ const { User } = require('../models/user');
 const { Question } = require('../models/question');
 const { authenticate } = require('../middleware/authenticate');
 
-//fetch questions
+//fetch questions, TODO: get questions sort by votes
 router.get('/q', (req, res) => {
     Question.getPopularQuestions(req, res);
 });
+
+router.get('/q/recent-questions', (req, res) => {
+    Question.getRecentQuestions(req, res);
+})
 
 //fetch all tags
 router.get('/q/all-tags', (req, res) => {
@@ -21,7 +25,8 @@ router.get('/q/unanswered-questions', (req, res) => {
 })
 
 //Find questions by Id
-router.get('/q/:id', (req, res) => {
+router.get('/q/id/:id', (req, res) => {
+    console.log('find question by id API called');
     Question.findQuestionById(req, res);
 });
 

@@ -24,6 +24,12 @@ export class QuestionsService {
     return this.httpClient.get(url);
   }
 
+  //get recent questions
+  getRecentQuestions = () => {
+    let url = `api/q/recent-questions`;
+    return this.httpClient.get(url);
+  }
+
   //get popular tags
   getTags = () => {
     let url = `api/q/all-tags`;
@@ -37,12 +43,14 @@ export class QuestionsService {
 
   //find questions by id
   findQuestionById = (id: string) => {
-    let url = `api/q/${id}`;
+    console.log('find questions by ID called');
+    let url = `api/q/id/${id}`;
     return this.httpClient.get(url);
   }
 
   //find questions by tag
   findQuestionsByTag = (tag: string) => {
+    console.log('find questions by TAG called');
     let url = `api/q/tag`;
     return this.httpClient.get(url, { headers: { 'tag': tag } });
   }

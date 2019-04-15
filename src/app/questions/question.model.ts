@@ -22,12 +22,14 @@ export class Question {
     askedByUser: User;
     questionVotes: number;
     answers: Answer[];
+    createdAt: Date;
 
     constructor(tags = [], question = '', askedByUser = new User(), questionVotes = 0, answers = []) {
         this.tags = tags;
         this.question = question;
         this.askedByUser = askedByUser;
         this.questionVotes = questionVotes;
-        this.answers = answers
+        this.answers = answers;
+        this.createdAt = new Date();
     }
 }

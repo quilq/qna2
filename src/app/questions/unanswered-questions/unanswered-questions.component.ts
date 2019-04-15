@@ -22,7 +22,6 @@ export class UnansweredQuestionsComponent implements OnInit {
     console.log('unanswered-question component init');
     this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions());
     this.unansweredQuestions$ = this.questionStore.select(getUnansweredQuestions);
-    this.unansweredQuestions$.subscribe(q => console.log('un q', q));
   }
 
 }

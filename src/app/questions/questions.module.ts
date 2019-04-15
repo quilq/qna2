@@ -15,6 +15,10 @@ import { QuestionEffects } from './store/question.effects';
 import { questionReducer } from './store/question.reducers';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { QuestionsByTagComponent } from './tags/questions-by-tag/questions-by-tag.component';
+import { AllTagsComponent } from './tags/all-tags/all-tags.component';
+import { RecentQuestionsComponent } from './recent-questions/recent-questions.component';
+import { RelatedQuestionsComponent } from './related-questions/related-questions.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { SharedModule } from '../shared/shared.module';
     QuestionDetailsComponent,
     TagsComponent,
     UnansweredQuestionsComponent,
-    PopularQuestionsComponent
+    PopularQuestionsComponent,
+    QuestionsByTagComponent,
+    AllTagsComponent,
+    RecentQuestionsComponent,
+    RelatedQuestionsComponent
   ],
 
   imports: [

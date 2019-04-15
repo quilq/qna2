@@ -1,7 +1,7 @@
+<div>POPULAR QUESTIONS: </div>
 <div *ngFor="let question of questions">
   <div> Question:
     <a [routerLink]="['question-details', question._id]"> {{question.question}}</a>
-    <button mat-raised-button>Edit</button>
   </div>
 
   <div>Asked by user: {{question.askedByUser}}</div>
@@ -12,8 +12,6 @@
 
   <div> Votes:
     <div> {{question.questionVotes}}</div>
-    <button mat-raised-button>+1</button>
-    <button mat-raised-button>-1</button>
   </div>
 
   <mat-divider></mat-divider>

@@ -11,10 +11,17 @@ export const hasLoaded = createSelector(
     }
 );
 
-export const getQuestions = createSelector(
+export const getPopularQuestions = createSelector(
     selectQuestionFeature,
     (questionState: fromQuestion.QuestionState) => {
-        return questionState.questions;
+        return questionState.popularQuestions;
+    }
+);
+
+export const getRecentQuestions = createSelector(
+    selectQuestionFeature,
+    (questionState: fromQuestion.QuestionState) => {
+        return questionState.recentQuestions;
     }
 );
 

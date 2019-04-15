@@ -1,0 +1,6 @@
+<div>ALL TAGS: </div>
+<div *ngFor="let tag of (tags$ | async)">
+  <div [routerLink]="['questions-by-tag', tag]" class="tag">
+    {{tag}}
+  </div>
+</div>

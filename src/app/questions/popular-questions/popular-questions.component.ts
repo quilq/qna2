@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { QuestionState } from '../store/question.reducers';
 import * as QuestionActions from '../store/question.actions';
 import { Question } from '../question.model';
-import { getQuestions, hasLoaded } from '../store/question.selectors';
+import { getPopularQuestions, hasLoaded } from '../store/question.selectors';
 
 @Component({
   selector: 'app-popular-questions',
@@ -25,7 +25,7 @@ export class PopularQuestionsComponent implements OnInit {
       }
     });
 
-    this.store.select(getQuestions).subscribe(questions => this.questions = questions);
+    this.store.select(getPopularQuestions).subscribe(questions => this.questions = questions);
   }
 
 }

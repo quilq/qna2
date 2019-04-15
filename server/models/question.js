@@ -15,11 +15,24 @@ const questionSchema = new mongoose.Schema({
         answeredByUser: { type: ObjectId, ref: 'User' },
         isCorrectAnswer: Boolean,
         answerVotes: Number
-    }]
+    }],
+    createdAt: Date
 });
 
 //find all questions
 questionSchema.statics.getPopularQuestions = function (req, res) {
+    const Question = this;
+
+    Question.find((err, doc) => {
+        if (err) {
+            console.log('Unable to fetch data ', err);
+        } else {
+            res.status(200).json(doc);
+        }
+    });
+}
+
+questionSchema.statics.getRecentQuestions = function (req, res) {
     const Question = this;
 
     Question.find((err, doc) => {
@@ -76,11 +89,12 @@ questionSchema.statics.findQuestionsByUser = function (req, res) {
 //find questions by tag
 questionSchema.statics.findQuestionsByTag = function (req, res) {
     const tag = req.header('tag');
+
     const Question = this;
 
     Question.find({ tags: tag }, (err, doc) => {
         if (err) {
-            console.log('Unable to fetch data ', err);
+            console.log('Unable to get questions by tag ', err);
         } else {
             res.status(200).json(doc);
         }
@@ -90,10 +104,9 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
 //find question by ID
 questionSchema.statics.findQuestionById = function (req, res) {
     const questionId = req.params.id;
-    console.log('question id', questionId);
     const Question = this;
 
-    // Question.findById({ _id: new ObjectId(questionId) }, (err, doc) => {
+    // Question.findById({ _id: new ObjectId(questionId) }, (err,ks doc) => {
     Question.findById({ _id: questionId }, (err, doc) => {
         if (err) {
             console.log('Unable to fetch data ', err);

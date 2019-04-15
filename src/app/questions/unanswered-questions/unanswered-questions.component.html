@@ -1,8 +1,9 @@
+<div>UNANSWERED QUESTIONS: </div>
 <div *ngFor="let question of (unansweredQuestions$ | async)">
   <div>
     {{question.question}}
   </div>
-  <div>
+  <a [routerLink]="['/questions/question-details', question._id]">
     {{question._id}}
-  </div>
+  </a>
 </div>
