@@ -110,7 +110,7 @@ questionSchema.statics.findQuestionById = function (req, res) {
     // Question.findById({ _id: new ObjectId(questionId) }, (err,ks doc) => {
     Question.findById({ _id: questionId }, (err, doc) => {
         if (err) {
-            console.log('Unable to fetch data ', err);
+            console.log('Unable to find questions by ID ', err);
         } else {
             res.status(200).json(doc);
         }
@@ -177,7 +177,7 @@ questionSchema.statics.editQuestion = function (req, res) {
             returnOriginal: false
         }, (err, doc) => {
             if (err) {
-                console.log('Unable to update question ', err);
+                console.log('Unable to edit question ', err);
             } else {
                 res.status(200).json('question-updated');
             }
@@ -188,8 +188,6 @@ questionSchema.statics.editQuestion = function (req, res) {
 questionSchema.statics.deleteQuestion = function (req, res) {
     const questionId = req.body.questionId;
     const Question = this;
-
-    console.log('question Id to delete', questionId);
 
     Question.findOneAndDelete({ _id: questionId }, (err, doc) => {
         if (err) {

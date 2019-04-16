@@ -26,7 +26,6 @@ router.get('/q/unanswered-questions', (req, res) => {
 
 //Find questions by Id
 router.get('/q/id/:id', (req, res) => {
-    console.log('find question by id API called');
     Question.findQuestionById(req, res);
 });
 
@@ -55,13 +54,11 @@ router.put('/q/edit', authenticate, (req, res) => {
 
 //upvote, downvote question
 router.put('/q/vote', authenticate, (req, res) => {
-    console.log('vote question server');
     Question.voteQuestion(req, res);
 })
 
 //delete question
 router.put('/q/delete', authenticate, (req, res) => {
-    console.log('delete question server');
     Question.deleteQuestion(req, res);
 })
 
@@ -142,7 +139,6 @@ router.delete('/user/signout', authenticate, (req, res) => {
 
 //Authenticate user
 router.get('/user/auth', authenticate, (req, res) => {
-    console.log('auth server')
     if (req.user) {
         res.status(200).send(req.user);
     } else {
