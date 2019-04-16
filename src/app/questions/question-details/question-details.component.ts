@@ -46,78 +46,79 @@ export class QuestionDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!isAuthenticated) {
-      this.userService.toSignin();
-    } else {
+    if (this.isAuthenticated) {
       let newAnswer = new Answer(this.answerForm.value.newAnswer, this.user);
       console.log(newAnswer);
-
       this.questionStore.dispatch(new QuestionActions.OnAddAnswer({
         questionId: this.question._id,
         newAnswer: newAnswer
       }));
+    } else {
+      this.userService.toSignin();
     }
   }
 
-  onEditQuestion(){
+  onEditQuestion() {
     this.canEditQuestion = true;
   }
 
-  onCancelEditQuestion(){
+  onCancelEditQuestion() {
     this.canEditQuestion = false;
   }
 
-  editQuestion(questionId: string, newQuestion: string){
-    if (!isAuthenticated) {
-      this.userService.toSignin();
-    } else {
-      this.questionStore.dispatch(new QuestionActions.OnEditQuestion({questionId, newQuestion}));
+  editQuestion(questionId: string, newQuestion: string) {
+    if (this.isAuthenticated) {
+      this.questionStore.dispatch(new QuestionActions.OnEditQuestion({ questionId, newQuestion }));
       this.onCancelEditQuestion();
+    } else {
+      this.userService.toSignin();
     }
   }
 
-  onEditAnswer(){
+  onEditAnswer() {
     this.canEditAnswer = true;
   }
 
-  onCancelEditAnswer(){
+  onCancelEditAnswer() {
     this.canEditAnswer = false;
   }
 
-  editAnswer(questionId: string, answerId: string, newAnswer: string){
-    if (!isAuthenticated) {
-      this.userService.toSignin();
-    } else {
-      this.questionStore.dispatch(new QuestionActions.OnEditAnswer({questionId, answerId, newAnswer}));
+  editAnswer(questionId: string, answerId: string, newAnswer: string) {
+    if (this.isAuthenticated) {
+      this.questionStore.dispatch(new QuestionActions.OnEditAnswer({ questionId, answerId, newAnswer }));
       this.onCancelEditAnswer();
+    } else {
+      this.userService.toSignin();
     }
   }
 
   deleteQuestion(questionId: string) {
-    if (!isAuthenticated) {
-      this.userService.toSignin();
-    } else {
+    if (this.isAuthenticated) {
       this.questionStore.dispatch(new QuestionActions.OnDeleteQuestion({ questionId }));
+    } else {
+      this.userService.toSignin();
     }
   }
 
   voteQuestion(questionId: string, upvote: boolean) {
-    if (!isAuthenticated) {
-      this.userService.toSignin();
-    } else {
+    if (this.isAuthenticated) {
+      console.log('begin to vote');
       this.questionStore.dispatch(new QuestionActions.OnVoteQuestion({ questionId, upvote }));
+    } else {
+      console.log('vote error');
+      this.userService.toSignin();
     }
   }
 
-  deleteAnswer(questionId: string, answerId: string){
-    this.questionStore.dispatch(new QuestionActions.OnDeleteAnswer({questionId, answerId}));
+  deleteAnswer(questionId: string, answerId: string) {
+    this.questionStore.dispatch(new QuestionActions.OnDeleteAnswer({ questionId, answerId }));
   }
 
-  voteAnswer(questionId: string, answerId: string, upvote: boolean){
-    this.questionStore.dispatch(new QuestionActions.OnVoteAnswer({questionId, answerId, upvote}));
+  voteAnswer(questionId: string, answerId: string, upvote: boolean) {
+    this.questionStore.dispatch(new QuestionActions.OnVoteAnswer({ questionId, answerId, upvote }));
   }
 
-  updateCorrectAnswer(questionId: string, correctAnswerId: string){
-    this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({questionId, correctAnswerId}));
+  updateCorrectAnswer(questionId: string, correctAnswerId: string) {
+    this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId }));
   }
 }

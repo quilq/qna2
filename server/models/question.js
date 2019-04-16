@@ -23,9 +23,9 @@ const questionSchema = new mongoose.Schema({
 questionSchema.statics.getPopularQuestions = function (req, res) {
     const Question = this;
 
-    Question.find((err, doc) => {
+    Question.find({}, null, {skip: 0, sort: {questionVotes: -1}}, (err, doc) => {
         if (err) {
-            console.log('Unable to fetch data ', err);
+            console.log('Unable to get popular questions ', err);
         } else {
             res.status(200).json(doc);
         }
@@ -35,9 +35,10 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
 questionSchema.statics.getRecentQuestions = function (req, res) {
     const Question = this;
 
-    Question.find((err, doc) => {
+    //sort: {field: -1} => descending order
+    Question.find({}, null, {skip: 0, sort: {createdAt: -1}}, (err, doc) => {
         if (err) {
-            console.log('Unable to fetch data ', err);
+            console.log('Unable to get recent questions ', err);
         } else {
             res.status(200).json(doc);
         }
@@ -63,11 +64,11 @@ questionSchema.statics.getTags = function (req, res) {
 questionSchema.statics.getUnansweredQuestions = function(req, res) {
     const Question = this;
     
-    Question.find({answers: {$size: 0}}, (err, docs) => {
+    Question.find({answers: {$size: 0}}, (err, doc) => {
         if (err) {
             console.log('Unable to find unanswered questions ', err);
         } else {
-            res.status(200).json(docs);
+            res.status(200).json(doc);
         }
     })
 }
@@ -207,8 +208,8 @@ questionSchema.statics.findAnswersByUser = function (req, res) {
 
     Question.find({
         answers: { 'answeredByUser._id': userId }
-    }).then(docs => {
-        res.json(docs);
+    }).then(doc => {
+        res.json(doc);
     });
 
 }
@@ -227,7 +228,6 @@ questionSchema.statics.addAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to add answer ', err);
             } else {
-                console.log('result ',doc);
                 res.json('answer-added');
                 // User.addUserAnswer(req.user._id, questionId);
             }
