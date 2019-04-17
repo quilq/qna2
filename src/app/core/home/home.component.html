@@ -1,14 +1,13 @@
-<div class="full-page-80">
-    Welcome to qna2
-    <mat-divider></mat-divider>
+<div class="full-page-80 margin-2-3" fxLayout="column">
+    <div> Welcome to qna2 </div>
 
-    <div>Ask your questions</div>
-    <div>Your questions:...</div>
-    <mat-divider></mat-divider>
+    <app-new-question></app-new-question>
 
-    <div>Help answere unanswered-questions</div>
-    <div>Some unanswered-questions: ...</div>
-    <mat-divider></mat-divider>
+    <div>
+        <div>Help answer unanswered-questions</div>
+        <div>Some unanswered-questions</div>
+        <div>...</div>
+    </div>
 
     <a routerLink="questions">Or explore popular questions</a>
 </div>

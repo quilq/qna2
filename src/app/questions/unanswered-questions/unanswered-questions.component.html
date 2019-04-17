@@ -1,9 +1,14 @@
-<div>UNANSWERED QUESTIONS: </div>
-<div *ngFor="let question of (unansweredQuestions$ | async)">
-  <div>
-    {{question.question}}
+<div class="margin-2-3">
+  <div>UNANSWERED QUESTIONS: </div>
+  <div *ngFor="let question of (unansweredQuestions$ | async)">
+    <div>
+      {{question.question}}
+    </div>
+    
+    <a [routerLink]="['/questions/question-details', question._id]">
+      {{question._id}}
+    </a>
+
+    <mat-divider></mat-divider>
   </div>
-  <a [routerLink]="['/questions/question-details', question._id]">
-    {{question._id}}
-  </a>
 </div>

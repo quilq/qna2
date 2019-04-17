@@ -4,11 +4,6 @@
       <button mat-button routerLink="/">Home</button>
     </nav>
 
-    <mat-form-field appearance="standard">
-      <input matInput placeholder="Enter key words to search" type="search">
-      <button mat-raised-button>Search</button>
-    </mat-form-field>
-
     <!-- <nav *ngIf="!(isAuthenticated$ | async)"> -->
     <nav *ngIf="!(isAuthenticated)">
       <button mat-button routerLink="/signin"> Sign in </button>

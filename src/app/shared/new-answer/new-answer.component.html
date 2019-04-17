@@ -1,0 +1,10 @@
+<form [formGroup]="answerForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <textarea formControlName="newAnswer" matInput placeholder="your answer" rows="3">
+                </textarea>
+  </mat-form-field>
+
+  <button type="submit" mat-icon-button>
+    <mat-icon>add</mat-icon>
+  </button>
+</form>

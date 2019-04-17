@@ -1,29 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="space-between " class="full-page-80">
+<div fxLayout="row" fxLayoutAlign="space-between " class="full-page-80 margin-1-2">
   <div>
-    <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
-      <div>Ask your question</div>
-
-      <mat-form-field>
-        <input matInput type="text" formControlName="newQuestion" placeholder="your question">
-      </mat-form-field>
-      
-      <mat-form-field>
-        <mat-chip-list #tagList>
-          <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)">
-            {{tag}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-
-          <input placeholder="tag" [matChipInputFor]="tagList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-        </mat-chip-list>
-      </mat-form-field>
-
-      <button type="submit">Ask</button>
-    </form>
+    <app-new-question></app-new-question>
 
     <router-outlet></router-outlet>
   </div>
-
-  <app-sidebar></app-sidebar>
+  
+  <app-featured-questions></app-featured-questions>
 </div>

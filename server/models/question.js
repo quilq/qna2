@@ -1,8 +1,6 @@
 const { mongoose } = require('../database/mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-const { User } = require('../models/user');
-
 const questionSchema = new mongoose.Schema({
     // _id: ObjectId,
     tags: [String],
@@ -44,6 +42,30 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
         }
     });
 }
+
+// questionSchema.statics.findRelatedQuestions = function (req, res) {
+//     const Question = this;
+
+//     Question.find({}, null, {skip: 0}, (err, doc) => {
+//         if (err) {
+//             console.log('Unable to find related questions ', err);
+//         } else {
+//             res.status(200).json(doc);
+//         }
+//     });
+// }
+
+// questionSchema.statics.getFeaturedQuestions = function (req, res) {
+//     const Question = this;
+
+//     Question.find({}, null, {skip: 0}, (err, doc) => {
+//         if (err) {
+//             console.log('Unable to get featured questions ', err);
+//         } else {
+//             res.status(200).json(doc);
+//         }
+//     });
+// }
 
 //get all tags
 questionSchema.statics.getTags = function (req, res) {

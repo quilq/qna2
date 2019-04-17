@@ -1,9 +1,11 @@
-<div>RECENT QUESTIONS: </div>
-<div *ngFor="let question of (recentQuestions$ | async)">
-    <div>
-      {{question.question}}
+<div class="margin-2-3">
+  <div>RECENT QUESTIONS: </div>
+  <div *ngFor="let question of (recentQuestions$ | async)">
+      <div>
+        {{question.question}}
+      </div>
+      <a [routerLink]="['/questions/question-details', question._id]">
+        {{question._id}}
+      </a>
     </div>
-    <a [routerLink]="['/questions/question-details', question._id]">
-      {{question._id}}
-    </a>
-  </div>
+</div>
