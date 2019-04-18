@@ -15,7 +15,7 @@
 
             <div>
                 Question:
-                <div class="question-title">{{question.question}}</div>
+                <div class="question-title">{{question.questionTitle}}</div>
 
                 <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
                 <button mat-raised-button (click)="onEditQuestion()" *ngIf="!canEditQuestion">Edit</button>

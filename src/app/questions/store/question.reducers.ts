@@ -63,7 +63,7 @@ export function questionReducer(state: QuestionState = initialState, action: Que
             let newQuestions = state.popularQuestions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
-                    newQuestions[i].question = action.payload.newQuestion;
+                    newQuestions[i].questionContent = action.payload.newQuestion;
                     break;
                 }
             }

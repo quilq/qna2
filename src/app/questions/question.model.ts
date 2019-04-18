@@ -7,29 +7,31 @@ export class Answer {
     isCorrectAnswer: boolean;
     answerVotes: number;
 
-    constructor(answer = '', answeredByUser = new User(), isCorrectAnswer = false, answerVotes = 0) {
+    constructor(answer = '', answeredByUser = new User()) {
         this.answer = answer;
-        this.answerVotes = answerVotes;
+        this.answerVotes = 0;
         this.answeredByUser = answeredByUser;
-        this.isCorrectAnswer = isCorrectAnswer;
+        this.isCorrectAnswer = false;
     }
 }
 
 export class Question {
     _id?: string;
     tags: string[];
-    question: string;
+    questionTitle: string;
+    questionContent: string;
     askedByUser: User;
     questionVotes: number;
     answers: Answer[];
     createdAt: Date;
 
-    constructor(tags = [], question = '', askedByUser = new User(), questionVotes = 0, answers = []) {
+    constructor(tags = [], questionTitle='', questionContent = '', askedByUser = new User()) {
         this.tags = tags;
-        this.question = question;
+        this.questionTitle = questionTitle;
+        this.questionContent = questionContent;
         this.askedByUser = askedByUser;
-        this.questionVotes = questionVotes;
-        this.answers = answers;
+        this.questionVotes = 0;
+        this.answers = [];
         this.createdAt = new Date();
     }
 }

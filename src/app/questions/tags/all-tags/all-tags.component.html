@@ -1,6 +1,8 @@
-<div>ALL TAGS: </div>
-<div *ngFor="let tag of (tags$ | async)">
-  <div [routerLink]="['questions-by-tag', tag]" class="tag">
+<h2 class="margin-1-0">All tags </h2>
+<mat-chip-list class="margin-1-0">
+  <mat-chip 
+  *ngFor="let tag of (tags$ | async)" [routerLink]="['questions-by-tag', tag]" 
+  class="tag" color="primary">
     {{tag}}
-  </div>
-</div>
+  </mat-chip>
+</mat-chip-list>

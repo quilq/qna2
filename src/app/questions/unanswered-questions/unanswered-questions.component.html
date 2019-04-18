@@ -1,14 +1,21 @@
-<div class="margin-2-3">
-  <div>UNANSWERED QUESTIONS: </div>
-  <div *ngFor="let question of (unansweredQuestions$ | async)">
-    <div>
-      {{question.question}}
-    </div>
-    
-    <a [routerLink]="['/questions/question-details', question._id]">
-      {{question._id}}
-    </a>
+<div class="margin-2-0">
+  <h2>Unanswered questions </h2>
 
+  <div *ngFor="let question of (unansweredQuestions$ | async)" class="margin-1-0">
     <mat-divider></mat-divider>
+
+    <a [routerLink]="['question-details', question._id]"> {{question.questionTitle}}</a>
+
+    <div>Asked by user: {{question.askedByUser}}</div>
+
+    <div> Asked: {{question.createdAt}}</div>
+
+    <mat-chip-list>
+      <mat-chip *ngFor="let tag of question.tags">{{tag}}</mat-chip>
+    </mat-chip-list>
+
+    <div> Votes: {{question.questionVotes}} </div>
   </div>
+
+  <button mat-raised-button class="margin-2-0">more questions </button>
 </div>

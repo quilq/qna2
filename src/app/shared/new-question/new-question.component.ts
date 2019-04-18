@@ -34,7 +34,8 @@ export class NewQuestionComponent implements OnInit {
   tags: string[] = [];
 
   questionForm = new FormGroup({
-    newQuestion: new FormControl(''),
+    questionTitle: new FormControl(''),
+    questionContent: new FormControl(''),
     tag: new FormControl('')
   });
 
@@ -67,7 +68,12 @@ export class NewQuestionComponent implements OnInit {
   }
 
   onSubmit() {
-    let newQuestion = new Question(this.tags, this.questionForm.value.newQuestion, this.user);
+    let newQuestion = new Question(
+      this.tags,
+      this.questionForm.value.questionTitle,
+      this.questionForm.value.questionContent,
+      this.user
+    );
 
     if (this.isAuthenticated) {
       this.store.dispatch(new QuestionActions.OnCreateQuestion({ question: newQuestion }));
@@ -81,7 +87,7 @@ export class NewQuestionComponent implements OnInit {
     this.tags = [];
   }
 
-  onCancel(){
+  onCancel() {
     console.log('cancel click!');
   }
 

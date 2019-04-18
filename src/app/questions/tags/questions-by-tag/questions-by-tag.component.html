@@ -1,11 +1,21 @@
-<div>
-  {{tag}}
+<h2> Questions by tag: {{tag}}</h2>
+
+<div *ngFor="let question of questionsByTag" class="margin-1-0">
+    <mat-divider></mat-divider>
+
+    <a [routerLink]="['question-details', question._id]"> {{question.questionTitle}}</a>
+
+    <div>Asked by user: {{question.askedByUser}}</div>
+
+    <div> Asked: {{question.createdAt}}</div>
+
+    <mat-chip-list>
+      <mat-chip *ngFor="let tag of question.tags">{{tag}}</mat-chip>
+    </mat-chip-list>
+
+    <div> Votes: {{question.questionVotes}} </div>
+
+    <div> {{question.answers.length}} answers </div>
 </div>
-<div *ngFor="let question of questionsByTag; let i = index">
-  Question {{i}}.
-  <a [routerLink]="['/questions/question-details', question._id]" class="question-title"> {{question.question}}</a>
-  <div>
-    {{question._id}}
-  </div>
-  <mat-divider></mat-divider>
-</div>
+
+<button mat-raised-button class="margin-2-0">more questions </button>

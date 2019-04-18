@@ -4,7 +4,8 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const questionSchema = new mongoose.Schema({
     // _id: ObjectId,
     tags: [String],
-    question: String,
+    questionTitle: String,
+    questionContent: String,
     askedByUser: { type: ObjectId, ref: 'User' },
     questionVotes: Number,
     answers: [{
@@ -21,7 +22,7 @@ const questionSchema = new mongoose.Schema({
 questionSchema.statics.getPopularQuestions = function (req, res) {
     const Question = this;
 
-    Question.find({}, null, {skip: 0, sort: {questionVotes: -1}}, (err, doc) => {
+    Question.find({}, null, { skip: 0, limit: 20, sort: { questionVotes: -1 } }, (err, doc) => {
         if (err) {
             console.log('Unable to get popular questions ', err);
         } else {
@@ -34,7 +35,7 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
     const Question = this;
 
     //sort: {field: -1} => descending order
-    Question.find({}, null, {skip: 0, sort: {createdAt: -1}}, (err, doc) => {
+    Question.find({}, null, { skip: 0, limit: 20, sort: { createdAt: -1 } }, (err, doc) => {
         if (err) {
             console.log('Unable to get recent questions ', err);
         } else {
@@ -46,7 +47,7 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
 // questionSchema.statics.findRelatedQuestions = function (req, res) {
 //     const Question = this;
 
-//     Question.find({}, null, {skip: 0}, (err, doc) => {
+//     Question.find({}, null, {skip: 0, limit: 10}, (err, doc) => {
 //         if (err) {
 //             console.log('Unable to find related questions ', err);
 //         } else {
@@ -58,7 +59,7 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
 // questionSchema.statics.getFeaturedQuestions = function (req, res) {
 //     const Question = this;
 
-//     Question.find({}, null, {skip: 0}, (err, doc) => {
+//     Question.find({}, null, {skip: 0, limit: 10}, (err, doc) => {
 //         if (err) {
 //             console.log('Unable to get featured questions ', err);
 //         } else {
@@ -72,21 +73,20 @@ questionSchema.statics.getTags = function (req, res) {
     const Question = this;
     let tags = [];
 
-    Question.find({}, 'tags', (err, docs) => {
-        docs.forEach(tag => {
-            console.log('tag ', ...tag.tags);
-            if (!tags.includes(...tag.tags)) {
-                tags.push(...tag.tags);
-            }
+    Question.find({}, 'question tags', (err, docs) => {
+        docs.forEach(allTags => {
+            tags.push(...allTags.tags);
         });
-        res.json(tags);
+
+        //Remove duplicates
+        res.json([...new Set([...tags])]);
     });
 }
 
-questionSchema.statics.getUnansweredQuestions = function(req, res) {
+questionSchema.statics.getUnansweredQuestions = function (req, res) {
     const Question = this;
-    
-    Question.find({answers: {$size: 0}}, (err, doc) => {
+
+    Question.find({ answers: { $size: 0 } }, (err, doc) => {
         if (err) {
             console.log('Unable to find unanswered questions ', err);
         } else {
@@ -156,7 +156,7 @@ questionSchema.statics.createQuestion = function (req, res) {
 
 
 //upvote, downvote question
-questionSchema.statics.voteQuestion = function(req, res) {
+questionSchema.statics.voteQuestion = function (req, res) {
     const questionId = req.body.questionId;
     let newVotes = 0;
     if (req.body.upvote) {
@@ -193,7 +193,7 @@ questionSchema.statics.editQuestion = function (req, res) {
             _id: questionId
         }, {
             //update
-            $set: { question: newQuestion }
+            $set: { questionContent: newQuestion }
         }, {
             //option
             returnOriginal: false

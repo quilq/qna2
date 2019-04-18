@@ -11,7 +11,11 @@
 
   <form [formGroup]="questionForm" (ngSubmit)="onSubmit()" fxLayout="column">
     <mat-form-field>
-      <input matInput type="text" formControlName="newQuestion" placeholder="your question">
+      <input matInput type="text" formControlName="questionTitle" placeholder="Question title">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="text" formControlName="questionContent" placeholder="Your question content">
     </mat-form-field>
 
     <mat-form-field>
