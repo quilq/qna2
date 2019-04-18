@@ -1,15 +1,13 @@
-<div class="full-page-80 margin-2-2" fxLayout="column">
-    <div> Welcome to qna2 </div>
+<div class="full-page-80 margin-child-1-2" fxLayout="column">
+    <h2> Welcome to qna2 </h2>
 
+    <p>Enter your keywords to search: </p>
     <app-search></app-search>
-    
+
+    <p>Ask your own questions: </p>
     <app-new-question></app-new-question>
 
-    <div>
-        <div>Help answer unanswered-questions</div>
-        <div>Some unanswered-questions</div>
-        <div>...</div>
-    </div>
+    <a routerLink="questions/unanswered-questions" class="margin-2-0">Help answer unanswered-questions</a>
 
-    <a routerLink="questions">Or explore popular questions</a>
+    <a routerLink="questions" class="margin-2-0">Or explore popular questions</a>
 </div>

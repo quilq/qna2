@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 import { Question, Answer } from './question.model';
 import { UserService } from '../auth/user/user.service';
-import { QuestionState } from './store/question.reducers';
-import { hasLoaded } from './store/question.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -43,14 +39,12 @@ export class QuestionsService {
 
   //find questions by id
   findQuestionById = (id: string) => {
-    console.log('find questions by ID called');
     let url = `api/q/id/${id}`;
     return this.httpClient.get(url);
   }
 
   //find questions by tag
   findQuestionsByTag = (tag: string) => {
-    console.log('find questions by TAG called');
     let url = `api/q/tag`;
     return this.httpClient.get(url, { headers: { 'tag': tag } });
   }
@@ -78,7 +72,6 @@ export class QuestionsService {
 
   //delete question
   deleteQuestion = (questionId: string) => {
-    console.log('question id front end', questionId);
     let url = `api/q/delete`;
     let token = this.userService.getToken();
     return this.httpClient.put(url, { questionId }, { headers: { 'x-auth': token } });
@@ -86,7 +79,6 @@ export class QuestionsService {
 
   //add answer
   addAnswer = (questionId: string, newAnswer: Answer) => {
-    console.log('new answer ', newAnswer);
     let url = `api/a/add`;
     let token = this.userService.getToken();
     return this.httpClient.put(url, { questionId, newAnswer }, { headers: { 'x-auth': token } });

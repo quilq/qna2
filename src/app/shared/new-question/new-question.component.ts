@@ -87,8 +87,4 @@ export class NewQuestionComponent implements OnInit {
     this.tags = [];
   }
 
-  onCancel() {
-    console.log('cancel click!');
-  }
-
 }

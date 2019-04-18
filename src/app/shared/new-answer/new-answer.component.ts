@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import { Question, Answer } from '../../questions/question.model';
+import { Answer } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { User } from '../../auth/user/user.model';
 import { selectUser, isAuthenticated } from '../../auth/store/auth.selectors';
@@ -16,8 +16,8 @@ import * as QuestionActions from '../../questions/store/question.actions';
 })
 export class NewAnswerComponent implements OnInit {
 
+  @Input() questionId: string;
 
-  question: Question;
   user: User;
   isAuthenticated = false;
   canEditQuestion = false;
@@ -39,11 +39,13 @@ export class NewAnswerComponent implements OnInit {
   onSubmit() {
     if (this.isAuthenticated) {
       let newAnswer = new Answer(this.answerForm.value.newAnswer, this.user);
-      console.log(newAnswer);
+
       this.questionStore.dispatch(new QuestionActions.OnAddAnswer({
-        questionId: this.question._id,
+        questionId: this.questionId,
         newAnswer: newAnswer
       }));
+
+      this.answerForm.reset();
     } else {
       this.userService.toSignin();
     }

@@ -1,21 +1,21 @@
-<div class="margin-2-0">
+<div class="margin-child-2-0">
   <h2>Popular questions </h2>
 
-  <div *ngFor="let question of questions" class="border-1 margin-1-0">
+  <div *ngFor="let question of questions" class="border-1 margin-child-1-0">
     <a [routerLink]="['question-details', question._id]"> {{question.questionTitle}}</a>
 
     <div>Asked by user: {{question.askedByUser}}</div>
-    
-    <div> {{question.answers.length}} answers </div>
+
+    <div> Asked: {{question.createdAt}}</div>
+
+    <button mat-stroked-button> {{question.answers.length}} answers </button>
+
+    <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
 
     <mat-chip-list>
       <mat-chip *ngFor="let tag of question.tags">{{tag}}</mat-chip>
     </mat-chip-list>
-
-    <div> Votes: {{question.questionVotes}} </div>
-
-    <div> Asked: {{question.createdAt}}</div>
   </div>
 
-  <button mat-raised-button class="margin-2-0">more questions </button>
+  <button mat-raised-button >more questions </button>
 </div>

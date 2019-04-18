@@ -1,9 +1,9 @@
 <h2> Questions by tag: {{tag}}</h2>
 
-<div *ngFor="let question of questionsByTag" class="margin-1-0">
+<div *ngFor="let question of questionsByTag" class="margin-child-1-0">
     <mat-divider></mat-divider>
 
-    <a [routerLink]="['question-details', question._id]"> {{question.questionTitle}}</a>
+    <a [routerLink]="['/questions/question-details', question._id]"> {{question.questionTitle}}</a>
 
     <div>Asked by user: {{question.askedByUser}}</div>
 
@@ -18,4 +18,4 @@
     <div> {{question.answers.length}} answers </div>
 </div>
 
-<button mat-raised-button class="margin-2-0">more questions </button>
+<button mat-raised-button class="margin-child-2-0">more questions </button>
