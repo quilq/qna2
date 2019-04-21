@@ -1,78 +1,12 @@
 <div class="margin-child-2-0">
-    <h3>{{question.questionTitle}}</h3>
 
-    <div>Asked by user: {{question.askedByUser}}</div>
-
-    <div> Asked: {{question.createdAt}}</div>
-
-    <button mat-stroked-button> {{question.answers.length}} answers </button>
-
-    <mat-chip-list>
-        <mat-chip *ngFor="let tag of question.tags">{{tag}}</mat-chip>
-    </mat-chip-list>
+    <!-- ngIf guards against null values -->
+    <app-question-details-view *ngIf="question" [question]="question"></app-question-details-view>
 
     <mat-divider></mat-divider>
 
-    <p>{{question.questionContent}}</p>
-
-    <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
-    <button mat-raised-button (click)="onEditQuestion()" *ngIf="!canEditQuestion">Edit</button>
-
-    <mat-form-field *ngIf="canEditQuestion">
-        <textarea matInput placeholder="New question" rows="3" #newQuestion></textarea>
-
-        <button mat-raised-button (click)="editQuestion(question._id, newQuestion.value)">Edit</button>
-
-        <button mat-raised-button (click)="onCancelEditQuestion()">Cancel</button>
-    </mat-form-field>
-
-    <div>
-        <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
-
-        <button mat-stroked-button (click)="voteQuestion(question._id, true)">+1</button>
-
-        <button mat-stroked-button (click)="voteQuestion(question._id, false)">-1</button>
-    </div>
-
-    <mat-divider></mat-divider>
-
-    <div *ngFor="let answer of question.answers; let i = index" class="margin-child-2-0">
-        
-        <div> Answer {{i+1}} </div>
-        <div class="margin-child-1-0">
-            <div> {{answer.answer}} </div>
-
-            <mat-icon *ngIf="answer.isCorrectAnswer">check_circle</mat-icon>
-
-            <button mat-raised-button  
-            *ngIf="!answer.isCorrectAnswer" 
-            (click)="updateCorrectAnswer(question._id, answer._id)">
-                Mark as correct answer
-            </button>
-
-            <button mat-raised-button (click)="deleteAnswer(question._id, answer._id)">Delete</button>
-            <button mat-raised-button (click)="onEditAnswer()" *ngIf="!canEditAnswer">Edit</button>
-            <mat-form-field *ngIf="canEditAnswer">
-                <textarea matInput placeholder="New answer" rows="3" #newAnswer></textarea>
-                <button mat-raised-button (click)="editAnswer(question._id, answer._id, newAnswer.value)">Edit</button>
-                <button mat-raised-button (click)="onCancelEditAnswer()">Cancel</button>
-            </mat-form-field>
-        </div>
-
-        <div> Answered by: {{answer.answeredByUser}}</div>
-
-        <div>
-            <button mat-stroked-button> {{answer.answerVotes}} vote(s) </button>
-
-            <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, true)">+1</button>
-
-            <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, false)">-1</button>
-        </div>
-
-        <mat-divider></mat-divider>
-    </div>
-
-    <app-new-answer [questionId]="question._id"></app-new-answer>
+    <!-- safe navigation operator (?.) also guards against null values -->
+    <app-new-answer [questionId]="question?._id"></app-new-answer>
 
     <mat-divider></mat-divider>
 

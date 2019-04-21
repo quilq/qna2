@@ -7,7 +7,7 @@ export class Answer {
     isCorrectAnswer: boolean;
     answerVotes: number;
 
-    constructor(answer = '', answeredByUser = new User()) {
+    constructor(answer: string, answeredByUser: User) {
         this.answer = answer;
         this.answerVotes = 0;
         this.answeredByUser = answeredByUser;
@@ -25,7 +25,7 @@ export class Question {
     answers: Answer[];
     createdAt: Date;
 
-    constructor(tags = [], questionTitle='', questionContent = '', askedByUser = new User()) {
+    constructor(tags: string[], questionTitle: string, questionContent: string, askedByUser: User) {
         this.tags = tags;
         this.questionTitle = questionTitle;
         this.questionContent = questionContent;

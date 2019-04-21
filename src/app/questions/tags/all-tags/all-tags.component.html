@@ -1,4 +1,4 @@
-<h2 class="margin-child-1-0">All tags </h2>
+<h2>All tags </h2>
 <mat-chip-list class="margin-child-1-0">
   <mat-chip 
   *ngFor="let tag of (tags$ | async)" [routerLink]="['questions-by-tag', tag]" 

@@ -14,13 +14,15 @@ import * as QuestionActions from '../store/question.actions';
 })
 export class RecentQuestionsComponent implements OnInit {
 
-  recentQuestions$ : Observable<Question[]>;
+  recentQuestions: Question[];
 
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
     console.log('recent-questions component init');
     this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions());
-    this.recentQuestions$ = this.questionStore.select(getRecentQuestions);
+    this.questionStore.select(getRecentQuestions).subscribe(recentQuestions =>
+      this.recentQuestions = recentQuestions
+    );
   }
 }

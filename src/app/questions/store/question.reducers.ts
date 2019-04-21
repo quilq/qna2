@@ -24,7 +24,7 @@ export const initialState: QuestionState = {
         tag: '',
         questions: []
     },
-    questionById: new Question()
+    questionById: null
 }
 
 export function questionReducer(state: QuestionState = initialState, action: QuestionActions.Union): QuestionState {
@@ -49,9 +49,6 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                 ...state,
                 questionsByTag: { tag: action.payload.tag, questions: action.payload.questions }
             };
-
-        //TODO:
-        //Find unanswered questions
 
         case QuestionActions.ActionTypes.CreateQuestion:
             return {

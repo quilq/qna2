@@ -1,8 +1,18 @@
 <form [formGroup]="answerForm" (ngSubmit)="onSubmit()" fxLayout="column">
+  <p>
+    (support
+    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank" class="white-space">
+      markdown
+    </a>
+    syntax)
+  </p>
   <mat-form-field appearance="outline">
-    <textarea formControlName="newAnswer" matInput placeholder="Add your answer" rows="3">
+    <textarea formControlName="newAnswer" matInput placeholder="Add your answer" rows="5">
     </textarea>
   </mat-form-field>
+
+  <app-markdown-preview [content]="answerForm.value.newAnswer">
+  </app-markdown-preview>
 
   <button type="submit" mat-raised-button> Submit </button>
 </form>

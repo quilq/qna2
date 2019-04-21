@@ -1,0 +1,7 @@
+<div>
+    <!-- set type="button" to avoid submitting form... -->
+    <button type="button" mat-raised-button (click)="preview = !preview" class="margin-1-0">
+        Show/hide preview
+    </button>
+    <p markdown [data]="content" *ngIf="preview && content"></p>
+</div>

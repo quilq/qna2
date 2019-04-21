@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { MarkdownModule } from 'ngx-markdown';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
@@ -30,7 +31,8 @@ import { AuthModule } from './auth/auth.module';
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    MarkdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
