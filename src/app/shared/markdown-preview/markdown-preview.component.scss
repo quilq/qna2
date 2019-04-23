@@ -1,1 +1,6 @@
 @import '../style/margin';
+@import '../style/color';
+
+.active {
+    background-color: $dark-blue;
+}
