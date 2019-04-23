@@ -11,6 +11,6 @@
   <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
 
   <mat-chip-list>
-    <mat-chip *ngFor="let tag of question.tags">{{tag}}</mat-chip>
+    <mat-chip *ngFor="let tag of question.tags"  class="hover-pointer">{{tag}}</mat-chip>
   </mat-chip-list>
 </div>

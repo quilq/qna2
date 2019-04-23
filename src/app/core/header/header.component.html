@@ -1,7 +1,7 @@
 <mat-toolbar class="header">
   <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" class="top-toolbar">
     <nav>
-      <button mat-button routerLink="/">Home</button>
+      <button mat-button routerLink="/">QnA2</button>
     </nav>
 
     <!-- <nav *ngIf="!(isAuthenticated$ | async)"> -->
@@ -19,10 +19,22 @@
 
   <mat-toolbar-row class="bottom-toolbar">
     <nav>
-      <button mat-button routerLink="questions">Popular questions</button>
-      <button mat-button routerLink="questions/tags">Tags</button>
-      <button mat-button routerLink="questions/unanswered-questions">Unanswered</button>
-      <button mat-button routerLink="questions/recent-questions">Recent questions</button>
+      <button mat-button routerLink="questions">
+        <mat-icon>trending_up</mat-icon>
+        Popular
+      </button>
+      <button mat-button routerLink="questions/unanswered-questions">
+        <mat-icon>flag</mat-icon>
+        Unanswered
+      </button>
+      <button mat-button routerLink="questions/recent-questions">
+        <mat-icon>update</mat-icon>
+        Recent
+      </button>
+      <button mat-button routerLink="questions/tags">
+        <mat-icon>local_offer</mat-icon>
+        Tags
+      </button>
     </nav>
   </mat-toolbar-row>
 </mat-toolbar>
