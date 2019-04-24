@@ -44,17 +44,20 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
     });
 }
 
-// questionSchema.statics.findRelatedQuestions = function (req, res) {
-//     const Question = this;
+questionSchema.statics.getRelatedQuestions = function (req, res) {
+    console.log('getRelatedQuestions server');
+    const Question = this;
+    const tags = req.header('tags').split(',');
 
-//     Question.find({}, null, {skip: 0, limit: 10}, (err, doc) => {
-//         if (err) {
-//             console.log('Unable to find related questions ', err);
-//         } else {
-//             res.status(200).json(doc);
-//         }
-//     });
-// }
+    Question.find({tags: {$in: [...tags] }}, null, {skip: 0, limit: 10}, (err, doc) => {
+        if (err) {
+            console.log('Unable to find related questions ', err);
+        } else {
+            console.log('doc ', doc);
+            res.status(200).json(doc);
+        }
+    });
+}
 
 // questionSchema.statics.getFeaturedQuestions = function (req, res) {
 //     const Question = this;

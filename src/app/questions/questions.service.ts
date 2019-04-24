@@ -20,6 +20,12 @@ export class QuestionsService {
     return this.httpClient.get(url);
   }
 
+  //get questions
+  getRelatedQuestions = (tags: string[]) => {
+    let url = `api/q/related-questions`;
+    return this.httpClient.get(url, { headers: { 'tags': tags }});
+  }
+
   //get recent questions
   getRecentQuestions = () => {
     let url = `api/q/recent-questions`;

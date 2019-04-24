@@ -5,6 +5,7 @@ export interface QuestionState {
     hasLoaded: boolean,
     popularQuestions: Question[],
     recentQuestions: Question[],
+    relatedQuestions: Question[],
     unansweredQuestions: Question[],
     tags: string[],
     questionsByTag: {
@@ -17,6 +18,7 @@ export interface QuestionState {
 export const initialState: QuestionState = {
     hasLoaded: false,
     recentQuestions: [],
+    relatedQuestions: [],
     popularQuestions: [],
     unansweredQuestions: [],
     tags: [],
@@ -34,6 +36,9 @@ export function questionReducer(state: QuestionState = initialState, action: Que
 
         case QuestionActions.ActionTypes.GetRecentQuestions:
             return { ...state, recentQuestions: action.payload.questions };
+
+        case QuestionActions.ActionTypes.GetRelatedQuestions:
+            return { ...state, relatedQuestions: action.payload.questions };
 
         case QuestionActions.ActionTypes.GetUnansweredQuestions:
             return { ...state, unansweredQuestions: action.payload.questions };

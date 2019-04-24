@@ -1,2 +1,6 @@
-<h2> Related questions</h2>
-<p> some related questions </p>
+<div>
+    <h2> Related questions</h2>
+    <div *ngFor="let question of (relatedQuestions$ | async)">
+        <a [routerLink]="['/questions/question-details', question._id]"> {{question.questionTitle}}</a>
+    </div>
+</div>

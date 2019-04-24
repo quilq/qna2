@@ -10,5 +10,5 @@
 
     <mat-divider></mat-divider>
 
-    <app-related-questions></app-related-questions>
+    <app-related-questions *ngIf="question" [tags]="question.tags"></app-related-questions>
 </div>

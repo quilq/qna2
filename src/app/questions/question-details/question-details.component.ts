@@ -17,15 +17,26 @@ export class QuestionDetailsComponent implements OnInit {
 
   question: Question;
 
-  constructor(private questionStore: Store<QuestionState>,
-    private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private questionStore: Store<QuestionState>,
+    private activatedRoute: ActivatedRoute
+  ) {
+    activatedRoute.params.subscribe(() => { this.updateView() });
+  }
 
   ngOnInit() {
+    // let id = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.questionStore.dispatch(new QuestionActions.OnFindQuestionById({ id }));
+    // this.questionStore.select(getQuestionById).subscribe(question => this.question = question);
+  }
+
+  updateView() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
-
     this.questionStore.dispatch(new QuestionActions.OnFindQuestionById({ id }));
-
     this.questionStore.select(getQuestionById).subscribe(question => this.question = question);
+
+    //scroll to top
+    window.scroll(0, 0);
   }
 
 }

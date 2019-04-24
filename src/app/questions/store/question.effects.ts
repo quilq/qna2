@@ -49,6 +49,24 @@ export class QuestionEffects {
         );
 
     @Effect()
+    getRelatedQuestions$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnGetRelatedQuestions),
+            switchMap((action: QuestionActions.OnGetRelatedQuestions) => {
+                return this.questionService.getRelatedQuestions(action.payload.tags)
+                    .pipe(
+                        map((questions: Question[]) => {
+                            return new QuestionActions.GetRelatedQuestions({ questions });
+                        }),
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        );
+
+    @Effect()
     findQuestionById$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnFindQuestionById),

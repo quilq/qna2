@@ -25,6 +25,13 @@ export const getRecentQuestions = createSelector(
     }
 );
 
+export const getRelatedQuestions = createSelector(
+    selectQuestionFeature,
+    (questionState: fromQuestion.QuestionState) => {
+        return questionState.relatedQuestions;
+    }
+);
+
 export const getQuestionById = createSelector(
     selectQuestionFeature,
     (questionState: fromQuestion.QuestionState) => {
