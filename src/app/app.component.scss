@@ -1,0 +1,12 @@
+@import './shared/style/full-page';
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.main-content {
+    padding-top: 128px;
+}

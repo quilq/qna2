@@ -5,7 +5,7 @@ export enum ActionTypes {
     Signin = '[Auth] Sign in',
 
     OnAuthenticateUser = '[Auth] On authenticate user',
-    // AuthenticateUser = '[Auth] Authenticate user',
+    // AuthenticateUser = Signin
 
     OnSignup = '[Auth] On sign up',
     Signup = '[Auth] Sign up',
@@ -28,11 +28,6 @@ export class OnAuthenticateUser implements Action {
     readonly type = ActionTypes.OnAuthenticateUser;
     constructor(public payload: { token: string }) { }
 }
-
-// export class AuthenticateUser implements Action {
-//     readonly type = ActionTypes.AuthenticateUser;
-//     constructor(public payload: {_id: string, username: string, email: string, token: string }) { }
-// }
 
 export class OnSignup implements Action {
     readonly type = ActionTypes.OnSignup;

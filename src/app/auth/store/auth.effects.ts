@@ -19,11 +19,8 @@ export class AuthEffects {
                 return this.userService.signin(action.payload.email, action.payload.password)
                     .pipe(
                         map((response: any) => {
-
-                            console.log(response);
-
                             //for observe: 'response' => access .body to get info
-                            // let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
+                            //let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
                             if (response.body._id) {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);
@@ -67,10 +64,6 @@ export class AuthEffects {
                 return this.userService.signup(action.payload.username, action.payload.email, action.payload.password)
                     .pipe(
                         map((response: any) => {
-
-                            console.log(response);
-
-                            // let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
                             if (response.body._id) {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);

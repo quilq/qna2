@@ -20,15 +20,13 @@ export class SignupComponent implements OnInit {
 
   hidePassword = true;
 
-  constructor(private store: Store<AuthState>) {  }
+  constructor(private authStore: Store<AuthState>) {  }
 
   ngOnInit() {
   }
 
-  onSubmit() {
-    console.log(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password);
-    
-    this.store.dispatch(new OnSignup({
+  onSubmit() {    
+    this.authStore.dispatch(new OnSignup({
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
       password: this.signupForm.value.password

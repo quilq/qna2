@@ -42,7 +42,7 @@ export const getQuestionById = createSelector(
 export const getQuestionsByTag = createSelector(
     selectQuestionFeature,
     (questionState: fromQuestion.QuestionState) => {
-        return questionState.questionsByTag;
+        return questionState.questionsByTag.questions;
     }
 );
 

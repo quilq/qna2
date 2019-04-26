@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AuthState } from '../store/auth.reducers';
-import { isAuthenticated } from '../store/auth.selectors';
-import { Signin } from '../store/auth.actions';
 
 @Injectable({
   providedIn: 'root'

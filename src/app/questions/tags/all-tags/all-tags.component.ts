@@ -18,7 +18,6 @@ export class AllTagsComponent implements OnInit {
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    console.log('tags component init');
     this.questionStore.dispatch(new QuestionActions.OnGetTags());
     this.tags$ = this.questionStore.select(getTags); 
   }

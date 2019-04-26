@@ -1,6 +1,10 @@
-<div>
+<div class="margin-child-2-0" *ngIf="relatedQuestions$ | async as relatedQuestions; else loading">
     <h2> Related questions</h2>
-    <div *ngFor="let question of (relatedQuestions$ | async)">
+    <div *ngFor="let question of relatedQuestions">
         <a [routerLink]="['/questions/question-details', question._id]"> {{question.questionTitle}}</a>
     </div>
 </div>
+
+<ng-template #loading>
+    Loading related questions...
+</ng-template>

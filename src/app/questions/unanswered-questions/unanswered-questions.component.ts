@@ -14,16 +14,13 @@ import * as QuestionActions from '../store/question.actions';
 })
 export class UnansweredQuestionsComponent implements OnInit {
 
-  unansweredQuestions: Question[];
+  unansweredQuestions$: Observable<Question[]>;
 
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    console.log('unanswered-question component init');
     this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions());
-    this.questionStore.select(getUnansweredQuestions).subscribe(unansweredQuestions =>
-      this.unansweredQuestions = unansweredQuestions
-    );
+    this.unansweredQuestions$ = this.questionStore.select(getUnansweredQuestions);
   }
 
 }

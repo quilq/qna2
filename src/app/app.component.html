@@ -1,3 +1,5 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<app-header class="header" *ngIf="!onUserAuthPage"></app-header>
+<div class="main-content full-page-80">
+    <router-outlet (activate)="onActivate()"></router-outlet>
+</div>
+<app-footer class="footer" *ngIf="!onUserAuthPage"></app-footer>

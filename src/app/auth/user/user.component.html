@@ -1,4 +1,4 @@
-<div class="margin-child-2-2">
-    <div> {{user.username}}</div>
-    <div> {{user.email}}</div>
+<div class="margin-child-2-2" >
+    <div> {{(user$ | async).username}}</div>
+    <div> {{(user$ | async).email}}</div>
 </div>

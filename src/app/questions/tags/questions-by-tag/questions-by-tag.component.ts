@@ -6,6 +6,7 @@ import { QuestionState } from '../../store/question.reducers';
 import { getQuestionsByTag } from '../../store/question.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { OnFindQuestionsByTag } from '../../store/question.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-questions-by-tag',
@@ -14,7 +15,7 @@ import { OnFindQuestionsByTag } from '../../store/question.actions';
 })
 export class QuestionsByTagComponent implements OnInit {
 
-  questionsByTag: Question[];
+  questionsByTag$: Observable<Question[]> ;
   tag: string;
   
   constructor(
@@ -23,19 +24,9 @@ export class QuestionsByTagComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    console.log('question by tag component init');
-    
     this.tag = this.activatedRoute.snapshot.paramMap.get('tag');
-    console.log('this tag: ', this.tag);
-
     this.questionStore.dispatch(new OnFindQuestionsByTag({tag: this.tag}));
-
-    this.questionStore.select(getQuestionsByTag).subscribe(questionByTag => {
-      this.tag = questionByTag.tag;
-      console.log('tag ', this.tag);
-      this.questionsByTag = questionByTag.questions;
-      console.log('questions by tag ', this.questionsByTag); 
-    });
+    this.questionsByTag$ = this.questionStore.select(getQuestionsByTag);
   }
 
 }

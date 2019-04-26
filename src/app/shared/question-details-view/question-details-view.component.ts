@@ -1,20 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
 
 import { Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { UserService } from '../../auth/user/user.service';
 import { isAuthenticated } from '../../auth/store/auth.selectors';
 import * as QuestionActions from '../../questions/store/question.actions';
+import { pipe } from '@angular/core/src/render3';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-question-details-view',
   templateUrl: './question-details-view.component.html',
   styleUrls: ['./question-details-view.component.scss']
 })
-export class QuestionDetailsViewComponent implements OnInit {
+export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   @Input() question: Question;
+
+  private ngUnsubscribe$ = new Subject();
 
   isAuthenticated = false;
   canEditQuestion = false;
@@ -25,7 +30,9 @@ export class QuestionDetailsViewComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit() {
-    this.userStore.select(isAuthenticated).subscribe(isAuthenticated =>
+    this.userStore.select(isAuthenticated)
+    .pipe(takeUntil(this.ngUnsubscribe$))
+    .subscribe(isAuthenticated =>
       this.isAuthenticated = isAuthenticated
     );
   }
@@ -92,5 +99,10 @@ export class QuestionDetailsViewComponent implements OnInit {
 
   updateCorrectAnswer(questionId: string, correctAnswerId: string) {
     this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId }));
+  }
+
+  ngOnDestroy(){
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }

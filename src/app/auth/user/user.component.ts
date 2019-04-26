@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { AuthState } from '../store/auth.reducers';
 import { User } from './user.model';
 import { selectUser } from '../store/auth.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -12,11 +13,11 @@ import { selectUser } from '../store/auth.selectors';
 })
 export class UserComponent implements OnInit {
 
-  user : User;
+  user$: Observable<User>;
   constructor(private store: Store<AuthState>) { }
 
   ngOnInit() {
-    this.store.select(selectUser).subscribe(user => this.user = user);
+    this.user$ = this.store.select(selectUser);
   }
 
 }

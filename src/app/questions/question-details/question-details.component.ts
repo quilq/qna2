@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { Question } from '../question.model';
 import { QuestionState } from '../store/question.reducers';
 import { getQuestionById } from '../store/question.selectors';
-import { User } from '../../auth/user/user.model';
 import * as QuestionActions from '../store/question.actions';
 
 @Component({
@@ -15,7 +15,7 @@ import * as QuestionActions from '../store/question.actions';
 })
 export class QuestionDetailsComponent implements OnInit {
 
-  question: Question;
+  question$: Observable<Question>;
 
   constructor(
     private questionStore: Store<QuestionState>,
@@ -25,15 +25,12 @@ export class QuestionDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // let id = this.activatedRoute.snapshot.paramMap.get('id');
-    // this.questionStore.dispatch(new QuestionActions.OnFindQuestionById({ id }));
-    // this.questionStore.select(getQuestionById).subscribe(question => this.question = question);
   }
 
   updateView() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     this.questionStore.dispatch(new QuestionActions.OnFindQuestionById({ id }));
-    this.questionStore.select(getQuestionById).subscribe(question => this.question = question);
+    this.question$ = this.questionStore.select(getQuestionById);
 
     //scroll to top
     window.scroll(0, 0);

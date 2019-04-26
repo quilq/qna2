@@ -1,11 +1,12 @@
 <div>
-    <!-- set type="button" to avoid submitting form... -->
+    <!-- set type="button" to avoid submitting form accedentally... -->
     <button type="button" mat-raised-button (click)="preview = !preview" class="margin-1-0"
         [ngClass]="{active: preview}">
-        <!-- [class.active]="preview"> -->
+        <!-- or use property biding: [class.active]="preview"> -->
         <!-- toggle the "active" class on/off with 'preview' property -->
 
         Show/hide preview
     </button>
+    
     <div markdown [data]="content" *ngIf="preview && content"></div>
 </div>

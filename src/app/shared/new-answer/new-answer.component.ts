@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormControl } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 import { Answer } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
@@ -14,12 +16,14 @@ import * as QuestionActions from '../../questions/store/question.actions';
   templateUrl: './new-answer.component.html',
   styleUrls: ['./new-answer.component.scss']
 })
-export class NewAnswerComponent implements OnInit {
+export class NewAnswerComponent implements OnInit, OnDestroy {
 
   @Input() questionId: string;
 
-  user: User;
+  private ngUnsubscribe$ = new Subject();
+
   isAuthenticated = false;
+  user: User;
   canEditQuestion = false;
   canEditAnswer = false;
 
@@ -32,8 +36,13 @@ export class NewAnswerComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit() {
-    this.userStore.select(selectUser).subscribe(user => this.user = user);
-    this.userStore.select(isAuthenticated).subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+    this.userStore.select(selectUser)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(user => this.user = user);
+
+    this.userStore.select(isAuthenticated)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
   }
 
   onSubmit() {
@@ -46,8 +55,14 @@ export class NewAnswerComponent implements OnInit {
       }));
 
       this.answerForm.reset();
+
     } else {
       this.userService.toSignin();
     }
+  }
+
+  ngOnDestroy(){
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }

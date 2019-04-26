@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormControl, FormGroup } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { UserService } from '../../auth/user/user.service';
 import { User } from '../../auth/user/user.model';
-import * as QuestionActions from '../../questions/store/question.actions';
 import { isAuthenticated, selectUser } from '../../auth/store/auth.selectors';
+import * as QuestionActions from '../../questions/store/question.actions';
 
 @Component({
   selector: 'app-new-question',
   templateUrl: './new-question.component.html',
   styleUrls: ['./new-question.component.scss']
 })
-export class NewQuestionComponent implements OnInit {
-  // questions$: Observable<Question[]>
+export class NewQuestionComponent implements OnInit, OnDestroy {
+
+  private ngUnsubscribe$ = new Subject();
+
   isAuthenticated: boolean;
   user: User;
 
@@ -40,8 +44,13 @@ export class NewQuestionComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.store.select(isAuthenticated).subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
-    this.store.select(selectUser).subscribe(user => this.user = user);
+    this.store.select(isAuthenticated)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+
+    this.store.select(selectUser)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(user => this.user = user);
   }
 
   add(event: MatChipInputEvent): void {
@@ -87,4 +96,8 @@ export class NewQuestionComponent implements OnInit {
     this.tags = [];
   }
 
+  ngOnDestroy(){
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
+  }
 }

@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AuthState } from '../../auth/store/auth.reducers';
 import { isAuthenticated } from '../../auth/store/auth.selectors';
-import * as AuthActions from '../../auth/store/auth.actions';
-import * as QuestionActions from '../../questions/store/question.actions';
 import { UserService } from '../../auth/user/user.service';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { hasLoaded } from '../../questions/store/question.selectors';
+import * as AuthActions from '../../auth/store/auth.actions';
+import * as QuestionActions from '../../questions/store/question.actions';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  // isAuthenticated$: Observable<boolean>;
+  private ngUnsubscribe$ = new Subject();
   isAuthenticated: boolean;
 
   constructor(
@@ -27,25 +28,31 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.isAuthenticated$ = this.userStore.select(isAuthenticated);
+    this.userStore.select(isAuthenticated)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(isAuthenticated => {
+        this.isAuthenticated = isAuthenticated;
+        let token = this.userService.getToken();
+        if ((!isAuthenticated) && (token)) {
+          this.userStore.dispatch(new AuthActions.OnAuthenticateUser({ token }));
+        }
+      });
 
-    this.userStore.select(isAuthenticated).subscribe(isAuthenticated => {
-      this.isAuthenticated = isAuthenticated;
-      let token = this.userService.getToken();
-      if ((!isAuthenticated) && (token)) {
-        this.userStore.dispatch(new AuthActions.OnAuthenticateUser({ token }));
-      }
-    });
-
-    this.questionStore.select(hasLoaded).subscribe(hasLoaded => {
-      if (!hasLoaded) {
-        this.questionStore.dispatch(new QuestionActions.OnGetPopularQuestions());
-      }
-    })
+    this.questionStore.select(hasLoaded)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(hasLoaded => {
+        if (!hasLoaded) {
+          this.questionStore.dispatch(new QuestionActions.OnGetPopularQuestions());
+        }
+      });
   }
 
   onSignout() {
     this.userStore.dispatch(new AuthActions.OnSignout());
   }
 
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
+  }
 }

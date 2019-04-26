@@ -1,14 +1,14 @@
-<div class="margin-child-2-0">
-
-    <!-- ngIf guards against null values -->
-    <app-question-details-view *ngIf="question" [question]="question"></app-question-details-view>
-
-    <mat-divider></mat-divider>
-
-    <!-- safe navigation operator (?.) also guards against null values -->
-    <app-new-answer [questionId]="question?._id"></app-new-answer>
+<!-- ngIf guards against null values -->
+<div class="margin-child-2-0" *ngIf="question$ | async as question; else loading">
+    <app-question-details-view [question]="question"></app-question-details-view>
 
     <mat-divider></mat-divider>
+    <app-new-answer [questionId]="question._id"></app-new-answer>
 
-    <app-related-questions *ngIf="question" [tags]="question.tags"></app-related-questions>
+    <mat-divider></mat-divider>
+    <app-related-questions [tags]="question.tags"></app-related-questions>
 </div>
+
+<ng-template #loading>
+    Loading question datails...
+</ng-template>
