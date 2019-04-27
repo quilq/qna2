@@ -32,6 +32,13 @@ export const getRelatedQuestions = createSelector(
     }
 );
 
+export const getFeaturedQuestions = createSelector(
+    selectQuestionFeature,
+    (questionState: fromQuestion.QuestionState) => {
+        return questionState.featuredQuestions;
+    }
+);
+
 export const getQuestionById = createSelector(
     selectQuestionFeature,
     (questionState: fromQuestion.QuestionState) => {

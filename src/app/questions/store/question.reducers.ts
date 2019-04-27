@@ -7,6 +7,7 @@ export interface QuestionState {
     recentQuestions: Question[],
     relatedQuestions: Question[],
     unansweredQuestions: Question[],
+    featuredQuestions: Question[],
     tags: string[],
     questionsByTag: {
         tag: string,
@@ -21,6 +22,7 @@ export const initialState: QuestionState = {
     relatedQuestions: [],
     popularQuestions: [],
     unansweredQuestions: [],
+    featuredQuestions: [],
     tags: [],
     questionsByTag: {
         tag: '',
@@ -39,6 +41,9 @@ export function questionReducer(state: QuestionState = initialState, action: Que
 
         case QuestionActions.ActionTypes.GetRelatedQuestions:
             return { ...state, relatedQuestions: action.payload.questions };
+            
+        case QuestionActions.ActionTypes.GetFeaturedQuestions:
+        return { ...state, featuredQuestions: action.payload.questions };
 
         case QuestionActions.ActionTypes.GetUnansweredQuestions:
             return { ...state, unansweredQuestions: action.payload.questions };

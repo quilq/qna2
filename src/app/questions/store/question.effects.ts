@@ -66,6 +66,24 @@ export class QuestionEffects {
             })
         );
 
+        @Effect()
+        getFeaturedQuestions$: Observable<Action> = this.actions$
+            .pipe(
+                ofType(QuestionActions.ActionTypes.OnGetFeaturedQuestions),
+                switchMap(() => {
+                    return this.questionService.getFeaturedQuestions()
+                        .pipe(
+                            map((questions: Question[]) => {
+                                return new QuestionActions.GetFeaturedQuestions({ questions });
+                            }),
+                            catchError((error) => {
+                                console.log('Error: ', error);
+                                return EMPTY;
+                            })
+                        )
+                })
+            );
+
     @Effect()
     findQuestionById$ = this.actions$
         .pipe(

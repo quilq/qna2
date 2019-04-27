@@ -12,13 +12,15 @@ router.get('/q', (req, res) => {
 
 router.get('/q/recent-questions', (req, res) => {
     Question.getRecentQuestions(req, res);
-})
+});
 
 router.get('/q/related-questions', (req, res) => {
-    console.log('getRelatedQuestions API');
     Question.getRelatedQuestions(req, res);
-})
+});
 
+router.get('/q/featured-questions', (req, res) => {
+    Question.getFeaturedQuestions(req, res);
+});
 
 //fetch all tags
 router.get('/q/all-tags', (req, res) => {

@@ -12,6 +12,9 @@ export enum ActionTypes {
     OnGetRelatedQuestions = '[Question] On Get Related Questions',
     GetRelatedQuestions = '[Question] Get Related Questions',
 
+    OnGetFeaturedQuestions = '[Question] On Get Featured Questions',
+    GetFeaturedQuestions = '[Question] Get Featured Questions',
+
     OnGetUnansweredQuestions = '[Question] On Get Unanswered Questions',
     GetUnansweredQuestions = '[Question] Get Unanswered Questions',
 
@@ -77,6 +80,15 @@ export class OnGetRelatedQuestions implements Action {
 
 export class GetRelatedQuestions implements Action {
     readonly type = ActionTypes.GetRelatedQuestions;
+    constructor(public payload: { questions: Question[] }) { }
+}
+
+export class OnGetFeaturedQuestions implements Action {
+    readonly type = ActionTypes.OnGetFeaturedQuestions;
+}
+
+export class GetFeaturedQuestions implements Action {
+    readonly type = ActionTypes.GetFeaturedQuestions;
     constructor(public payload: { questions: Question[] }) { }
 }
 
@@ -215,6 +227,8 @@ export type Union =
     | OnGetRelatedQuestions
     | GetRelatedQuestions
     | GetRecentQuestions
+    | OnGetFeaturedQuestions
+    | GetFeaturedQuestions
     | OnGetUnansweredQuestions
     | GetUnansweredQuestions
     | OnGetTags

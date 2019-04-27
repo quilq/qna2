@@ -45,31 +45,48 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
 }
 
 questionSchema.statics.getRelatedQuestions = function (req, res) {
-    console.log('getRelatedQuestions server');
     const Question = this;
+    //tags in header converted to string => need to split
     const tags = req.header('tags').split(',');
 
-    Question.find({tags: {$in: [...tags] }}, null, {skip: 0, limit: 10}, (err, doc) => {
+    Question.find({ tags: { $in: [...tags] } }, null, { skip: 0, limit: 10 }, (err, doc) => {
         if (err) {
             console.log('Unable to find related questions ', err);
         } else {
-            console.log('doc ', doc);
             res.status(200).json(doc);
         }
     });
 }
 
-// questionSchema.statics.getFeaturedQuestions = function (req, res) {
-//     const Question = this;
+questionSchema.statics.getFeaturedQuestions = function (req, res) {
+    const Question = this;
 
-//     Question.find({}, null, {skip: 0, limit: 10}, (err, doc) => {
-//         if (err) {
-//             console.log('Unable to get featured questions ', err);
-//         } else {
-//             res.status(200).json(doc);
-//         }
-//     });
-// }
+    //db.collection.aggregate( [ { <stage> }, ... ] )
+    Question.aggregate(
+        [
+            {
+                '$project': {
+                    'tags': 1,
+                    'questionTitle': 1,
+                    'questionContent': 1,
+                    'askedByUser': 1,
+                    'questionVotes': 1,
+                    'answers': 1,
+                    'createdAt': 1,
+                    'length': { '$size': '$answers' }
+                }
+            },
+            { '$sort': { 'length': -1 } },
+            { '$limit': 10 }
+        ], (err, doc) => {
+            if (err) {
+                console.log('Unable to get featured questions ', err);
+            } else {
+                res.status(200).json(doc);
+            }
+        }
+    );
+}
 
 //get all tags
 questionSchema.statics.getTags = function (req, res) {
