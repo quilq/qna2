@@ -1,16 +1,21 @@
 import * as AuthActions from './auth.actions';
 import { User } from '../user/user.model';
+import { Question } from 'src/app/questions/question.model';
 
 export interface AuthState {
     user: User;
     isAuthenticated: boolean;
-    token: string
+    token: string,
+    userQuestions: Question[],
+    userAnswers: Question[]
 }
 
 export const initialState: AuthState = {
     user: new User(),
     isAuthenticated: false,
-    token: ''
+    token: '',
+    userQuestions: [],
+    userAnswers: []
 }
 
 export function authReducer(state: AuthState = initialState, action: AuthActions.Union): AuthState {
@@ -24,6 +29,12 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
                 isAuthenticated: true,
                 token: action.payload.token
             };
+
+        case AuthActions.ActionTypes.GetUserQuestions:
+            return { ...state, userQuestions: action.payload.userQuestions };
+
+        case AuthActions.ActionTypes.GetUserAnswers:
+            return { ...state, userAnswers: action.payload.userAnswers };
 
         case AuthActions.ActionTypes.Signout:
             return { ...initialState };

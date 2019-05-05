@@ -39,20 +39,21 @@ export class UserService {
   }
 
   signout() {
-    let url = 'api/user/signout';
-    let token = this.getToken();
-    return this.httpClient.delete(url, { headers: { 'x-auth': token } });
+    let url = 'api/user/signout';;
+    return this.httpClient.delete(url, { headers: { 'x-auth': this.getToken() } });
   }
 
   //get user questions
   findQuestionsByUser = (userId: string) => {
     let url = `api/user/questions`;
-    return this.httpClient.get(url, { headers: { 'userId': userId } });
+    console.log(this.getToken());
+    return this.httpClient.get(url, { headers: { 'x-auth': this.getToken() }, params: { 'userId': userId } });
   }
 
   //get user answers
-  findAnswesByUser = (userId: string) => {
+  findAnswersByUser = (userId: string) => {
     let url = `api/user/answers`;
-    return this.httpClient.get(url, { headers: { 'userId': userId } });
+    console.log(this.getToken());
+    return this.httpClient.get(url, { headers: { 'x-auth': this.getToken() }, params: { 'userId': userId } });
   }
 }

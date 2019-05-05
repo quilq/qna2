@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -12,7 +12,7 @@ import { OnGetRelatedQuestions } from '../store/question.actions';
   templateUrl: './related-questions.component.html',
   styleUrls: ['./related-questions.component.scss']
 })
-export class RelatedQuestionsComponent implements OnInit {
+export class RelatedQuestionsComponent implements OnInit, OnChanges {
   @Input() tags: string[];
 
   relatedQuestions$: Observable<Question[]>;
@@ -20,8 +20,14 @@ export class RelatedQuestionsComponent implements OnInit {
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.questionStore.dispatch(new OnGetRelatedQuestions({tags: this.tags}));
+    // this.questionStore.dispatch(new OnGetRelatedQuestions({tags: this.tags}));
     this.relatedQuestions$ = this.questionStore.select(getRelatedQuestions);
   }
+
+  ngOnChanges(change: SimpleChanges){
+    let newTags = change.tags.currentValue;
+    this.questionStore.dispatch(new OnGetRelatedQuestions({tags: newTags}));
+  }
+
 
 }

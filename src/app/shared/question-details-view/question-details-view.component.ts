@@ -1,14 +1,13 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { UserService } from '../../auth/user/user.service';
 import { isAuthenticated } from '../../auth/store/auth.selectors';
 import * as QuestionActions from '../../questions/store/question.actions';
-import { pipe } from '@angular/core/src/render3';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-question-details-view',
@@ -99,6 +98,10 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   updateCorrectAnswer(questionId: string, correctAnswerId: string) {
     this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId }));
+  }
+
+  updateUncorrectAnswer(questionId: string, correctAnswerId: string) {
+    // this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId }));
   }
 
   ngOnDestroy(){

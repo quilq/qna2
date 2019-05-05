@@ -17,3 +17,17 @@ export const selectUser = createSelector(
         return authState.user;
     }
 );
+
+export const getUserQuestions = createSelector(
+    selectAuthFeature,
+    (authState: fromAuth.AuthState) => {
+        return authState.userQuestions;
+    }
+);
+
+export const getUserAnswers = createSelector(
+    selectAuthFeature,
+    (authState: fromAuth.AuthState) => {
+        return authState.userAnswers;
+    }
+);

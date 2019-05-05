@@ -31,10 +31,13 @@ router.get('/q/unanswered-questions', (req, res) => {
     Question.getUnansweredQuestions(req, res);
 })
 
-//Find questions by Id
+// Find questions by Id
 router.get('/q/id/:id', (req, res) => {
     Question.findQuestionById(req, res);
 });
+// router.get('/q/id', (req, res) => {
+//     Question.findQuestionById(req, res);
+// });
 
 //find questions by user
 router.get('/q/user', (req, res) => {
@@ -46,10 +49,6 @@ router.get('/q/tag', (req, res) => {
     Question.findQuestionsByTag(req, res);
 });
 
-//create question
-// router.post('/q/add', (req, res) => {
-//     Question.createQuestion(req, res);
-// });
 router.post('/q/add', authenticate, (req, res) => {
     Question.createQuestion(req, res);
 });
@@ -96,11 +95,13 @@ router.put('/a/delete', authenticate, (req, res) => {
 
 //Get user questions
 router.get('/user/questions', authenticate, (req, res) => {
+    console.log('finfindQuestionsByUser called! ');
     Question.findQuestionsByUser(req, res);
 });
 
 //Get user answers
 router.get('/user/answers', authenticate, (req, res) => {
+    console.log('findAnswersByUser called! ');
     Question.findAnswersByUser(req, res);
 });
 

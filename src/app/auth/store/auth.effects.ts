@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { UserService } from '../user/user.service';
 import * as AuthActions from './auth.actions';
+import { Question } from 'src/app/questions/question.model';
 
 @Injectable()
 
@@ -19,7 +20,7 @@ export class AuthEffects {
                 return this.userService.signin(action.payload.email, action.payload.password)
                     .pipe(
                         map((response: any) => {
-                            //for observe: 'response' => access .body to get info
+                            //observe: 'response' => access .body to get info
                             //let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
                             if (response.body._id) {
                                 let token: string = response.headers.get('x-auth');
@@ -29,7 +30,48 @@ export class AuthEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Cannot signin. Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        );
+
+    @Effect()
+    getUserQuestions$: Observable<Action> = this.action$
+        .pipe(
+            ofType(AuthActions.ActionTypes.OnGetUserQuestions),
+            switchMap((action: AuthActions.OnGetUserQuestions) => {
+                return this.userService.findQuestionsByUser(action.payload.userId)
+                    .pipe(
+                        map((questions: Question[]) => {
+                            if (questions) {
+                                console.log('questions ', questions);
+                                return new AuthActions.GetUserQuestions({ userQuestions: questions });
+                            }
+                        }),
+                        catchError((error) => {
+                            console.log('Cannot get user\'s questions. Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        );
+
+    @Effect()
+    getUserAnswers$: Observable<Action> = this.action$
+        .pipe(
+            ofType(AuthActions.ActionTypes.OnGetUserAnswers),
+            switchMap((action: AuthActions.OnGetUserAnswers) => {
+                return this.userService.findAnswersByUser(action.payload.userId)
+                    .pipe(
+                        map((questions: Question[]) => {
+                            if (questions) {
+                                return new AuthActions.GetUserAnswers({ userAnswers: questions });
+                            }
+                        }),
+                        catchError((error) => {
+                            console.log('Cannot get user\'s answers. Error: ', error);
                             return EMPTY;
                         })
                     )
@@ -47,7 +89,7 @@ export class AuthEffects {
                             return new AuthActions.Signin({ ...response, token: action.payload.token })
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error.error.message);
+                            console.log('Cannot authenticate user. Error: ', error.error.message);
                             localStorage.removeItem('token');
                             return EMPTY;
                         })
@@ -72,7 +114,7 @@ export class AuthEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Signup error: ', error);
                             return EMPTY;
                         })
                     )
@@ -92,7 +134,7 @@ export class AuthEffects {
                             return new AuthActions.Signout();
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Signout error: ', error);
                             return EMPTY;
                         })
                     )

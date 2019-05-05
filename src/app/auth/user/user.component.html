@@ -1,6 +1,31 @@
-<div class="margin-child-2-2" *ngIf="user$ | async as user; else loading" >
+<div class="margin-child-2-2" *ngIf="user$ | async as user; else loading">
     <div> {{user.username}}</div>
     <div> {{user.email}}</div>
+
+    <div>
+        <button mat-button (click)="getUserQuestions(user._id)">Get user questions</button>
+        <div *ngIf="userQuestions$ | async as userQuestions">
+            <div *ngFor="let question of userQuestions">
+                <mat-divider></mat-divider>
+                <a [routerLink]="['/questions/question-details', question._id]">
+                    {{question.questionTitle}}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <button mat-button (click)="getUserAnswers(user._id)">Get user answers</button>
+        <div *ngIf="userAnswers$ | async as userAnswers">
+            <div *ngFor="let question of userAnswers">
+                <mat-divider></mat-divider>
+                <a [routerLink]="['/questions/question-details', question._id]">
+                    {{question.questionTitle}}
+                </a>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <ng-template #loading>

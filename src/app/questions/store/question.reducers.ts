@@ -13,7 +13,8 @@ export interface QuestionState {
         tag: string,
         questions: Question[]
     },
-    questionById: Question
+    questionById: Question,
+    searchResult: Question[]
 }
 
 export const initialState: QuestionState = {
@@ -28,7 +29,8 @@ export const initialState: QuestionState = {
         tag: '',
         questions: []
     },
-    questionById: null
+    questionById: null,
+    searchResult: []
 }
 
 export function questionReducer(state: QuestionState = initialState, action: QuestionActions.Union): QuestionState {

@@ -47,11 +47,31 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
 questionSchema.statics.getRelatedQuestions = function (req, res) {
     const Question = this;
     //tags in header converted to string => need to split
-    const tags = req.header('tags').split(',');
+    // const tags = req.header('tags').split(',');
+    const tags = req.query.tags;
+    console.log('related query ', tags);
 
-    Question.find({ tags: { $in: [...tags] } }, null, { skip: 0, limit: 10 }, (err, doc) => {
+    Question.find({ tags: { $in: tags } }, null, { skip: 0, limit: 10 }, (err, doc) => {
         if (err) {
             console.log('Unable to find related questions ', err);
+        } else {
+            res.status(200).json(doc);
+        }
+    });
+}
+
+
+//find question by ID
+questionSchema.statics.findQuestionById = function (req, res) {
+    const questionId = req.params.id;
+
+    // console.log('question id ', req.query.id);
+    const Question = this;
+
+    // Question.findById({ _id: new ObjectId(questionId) }, (err, doc) => {
+    Question.findById({ _id: questionId }, (err, doc) => {
+        if (err) {
+            console.log('Unable to find questions by ID ', err);
         } else {
             res.status(200).json(doc);
         }
@@ -117,13 +137,15 @@ questionSchema.statics.getUnansweredQuestions = function (req, res) {
 
 //find questions by user(name)
 questionSchema.statics.findQuestionsByUser = function (req, res) {
-    const userId = req.header('userId');
+    const userId = req.query.userId;
     const Question = this;
+    console.log('userId ', userId);
 
-    Question.find({ 'askedByUser._id': userId }, (err, doc) => {
+    Question.find({ askedByUser: userId }, (err, doc) => {
         if (err) {
             console.log('Unable to fetch data ', err);
         } else {
+            console.log('result: ', doc);
             res.status(200).json(doc);
         }
     });
@@ -131,7 +153,8 @@ questionSchema.statics.findQuestionsByUser = function (req, res) {
 
 //find questions by tag
 questionSchema.statics.findQuestionsByTag = function (req, res) {
-    const tag = req.header('tag');
+    const tag = req.query.tag;
+    console.log('tag ', tag);
 
     const Question = this;
 
@@ -144,20 +167,6 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
     });
 }
 
-//find question by ID
-questionSchema.statics.findQuestionById = function (req, res) {
-    const questionId = req.params.id;
-    const Question = this;
-
-    // Question.findById({ _id: new ObjectId(questionId) }, (err,ks doc) => {
-    Question.findById({ _id: questionId }, (err, doc) => {
-        if (err) {
-            console.log('Unable to find questions by ID ', err);
-        } else {
-            res.status(200).json(doc);
-        }
-    });
-}
 
 //create question
 questionSchema.statics.createQuestion = function (req, res) {
@@ -173,7 +182,6 @@ questionSchema.statics.createQuestion = function (req, res) {
     });
 
 }
-
 
 //upvote, downvote question
 questionSchema.statics.voteQuestion = function (req, res) {
@@ -243,13 +251,18 @@ questionSchema.statics.deleteQuestion = function (req, res) {
 
 //Find answers by user with model method
 questionSchema.statics.findAnswersByUser = function (req, res) {
-    const userId = req.header('user');
+    const userId = req.query.userId;
     const Question = this;
 
-    Question.find({
-        answers: { 'answeredByUser._id': userId }
-    }).then(doc => {
-        res.json(doc);
+    console.log('userId ', userId);
+
+    Question.find({ 'answers.answeredByUser': userId }, (err, doc) => {
+        if (err) {
+            console.log('Unable to find answers by user ', err);
+        } else {
+            console.log('result: ', doc);
+            res.json(doc);
+        }
     });
 
 }
