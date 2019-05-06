@@ -124,10 +124,13 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                             break;
                         }
                     }
-                    for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
-                        if (newQuestions[i].answers[ii]._id === action.payload.correctAnswerId) {
-                            newQuestions[i].answers[ii].isCorrectAnswer = true;
-                            break;
+
+                    if (!action.payload.undo){
+                        for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
+                            if (newQuestions[i].answers[ii]._id === action.payload.correctAnswerId) {
+                                newQuestions[i].answers[ii].isCorrectAnswer = true;
+                                break;
+                            }
                         }
                     }
                 }

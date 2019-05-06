@@ -37,11 +37,11 @@
             <p markdown [data]="answer.answer"> </p>
             <mat-icon *ngIf="answer.isCorrectAnswer">check_circle</mat-icon>
             <button mat-raised-button *ngIf="!answer.isCorrectAnswer"
-                (click)="updateCorrectAnswer(question._id, answer._id)">
+                (click)="updateCorrectAnswer(question._id, answer._id, false)">
                 Mark as correct answer
             </button>
             <button mat-raised-button *ngIf="answer.isCorrectAnswer"
-                (click)="updateUncorrectAnswer(question._id, answer._id)">
+                (click)="updateCorrectAnswer(question._id, answer._id, true)">
                 Mark as uncorrect answer
             </button>
             <button mat-raised-button (click)="deleteAnswer(question._id, answer._id)">Delete</button>

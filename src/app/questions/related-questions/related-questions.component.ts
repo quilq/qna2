@@ -24,10 +24,15 @@ export class RelatedQuestionsComponent implements OnInit, OnChanges {
     this.relatedQuestions$ = this.questionStore.select(getRelatedQuestions);
   }
 
-  ngOnChanges(change: SimpleChanges){
+  ngOnChanges(change: SimpleChanges) {
+    let oldTags = change.tags.previousValue;
     let newTags = change.tags.currentValue;
-    this.questionStore.dispatch(new OnGetRelatedQuestions({tags: newTags}));
-  }
 
+    if (oldTags && (oldTags.join('') === newTags.join(''))) {
+      console.log('tag(s) did not change');
+    } else {
+      this.questionStore.dispatch(new OnGetRelatedQuestions({ tags: newTags }));
+    }
+  }
 
 }

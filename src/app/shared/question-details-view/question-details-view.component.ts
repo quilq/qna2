@@ -96,12 +96,8 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
     this.questionStore.dispatch(new QuestionActions.OnVoteAnswer({ questionId, answerId, upvote }));
   }
 
-  updateCorrectAnswer(questionId: string, correctAnswerId: string) {
-    this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId }));
-  }
-
-  updateUncorrectAnswer(questionId: string, correctAnswerId: string) {
-    // this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId }));
+  updateCorrectAnswer(questionId: string, correctAnswerId: string, undo: boolean) {
+    this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId, undo }));
   }
 
   ngOnDestroy(){

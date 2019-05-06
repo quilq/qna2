@@ -192,12 +192,12 @@ export class EditAnswer implements Action {
 
 export class OnUpdateCorrectAnswer implements Action {
     readonly type = ActionTypes.OnUpdateCorrectAnswer;
-    constructor(public payload: { questionId: string, correctAnswerId: string }) { }
+    constructor(public payload: { questionId: string, correctAnswerId: string, undo: boolean }) { }
 }
 
 export class UpdateCorrectAnswer implements Action {
     readonly type = ActionTypes.UpdateCorrectAnswer;
-    constructor(public payload: { questionId: string, correctAnswerId: string }) { }
+    constructor(public payload: { questionId: string, correctAnswerId: string, undo: boolean }) { }
 }
 
 export class OnVoteAnswer implements Action {

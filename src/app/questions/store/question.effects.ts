@@ -66,23 +66,23 @@ export class QuestionEffects {
             })
         );
 
-        @Effect()
-        getFeaturedQuestions$: Observable<Action> = this.actions$
-            .pipe(
-                ofType(QuestionActions.ActionTypes.OnGetFeaturedQuestions),
-                switchMap(() => {
-                    return this.questionService.getFeaturedQuestions()
-                        .pipe(
-                            map((questions: Question[]) => {
-                                return new QuestionActions.GetFeaturedQuestions({ questions });
-                            }),
-                            catchError((error) => {
-                                console.log('Error: ', error);
-                                return EMPTY;
-                            })
-                        )
-                })
-            );
+    @Effect()
+    getFeaturedQuestions$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnGetFeaturedQuestions),
+            switchMap(() => {
+                return this.questionService.getFeaturedQuestions()
+                    .pipe(
+                        map((questions: Question[]) => {
+                            return new QuestionActions.GetFeaturedQuestions({ questions });
+                        }),
+                        catchError((error) => {
+                            console.log('Error: ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        );
 
     @Effect()
     findQuestionById$ = this.actions$
@@ -326,19 +326,22 @@ export class QuestionEffects {
     updateCorrectAnswer$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnUpdateCorrectAnswer),
-            switchMap((action: QuestionActions.UpdateCorrectAnswer) => {
+            switchMap((action: QuestionActions.OnUpdateCorrectAnswer) => {
                 return this.questionService.updateCorrectAnswer(
                     action.payload.questionId,
-                    action.payload.correctAnswerId
+                    action.payload.correctAnswerId,
+                    action.payload.undo
                 )
                     .pipe(
                         mergeMap((response: string) => {
                             if (response === 'correct-answer-updated') {
                                 return [
-                                    new QuestionActions.UpdateCorrectAnswer({
-                                        questionId: action.payload.questionId,
-                                        correctAnswerId: action.payload.correctAnswerId
-                                    }),
+                                    // new QuestionActions.UpdateCorrectAnswer({
+                                    //     questionId: action.payload.questionId,
+                                    //     correctAnswerId: action.payload.correctAnswerId,
+                                    //     undo: action.payload.undo
+                                    // }),
+                                    new QuestionActions.UpdateCorrectAnswer({ ...action.payload }),
                                     new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
                                 ];
                             }

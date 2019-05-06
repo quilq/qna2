@@ -91,9 +91,9 @@ export class QuestionsService {
     return this.httpClient.put(url, { questionId, answerId, newAnswer }, { headers: { 'x-auth': this.token } });
   }
 
-  updateCorrectAnswer = (questionId: string, correctAnswerId: string) => {
+  updateCorrectAnswer = (questionId: string, correctAnswerId: string, undo: boolean) => {
     let url = `api/a/update`;
-    return this.httpClient.put(url, { questionId, correctAnswerId }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, correctAnswerId, undo }, { headers: { 'x-auth': this.token } });
   }
 
   voteAnswer = (questionId: string, answerId: string, upvote: boolean) => {

@@ -315,6 +315,7 @@ questionSchema.statics.editAnswer = function (req, res) {
 questionSchema.statics.updateCorrectAnswer = function (req, res) {
     const questionId = req.body.questionId;
     const correctAnswerId = req.body.correctAnswerId;
+    const undo = req.body.undo;
     const Question = this;
 
     Question.updateOne(
@@ -324,17 +325,21 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to update correct answer ', err);
             } else {
-                Question.updateOne(
-                    { _id: questionId, 'answers._id': correctAnswerId },
-                    { $set: { 'answers.$.isCorrectAnswer': true } },
-                    (err, doc) => {
-                        if (err) {
-                            console.log('Unable to update correct answer ', err);
-                        } else {
-                            res.json('correct-answer-updated');
+                if (undo){
+                    res.json('correct-answer-updated');
+                } else {
+                    Question.updateOne(
+                        { _id: questionId, 'answers._id': correctAnswerId },
+                        { $set: { 'answers.$.isCorrectAnswer': true } },
+                        (err, doc) => {
+                            if (err) {
+                                console.log('Unable to update correct answer ', err);
+                            } else {
+                                res.json('correct-answer-updated');
+                            }
                         }
-                    }
-                )
+                    );
+                }
             }
         }
     )
