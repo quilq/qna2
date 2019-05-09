@@ -5,7 +5,7 @@ const { User } = require('../models/user');
 const { Question } = require('../models/question');
 const { authenticate } = require('../middleware/authenticate');
 
-//fetch questions, TODO: get questions sort by votes
+//fetch questions,
 router.get('/q', (req, res) => {
     Question.getPopularQuestions(req, res);
 });

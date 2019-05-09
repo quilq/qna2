@@ -172,6 +172,8 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
 questionSchema.statics.createQuestion = function (req, res) {
     const Question = this;
 
+    console.log('create questions called! ');
+
     Question.create(req.body, (err, doc) => {
         if (err) {
             console.log('Unable to create question ', err);

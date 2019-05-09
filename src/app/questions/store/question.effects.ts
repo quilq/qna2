@@ -23,7 +23,7 @@ export class QuestionEffects {
                             return new QuestionActions.GetPopularQuestions({ questions });
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (getPopularQuestions effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -41,7 +41,7 @@ export class QuestionEffects {
                             return new QuestionActions.GetRecentQuestions({ questions });
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (getRecentQuestions effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -59,7 +59,7 @@ export class QuestionEffects {
                             return new QuestionActions.GetRelatedQuestions({ questions });
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (getRelatedQuestions effect)', error);
                             return EMPTY;
                         })
                     )
@@ -77,7 +77,7 @@ export class QuestionEffects {
                             return new QuestionActions.GetFeaturedQuestions({ questions });
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (getFeaturedQuestions effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -97,7 +97,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (findQuestionById effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -117,7 +117,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (getUnansweredQuestions effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -137,7 +137,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (getTags effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -160,7 +160,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (findQuestionsByTag effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -182,7 +182,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (createQuestion effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -208,7 +208,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (editQuestion effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -234,7 +234,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (voteQuestion effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -257,7 +257,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (deleteQuestion effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -284,7 +284,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (addAnswer effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -315,7 +315,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (editAnswer effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -347,7 +347,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (updateCorrectAnswer effect) ', error);
                             return EMPTY;
                         })
                     )
@@ -378,7 +378,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (voteAnswer effect): ', error);
                             return EMPTY;
                         })
                     )
@@ -407,7 +407,7 @@ export class QuestionEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Error: ', error);
+                            console.log('Error (deleteAnswer effect): ', error);
                             return EMPTY;
                         })
                     )

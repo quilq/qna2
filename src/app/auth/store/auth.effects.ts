@@ -6,8 +6,8 @@ import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
 
 import { UserService } from '../user/user.service';
+import { Question } from '../../questions/question.model';
 import * as AuthActions from './auth.actions';
-import { Question } from 'src/app/questions/question.model';
 
 @Injectable()
 
