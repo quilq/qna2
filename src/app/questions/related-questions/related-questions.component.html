@@ -1,10 +1,13 @@
 <div class="margin-child-2-0" *ngIf="relatedQuestions$ | async as relatedQuestions; else loading">
     <h2> Related questions</h2>
     <div *ngFor="let question of relatedQuestions">
-        <a [routerLink]="['/questions/question-details', question._id]" class="no-underline">
+        <br>
+        <a [routerLink]="['/questions/question-details', question._id]" class="question-title">
             {{question.questionTitle}}
         </a>
     </div>
+    
+    <button mat-raised-button>Ask your own question</button>
 </div>
 
 <ng-template #loading>

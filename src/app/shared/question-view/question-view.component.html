@@ -1,18 +1,18 @@
 <div *ngFor="let question of questions" class="margin-child-1-0">
   <mat-divider></mat-divider>
-  <a [routerLink]="['/questions/question-details', question._id]" class="no-underline"> 
+  <a [routerLink]="['/questions/question-details', question._id]" class="question-title">
     {{question.questionTitle}}
   </a>
 
-  <div>Asked by user: {{question.askedByUser}}</div>
+  <div fxLayout="row">
+    <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
+    <button mat-stroked-button> {{question.answers.length}} answers </button>
+  </div>
 
   <div> Asked: {{question.createdAt}}</div>
-
-  <button mat-stroked-button> {{question.answers.length}} answers </button>
-
-  <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
+  <div>Asked by user: {{question.askedByUser}}</div>
 
   <mat-chip-list>
-    <mat-chip *ngFor="let tag of question.tags"  class="hover-pointer">{{tag}}</mat-chip>
+    <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>
   </mat-chip-list>
 </div>

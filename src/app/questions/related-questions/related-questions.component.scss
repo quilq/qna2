@@ -1,5 +1,10 @@
 @import '../../shared/style/margin';
 
-.no-underline {
+.question-title {
     text-decoration: none;
+    color: rgb(15, 135, 233);
+}
+
+.question-title:hover {
+    color: rgb(103, 171, 233);
 }

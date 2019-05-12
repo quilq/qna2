@@ -1,14 +1,10 @@
 <div class="margin-child-2-0">
     <h3>{{question.questionTitle}}</h3>
-    <div>Asked by user: {{question.askedByUser}}</div>
-    <div> Asked: {{question.createdAt}}</div>
-    <button mat-stroked-button> {{question.answers.length}} answers </button>
-
-    <mat-chip-list>
-        <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>
-    </mat-chip-list>
-
-    <mat-divider></mat-divider>
+    <div fxLayout="row">
+        <button mat-stroked-button (click)="voteQuestion(question._id, true)">+1</button>
+        <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
+        <button mat-stroked-button (click)="voteQuestion(question._id, false)">-1</button>
+    </div>
 
     <!-- question content -->
     <p markdown ngPreserveWhitespaces [data]="question.questionContent"></p>
@@ -21,16 +17,18 @@
         <button mat-raised-button (click)="onCancelEditQuestion()">Cancel</button>
     </mat-form-field>
 
-    <div>
-        <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
-        <button mat-stroked-button (click)="voteQuestion(question._id, true)">+1</button>
-        <button mat-stroked-button (click)="voteQuestion(question._id, false)">-1</button>
-    </div>
+    <mat-chip-list>
+        <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>
+    </mat-chip-list>
+    
+    <div> Asked: {{question.createdAt}}</div>
+    <div>Asked by user: {{question.askedByUser}}</div>
 
-    <mat-divider></mat-divider>
+    <button mat-stroked-button> {{question.answers.length}} answers </button>
 
+    <!-- Answer -->
     <div *ngFor="let answer of question.answers; let i = index" class="margin-child-2-0">
-        <div> Answer {{i+1}} </div>
+        <mat-divider></mat-divider>
 
         <div class="margin-child-1-0">
             <!-- answer content -->
@@ -54,12 +52,13 @@
             </mat-form-field>
         </div>
 
-        <div> Answered by: {{answer.answeredByUser}}</div>
-
-        <div>
-            <button mat-stroked-button> {{answer.answerVotes}} vote(s) </button>
+        <div fxLayout="row">
             <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, true)">+1</button>
+            <button mat-stroked-button> {{answer.answerVotes}} vote(s) </button>
             <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, false)">-1</button>
         </div>
+
+        <div> Answered by: {{answer.answeredByUser}}</div>
+
     </div>
 </div>
