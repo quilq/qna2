@@ -3,7 +3,7 @@
 <div class="margin-child-2-0" *ngIf="featuredQuestions$ | async as featuredQuestions; else loading">
     <h2> Featured questions</h2>
     <div *ngFor="let question of featuredQuestions">
-        <a [routerLink]="['/questions/question-details', question._id]">
+        <a [routerLink]="['/questions/question-details', question._id]" class="no-underline">
             {{question.questionTitle}}
         </a>
     </div>

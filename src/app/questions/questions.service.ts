@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Question, Answer } from './question.model';
-import { UserService } from '../auth/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +9,13 @@ import { UserService } from '../auth/user/user.service';
 export class QuestionsService {
 
   constructor(
-    private httpClient: HttpClient,
-    private userService: UserService
+    private httpClient: HttpClient
   ) { }
 
-  token = this.userService.getToken();
-
+  getToken() {
+    return localStorage.getItem('token');
+  }
+  
   getPopularQuestions = () => {
     let url = `api/q`;
     return this.httpClient.get(url);
@@ -63,46 +63,46 @@ export class QuestionsService {
 
   createQuestion = (question: Question) => {
     let url = `api/q/add`;
-    return this.httpClient.post(url, question, { headers: { 'x-auth': this.token } });
+    return this.httpClient.post(url, question, { headers: { 'x-auth': this.getToken() } });
   }
 
   editQuestion = (questionId: string, newQuestion: string) => {
     let url = `api/q/edit`;
-    return this.httpClient.put(url, { questionId, newQuestion }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, newQuestion }, { headers: { 'x-auth': this.getToken() } });
   }
 
   voteQuestion = (questionId: string, upvote: boolean) => {
     let url = `api/q/vote`;
-    return this.httpClient.put(url, { questionId, upvote }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, upvote }, { headers: { 'x-auth': this.getToken() } });
   }
 
   deleteQuestion = (questionId: string) => {
     let url = `api/q/delete`;
-    return this.httpClient.put(url, { questionId }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId }, { headers: { 'x-auth': this.getToken() } });
   }
 
   addAnswer = (questionId: string, newAnswer: Answer) => {
     let url = `api/a/add`;
-    return this.httpClient.put(url, { questionId, newAnswer }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, newAnswer }, { headers: { 'x-auth': this.getToken() } });
   }
 
   editAnswer = (questionId: string, answerId: string, newAnswer: string) => {
     let url = `api/a/edit`;
-    return this.httpClient.put(url, { questionId, answerId, newAnswer }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, answerId, newAnswer }, { headers: { 'x-auth': this.getToken() } });
   }
 
   updateCorrectAnswer = (questionId: string, correctAnswerId: string, undo: boolean) => {
     let url = `api/a/update`;
-    return this.httpClient.put(url, { questionId, correctAnswerId, undo }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, correctAnswerId, undo }, { headers: { 'x-auth': this.getToken() } });
   }
 
   voteAnswer = (questionId: string, answerId: string, upvote: boolean) => {
     let url = `api/a/vote`;
-    return this.httpClient.put(url, { questionId, answerId, upvote }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, answerId, upvote }, { headers: { 'x-auth': this.getToken() } });
   }
 
   deleteAnswer = (questionId: string, answerId: string) => {
     let url = `api/a/delete`;;
-    return this.httpClient.put(url, { questionId, answerId }, { headers: { 'x-auth': this.token } });
+    return this.httpClient.put(url, { questionId, answerId }, { headers: { 'x-auth': this.getToken() } });
   }
 }
