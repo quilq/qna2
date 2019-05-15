@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { getFeaturedQuestions } from '../store/question.selectors';
-import { OnGetFeaturedQuestions } from '../store/question.actions';
-import { Question } from '../question.model';
-import { QuestionState } from '../store/question.reducers';
+import { getFeaturedQuestions } from '../../questions/store/question.selectors';
+import { OnGetFeaturedQuestions } from '../../questions/store/question.actions';
+import { Question } from '../../questions/question.model';
+import { QuestionState } from '../../questions/store/question.reducers';
 
 @Component({
   selector: 'app-featured-questions',

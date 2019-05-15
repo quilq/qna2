@@ -1,5 +1,3 @@
-<app-search></app-search>
-
 <h2> Featured questions</h2>
 <div *ngIf="featuredQuestions$ | async as featuredQuestions; else loading">
     <div *ngFor="let question of featuredQuestions">

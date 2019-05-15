@@ -53,13 +53,19 @@ export class QuestionsService {
     return this.httpClient.get(url);
   }
 
-
   findQuestionsByTag = (tag: string) => {
     let url = `api/q/tag`;
     // const option = {params: new HttpParams().set('tag', tag)};
     // return this.httpClient.get(url, option);
     return this.httpClient.get(url, { params: { 'tag': tag } });
   }
+
+  
+  findQuestionsByKeywords = (keywords: string) => {
+    let url = `api/q/keywords`;
+    return this.httpClient.get(url, { params: { 'keywords': keywords } });
+  }
+
 
   createQuestion = (question: Question) => {
     let url = `api/q/add`;

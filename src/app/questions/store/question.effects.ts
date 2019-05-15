@@ -167,6 +167,31 @@ export class QuestionEffects {
             })
         );
 
+
+    @Effect()
+    findQuestionsByKeywords$ = this.actions$
+        .pipe(
+            ofType(QuestionActions.ActionTypes.OnFindQuestionsByKeywords),
+            switchMap((action: QuestionActions.OnFindQuestionsByKeywords) => {
+                return this.questionService.findQuestionsByKeywords(action.payload.keywords)
+                    .pipe(
+                        map((questions: Question[]) => {
+                            if (questions) {
+                                console.log('search result: ', questions);
+                                return new QuestionActions.FindQuestionsByKeywords({
+                                    keywords: action.payload.keywords,
+                                    questions
+                                });
+                            }
+                        }),
+                        catchError((error) => {
+                            console.log('Error (findQuestionsByKeywords effect): ', error);
+                            return EMPTY;
+                        })
+                    )
+            })
+        );
+
     @Effect()
     createQuestion$ = this.actions$
         .pipe(

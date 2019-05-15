@@ -20,11 +20,16 @@
     <mat-chip-list>
         <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>
     </mat-chip-list>
-    
-    <div> Asked: {{question.createdAt}}</div>
-    <div>Asked by user: {{question.askedByUser}}</div>
 
-    <button mat-stroked-button> {{question.answers.length}} answers </button>
+    <mat-card>
+        <mat-card-content>
+            <div> Asked: {{question.createdAt | date: 'MMM d, y'}}</div>
+            <div> Asked by user: {{question.askedByUser.username}}</div>
+        </mat-card-content>
+    </mat-card>
+
+    <br>
+    <h3> {{question.answers.length}} answer(s) </h3>
 
     <!-- Answer -->
     <div *ngFor="let answer of question.answers; let i = index" class="margin-child-2-0">
@@ -58,7 +63,7 @@
             <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, false)">-1</button>
         </div>
 
-        <div> Answered by: {{answer.answeredByUser}}</div>
+        <div> Answered by: {{answer.answeredByUser.username}}</div>
 
     </div>
 </div>

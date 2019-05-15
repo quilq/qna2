@@ -9,8 +9,8 @@
     <button mat-stroked-button> {{question.answers.length}} answers </button>
   </div>
 
-  <div> Asked: {{question.createdAt}}</div>
-  <div>Asked by user: {{question.askedByUser}}</div>
+  <div> Asked: {{question.createdAt  | date: 'MMM d, y'}}</div>
+  <div>Asked by user: {{question.askedByUser.username}}</div>
 
   <mat-chip-list>
     <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>

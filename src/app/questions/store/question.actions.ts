@@ -27,6 +27,9 @@ export enum ActionTypes {
     OnFindQuestionsByTag = '[Question] On Find Question By Tag',
     FindQuestionsByTag = '[Question] Find Question By Tag',
 
+    OnFindQuestionsByKeywords = '[Question] On Find Question By Keywords',
+    FindQuestionsByKeywords = '[Question] Find Question By Keywords',
+
     OnCreateQuestion = '[Question] On Create Question',
     CreateQuestion = '[Question] Create Question',
 
@@ -128,6 +131,16 @@ export class OnFindQuestionsByTag implements Action {
 export class FindQuestionsByTag implements Action {
     readonly type = ActionTypes.FindQuestionsByTag;
     constructor(public payload: { tag: string, questions: Question[] }) { }
+}
+
+export class OnFindQuestionsByKeywords implements Action {
+    readonly type = ActionTypes.OnFindQuestionsByKeywords;
+    constructor(public payload: { keywords: string }) { }
+}
+
+export class FindQuestionsByKeywords implements Action {
+    readonly type = ActionTypes.FindQuestionsByKeywords;
+    constructor(public payload: { keywords: string, questions: Question[] }) { }
 }
 
 export class OnCreateQuestion implements Action {
@@ -237,6 +250,8 @@ export type Union =
     | FindQuestionById
     | OnFindQuestionsByTag
     | FindQuestionsByTag
+    | OnFindQuestionsByKeywords
+    | FindQuestionsByKeywords
     | OnCreateQuestion
     | CreateQuestion
     | OnEditQuestion

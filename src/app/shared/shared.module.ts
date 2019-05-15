@@ -12,6 +12,7 @@ import { MaterialModule } from '../material/material.module';
 import { QuestionViewComponent } from './question-view/question-view.component';
 import { QuestionDetailsViewComponent } from './question-details-view/question-details-view.component';
 import { MarkdownPreviewComponent } from './markdown-preview/markdown-preview.component';
+import { FeaturedQuestionsComponent } from './featured-questions/featured-questions.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MarkdownPreviewComponent } from './markdown-preview/markdown-preview.co
     NewAnswerComponent, 
     QuestionViewComponent, 
     QuestionDetailsViewComponent, 
-    MarkdownPreviewComponent
+    MarkdownPreviewComponent,
+    FeaturedQuestionsComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { MarkdownPreviewComponent } from './markdown-preview/markdown-preview.co
     NewAnswerComponent,
     QuestionViewComponent, 
     QuestionDetailsViewComponent, 
-    MarkdownPreviewComponent
+    MarkdownPreviewComponent,
+    FeaturedQuestionsComponent
   ]
 })
 export class SharedModule { }

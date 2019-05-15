@@ -1,13 +1,12 @@
 <div class="margin-child-1-2" fxLayout="column">
-    <h2> Welcome to qna2 </h2>
-
-    <p>Enter your keywords to search: </p>
     <app-search></app-search>
 
-    <p>Ask your own questions: </p>
+    <app-featured-questions></app-featured-questions>
+
+    <div>
+        <p>Looking for more? </p>
+        <button mat-raised-button routerLink="questions" class="margin-2-0">explore popular questions</button>
+    </div>
+    
     <app-new-question></app-new-question>
-
-    <a routerLink="questions/unanswered-questions" class="margin-2-0">Help answer unanswered-questions</a>
-
-    <a routerLink="questions" class="margin-2-0">Or explore popular questions</a>
 </div>

@@ -1,22 +1,36 @@
 const { mongoose } = require('../database/mongoose');
+const autopopulate = require('mongoose-autopopulate');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const questionSchema = new mongoose.Schema({
     // _id: ObjectId,
     tags: [String],
-    questionTitle: String,
+    questionTitle: {
+        type: String,
+        index: 'text'
+    },
     questionContent: String,
-    askedByUser: { type: ObjectId, ref: 'User' },
+    askedByUser: {
+        type: ObjectId,
+        ref: 'User',
+        autopopulate: true
+    },
     questionVotes: Number,
     answers: [{
         // _id: ObjectId,
         answer: String,
-        answeredByUser: { type: ObjectId, ref: 'User' },
+        answeredByUser: {
+            type: ObjectId,
+            ref: 'User',
+            autopopulate: true
+        },
         isCorrectAnswer: Boolean,
         answerVotes: Number
     }],
     createdAt: Date
 });
+
+questionSchema.plugin(autopopulate);
 
 //find all questions
 questionSchema.statics.getPopularQuestions = function (req, res) {
@@ -167,6 +181,20 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
     });
 }
 
+questionSchema.statics.findQuestionsByKeywords = function (req, res) {
+    const keywords = req.query.keywords;
+    console.log(keywords);
+
+    const Question = this;
+    Question.find({$text: {$search: `${keywords}` }}, (err, doc) => {
+        if (err) {
+            console.log('Unable to get questions by keywords ', err);
+        } else {
+            // console.log(doc);
+            res.status(200).json(doc);
+        }
+    });
+}
 
 //create question
 questionSchema.statics.createQuestion = function (req, res) {
@@ -327,7 +355,7 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to update correct answer ', err);
             } else {
-                if (undo){
+                if (undo) {
                     res.json('correct-answer-updated');
                 } else {
                     Question.updateOne(

@@ -19,7 +19,6 @@ import { QuestionsByTagComponent } from './tags/questions-by-tag/questions-by-ta
 import { AllTagsComponent } from './tags/all-tags/all-tags.component';
 import { RecentQuestionsComponent } from './recent-questions/recent-questions.component';
 import { RelatedQuestionsComponent } from './related-questions/related-questions.component';
-import { FeaturedQuestionsComponent } from './featured-questions/featured-questions.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +30,7 @@ import { FeaturedQuestionsComponent } from './featured-questions/featured-questi
     QuestionsByTagComponent,
     AllTagsComponent,
     RecentQuestionsComponent,
-    RelatedQuestionsComponent,
-    FeaturedQuestionsComponent
+    RelatedQuestionsComponent
   ],
 
   imports: [

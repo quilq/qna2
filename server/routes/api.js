@@ -49,6 +49,11 @@ router.get('/q/tag', (req, res) => {
     Question.findQuestionsByTag(req, res);
 });
 
+//find questions by key words 
+router.get('/q/keywords', (req, res) => {
+    Question.findQuestionsByKeywords(req, res);
+});
+
 router.post('/q/add', authenticate, (req, res) => {
     Question.createQuestion(req, res);
 });

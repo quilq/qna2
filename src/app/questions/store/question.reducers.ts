@@ -1,5 +1,5 @@
 import * as QuestionActions from './question.actions';
-import { Question, Answer } from '../question.model';
+import { Question } from '../question.model';
 
 export interface QuestionState {
     hasLoaded: boolean,
@@ -14,7 +14,10 @@ export interface QuestionState {
         questions: Question[]
     },
     questionById: Question,
-    searchResult: Question[]
+    searchResult: {
+        keywords: string,
+        questions: Question[]
+    }
 }
 
 export const initialState: QuestionState = {
@@ -30,7 +33,10 @@ export const initialState: QuestionState = {
         questions: []
     },
     questionById: null,
-    searchResult: []
+    searchResult: {
+        keywords: '',
+        questions: []
+    }
 }
 
 export function questionReducer(state: QuestionState = initialState, action: QuestionActions.Union): QuestionState {
@@ -43,9 +49,9 @@ export function questionReducer(state: QuestionState = initialState, action: Que
 
         case QuestionActions.ActionTypes.GetRelatedQuestions:
             return { ...state, relatedQuestions: action.payload.questions };
-            
+
         case QuestionActions.ActionTypes.GetFeaturedQuestions:
-        return { ...state, featuredQuestions: action.payload.questions };
+            return { ...state, featuredQuestions: action.payload.questions };
 
         case QuestionActions.ActionTypes.GetUnansweredQuestions:
             return { ...state, unansweredQuestions: action.payload.questions };
@@ -60,6 +66,12 @@ export function questionReducer(state: QuestionState = initialState, action: Que
             return {
                 ...state,
                 questionsByTag: { tag: action.payload.tag, questions: action.payload.questions }
+            };
+
+        case QuestionActions.ActionTypes.FindQuestionsByKeywords:
+            return {
+                ...state,
+                searchResult: { keywords: action.payload.keywords, questions: action.payload.questions }
             };
 
         case QuestionActions.ActionTypes.CreateQuestion:
@@ -125,7 +137,7 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                         }
                     }
 
-                    if (!action.payload.undo){
+                    if (!action.payload.undo) {
                         for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
                             if (newQuestions[i].answers[ii]._id === action.payload.correctAnswerId) {
                                 newQuestions[i].answers[ii].isCorrectAnswer = true;

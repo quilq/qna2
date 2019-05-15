@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { QuestionState } from '../../questions/store/question.reducers';
+import * as QuestionActions from '../../questions/store/question.actions';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
+    
   }
 
 }
