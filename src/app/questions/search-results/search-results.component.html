@@ -1,0 +1,13 @@
+<div class="margin-child-2-0" *ngIf="searchResults$ | async as searchResults; else loading">
+  <h2>Search results: </h2>
+  <p>for "{{searchResults.keywords}}" :</p>
+
+
+  <app-question-view [questions]="searchResults.questions"></app-question-view>
+
+  <p *ngIf="searchResults.questions"> There's no questions with the keywords </p>
+</div>
+
+<ng-template #loading>
+  Searching...
+</ng-template>

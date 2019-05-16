@@ -19,6 +19,7 @@ import { QuestionsByTagComponent } from './tags/questions-by-tag/questions-by-ta
 import { AllTagsComponent } from './tags/all-tags/all-tags.component';
 import { RecentQuestionsComponent } from './recent-questions/recent-questions.component';
 import { RelatedQuestionsComponent } from './related-questions/related-questions.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { RelatedQuestionsComponent } from './related-questions/related-questions
     QuestionsByTagComponent,
     AllTagsComponent,
     RecentQuestionsComponent,
-    RelatedQuestionsComponent
+    RelatedQuestionsComponent,
+    SearchResultsComponent
   ],
 
   imports: [

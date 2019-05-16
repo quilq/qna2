@@ -67,3 +67,9 @@ export const getUnansweredQuestions = createSelector(
     }
 );
 
+export const getSearchResults = createSelector(
+    selectQuestionFeature,
+    (questionState: fromQuestion.QuestionState) => {
+        return questionState.searchResult;
+    }
+);
