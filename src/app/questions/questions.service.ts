@@ -16,9 +16,9 @@ export class QuestionsService {
     return localStorage.getItem('token');
   }
   
-  getPopularQuestions = () => {
+  getPopularQuestions = (next: number) => {
     let url = `api/q`;
-    return this.httpClient.get(url);
+    return this.httpClient.get(url, {params: {'next': next.toString()} });
   }
 
   getRelatedQuestions = (tags: string[]) => {
@@ -33,9 +33,9 @@ export class QuestionsService {
     // return this.httpClient.get(url, {params: {'id': id}});
   }
 
-  getRecentQuestions = () => {
+  getRecentQuestions = (next: number) => {
     let url = `api/q/recent-questions`;
-    return this.httpClient.get(url);
+    return this.httpClient.get(url, {params: {'next': next.toString()}});
   }
 
   getFeaturedQuestions = () => {
@@ -48,22 +48,21 @@ export class QuestionsService {
     return this.httpClient.get(url);
   }
 
-  getUnansweredQuestions = () => {
+  getUnansweredQuestions = (next: number) => {
     let url = `api/q/unanswered-questions`;
-    return this.httpClient.get(url);
+    return this.httpClient.get(url, {params: {'next': next.toString()}});
   }
 
-  findQuestionsByTag = (tag: string) => {
+  findQuestionsByTag = (tag: string, next: number) => {
     let url = `api/q/tag`;
     // const option = {params: new HttpParams().set('tag', tag)};
     // return this.httpClient.get(url, option);
-    return this.httpClient.get(url, { params: { 'tag': tag } });
+    return this.httpClient.get(url, { params: { 'tag': tag, 'next': next.toString() } });
   }
 
-  
-  findQuestionsByKeywords = (keywords: string) => {
+  findQuestionsByKeywords = (keywords: string, next: number) => {
     let url = `api/q/keywords`;
-    return this.httpClient.get(url, { params: { 'keywords': keywords } });
+    return this.httpClient.get(url, { params: { 'keywords': keywords, 'next': next.toString() } });
   }
 
 

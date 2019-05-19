@@ -1,11 +1,11 @@
 <h2>All tags </h2>
 
-<mat-form-field floatLabel="never" appearance="outline">
+<!-- <mat-form-field floatLabel="never" appearance="outline">
   <input matInput placeholder="Filter by tag name" type="search" #keywords>
   <button matPrefix mat-icon-button (click)="onSearchTag(keywords.value)">
     <mat-icon>search</mat-icon>
   </button>
-</mat-form-field>
+</mat-form-field> -->
 
 <mat-chip-list class="margin-child-1-0">
   <mat-chip *ngFor="let tag of (tags$ | async)" [routerLink]="['questions-by-tag', tag]" class="hover-pointer">

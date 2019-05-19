@@ -10,7 +10,6 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { QuestionsModule } from './questions/questions.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -23,8 +22,8 @@ import { AuthModule } from './auth/auth.module';
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
-    QuestionsModule,
-    AuthModule,
+    // QuestionsModule, => lazy loading
+    AuthModule, 
     AppRoutingModule,  //after other routes
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({

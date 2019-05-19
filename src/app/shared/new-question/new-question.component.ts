@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormControl, FormGroup } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material';
+import { MatChipInputEvent, MatExpansionPanel } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -18,9 +18,11 @@ import * as QuestionActions from '../../questions/store/question.actions';
   templateUrl: './new-question.component.html',
   styleUrls: ['./new-question.component.scss']
 })
-export class NewQuestionComponent implements OnInit, OnDestroy {
+export class NewQuestionComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private ngUnsubscribe$ = new Subject();
+
+  @ViewChild('newQuestionPanel') newQuestionPanel: MatExpansionPanel;
 
   isAuthenticated: boolean;
   user: User;
@@ -86,17 +88,21 @@ export class NewQuestionComponent implements OnInit, OnDestroy {
 
     if (this.isAuthenticated) {
       this.store.dispatch(new QuestionActions.OnCreateQuestion({ question: newQuestion }));
+      this.questionForm.reset('');
+      this.tags = [];
+      this.newQuestionPanel.close();
+
     } else {
       //TODO: ALERT
       console.log('sign in to continue !');
       this.userService.toSignin();
     }
-
-    this.questionForm.reset('');
-    this.tags = [];
   }
 
-  ngOnDestroy(){
+  ngAfterViewInit(){
+  }
+
+  ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }

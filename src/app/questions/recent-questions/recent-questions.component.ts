@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { QuestionState } from '../store/question.reducers';
 import { Question } from '../question.model';
@@ -12,13 +13,27 @@ import * as QuestionActions from '../store/question.actions';
   templateUrl: './recent-questions.component.html',
   styleUrls: ['./recent-questions.component.scss']
 })
-export class RecentQuestionsComponent implements OnInit {
-  recentQuestions$: Observable<Question[]>;
+export class RecentQuestionsComponent implements OnInit, OnDestroy {
+  recentQuestions: Question[];
+  private ngUnsubscribe$ = new Subject();
 
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions());
-    this.recentQuestions$ = this.questionStore.select(getRecentQuestions);
+    this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions({ next: 0 }));
+    this.questionStore.select(getRecentQuestions)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(questions => this.recentQuestions = questions);
+
+    window.scroll(0, 0);
+  }
+
+  getMoreQuestions() {
+    this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions({ next: this.recentQuestions.length }));
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }

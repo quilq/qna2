@@ -1,8 +1,8 @@
-<div *ngIf="questionsByTag$ | async as questionsByTag; else loading">
+<div class="margin-child-2-0" *ngIf="questionsByTag; else loading">
     <h2> Questions by tag: {{tag}}</h2>
-    <app-question-view [questions]="questionsByTag$ | async"></app-question-view>
+    <app-question-view [questions]="questionsByTag"></app-question-view>
 
-    <button mat-raised-button class="margin-2-0">more questions </button>
+    <button mat-raised-button (click)="getMoreQuestions()">more questions </button>
 </div>
 
 <ng-template #loading>

@@ -2,7 +2,7 @@ import * as QuestionActions from './question.actions';
 import { Question } from '../question.model';
 
 export interface QuestionState {
-    hasLoaded: boolean,
+    // hasLoaded: boolean,
     popularQuestions: Question[],
     recentQuestions: Question[],
     relatedQuestions: Question[],
@@ -21,7 +21,7 @@ export interface QuestionState {
 }
 
 export const initialState: QuestionState = {
-    hasLoaded: false,
+    // hasLoaded: false,
     recentQuestions: [],
     relatedQuestions: [],
     popularQuestions: [],
@@ -42,19 +42,29 @@ export const initialState: QuestionState = {
 export function questionReducer(state: QuestionState = initialState, action: QuestionActions.Union): QuestionState {
     switch (action.type) {
         case QuestionActions.ActionTypes.GetPopularQuestions:
-            return { ...state, hasLoaded: true, popularQuestions: action.payload.questions };
+            return {
+                ...state,
+                // hasLoaded: true,
+                popularQuestions: [...state.popularQuestions, ...action.payload.questions]
+            };
 
         case QuestionActions.ActionTypes.GetRecentQuestions:
-            return { ...state, recentQuestions: action.payload.questions };
+            return {
+                ...state,
+                recentQuestions: [...state.recentQuestions, ...action.payload.questions]
+            };
+
+        case QuestionActions.ActionTypes.GetUnansweredQuestions:
+            return { 
+                ...state, 
+                unansweredQuestions: [...state.unansweredQuestions, ...action.payload.questions] 
+            };
 
         case QuestionActions.ActionTypes.GetRelatedQuestions:
             return { ...state, relatedQuestions: action.payload.questions };
 
         case QuestionActions.ActionTypes.GetFeaturedQuestions:
             return { ...state, featuredQuestions: action.payload.questions };
-
-        case QuestionActions.ActionTypes.GetUnansweredQuestions:
-            return { ...state, unansweredQuestions: action.payload.questions };
 
         case QuestionActions.ActionTypes.GetTags:
             return { ...state, tags: action.payload.tags };
@@ -65,13 +75,19 @@ export function questionReducer(state: QuestionState = initialState, action: Que
         case QuestionActions.ActionTypes.FindQuestionsByTag:
             return {
                 ...state,
-                questionsByTag: { tag: action.payload.tag, questions: action.payload.questions }
+                questionsByTag: { 
+                    tag: action.payload.tag, 
+                    questions: [...state.questionsByTag.questions, ...action.payload.questions] 
+                }
             };
 
         case QuestionActions.ActionTypes.FindQuestionsByKeywords:
             return {
                 ...state,
-                searchResult: { keywords: action.payload.keywords, questions: action.payload.questions }
+                searchResult: { 
+                    keywords: action.payload.keywords, 
+                    questions: [...state.searchResult.questions, ...action.payload.questions] 
+                }
             };
 
         case QuestionActions.ActionTypes.CreateQuestion:

@@ -1,7 +1,12 @@
-<div class="margin-child-2-0">
+<div class="margin-child-2-0" *ngIf="popularQuestions; else loading">
   <h2>Popular questions </h2>
 
-  <app-question-view [questions]="questions"></app-question-view>
+  <app-question-view [questions]="popularQuestions"></app-question-view>
 
-  <button mat-raised-button >more questions </button>
+  <button mat-raised-button (click)="getMoreQuestions()">more questions </button>
 </div>
+
+<ng-template #loading>
+  <br>
+  Loading popular questions...
+</ng-template>

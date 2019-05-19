@@ -14,7 +14,7 @@ export class AppComponent {
   constructor(private router: Router){}
 
   onActivate() {
-    if (this.router.url === '/signup' || this.router.url === '/signin'){
+    if (this.router.url === '/auth/signup' || this.router.url === '/auth/signin'){
       this.onUserAuthPage = true;
     } else {
       this.onUserAuthPage = false;

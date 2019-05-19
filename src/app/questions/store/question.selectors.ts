@@ -4,12 +4,12 @@ import * as fromQuestion from './question.reducers';
 
 export const selectQuestionFeature = createFeatureSelector<fromQuestion.QuestionState>('question');
 
-export const hasLoaded = createSelector(
-    selectQuestionFeature,
-    (questionState: fromQuestion.QuestionState) => {
-        return questionState.hasLoaded;
-    }
-);
+// export const hasLoaded = createSelector(
+//     selectQuestionFeature,
+//     (questionState: fromQuestion.QuestionState) => {
+//         return questionState.hasLoaded;
+//     }
+// );
 
 export const getPopularQuestions = createSelector(
     selectQuestionFeature,

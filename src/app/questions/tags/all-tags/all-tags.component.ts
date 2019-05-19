@@ -22,7 +22,7 @@ export class AllTagsComponent implements OnInit {
     this.tags$ = this.questionStore.select(getTags); 
   }
 
-  onSearchTag(tag: string){
-    console.log(tag);
-  }
+  // onSearchTag(tag: string){
+  //   console.log(tag);
+  // }
 }

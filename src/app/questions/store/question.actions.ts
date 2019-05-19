@@ -60,6 +60,7 @@ export enum ActionTypes {
 
 export class OnGetPopularQuestions implements Action {
     readonly type = ActionTypes.OnGetPopularQuestions;
+    constructor (public payload: {next: number}) {}
 }
 
 export class GetPopularQuestions implements Action {
@@ -69,6 +70,7 @@ export class GetPopularQuestions implements Action {
 
 export class OnGetRecentQuestions implements Action {
     readonly type = ActionTypes.OnGetRecentQuestions;
+    constructor (public payload: {next: number}) {}
 }
 
 export class GetRecentQuestions implements Action {
@@ -97,6 +99,7 @@ export class GetFeaturedQuestions implements Action {
 
 export class OnGetUnansweredQuestions implements Action {
     readonly type = ActionTypes.OnGetUnansweredQuestions;
+    constructor (public payload: {next: number}) {}
 }
 
 export class GetUnansweredQuestions implements Action {
@@ -125,7 +128,7 @@ export class FindQuestionById implements Action {
 
 export class OnFindQuestionsByTag implements Action {
     readonly type = ActionTypes.OnFindQuestionsByTag;
-    constructor(public payload: { tag: string }) { }
+    constructor(public payload: { tag: string, next: number }) { }
 }
 
 export class FindQuestionsByTag implements Action {
@@ -135,7 +138,7 @@ export class FindQuestionsByTag implements Action {
 
 export class OnFindQuestionsByKeywords implements Action {
     readonly type = ActionTypes.OnFindQuestionsByKeywords;
-    constructor(public payload: { keywords: string }) { }
+    constructor(public payload: { keywords: string, next: number }) { }
 }
 
 export class FindQuestionsByKeywords implements Action {

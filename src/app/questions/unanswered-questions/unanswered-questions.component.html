@@ -1,8 +1,8 @@
-<div class="margin-child-2-0" *ngIf="unansweredQuestions$ | async as unansweredQuestions; else loading">
+<div class="margin-child-2-0" *ngIf="unansweredQuestions; else loading">
   <h2>Unanswered questions </h2>
   <app-question-view [questions]="unansweredQuestions"></app-question-view>
 
-  <button mat-raised-button class="margin-child-2-0">more questions </button>
+  <button mat-raised-button (click)="getMoreQuestions()">more questions </button>
 </div>
 
 <ng-template #loading>

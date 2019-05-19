@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+
 import { QuestionState } from '../../questions/store/question.reducers';
 import * as QuestionActions from '../../questions/store/question.actions';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit {
+  
 
   constructor(
     private questionStore: Store<QuestionState>,
@@ -19,8 +21,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() { }
 
   onSearch(keywords: string) {
-    console.log(keywords);
-    this.questionStore.dispatch(new QuestionActions.OnFindQuestionsByKeywords({ keywords }));
+    this.questionStore.dispatch(new QuestionActions.OnFindQuestionsByKeywords({ keywords, next: 0 }));
     this.router.navigate(['/questions/search-results']);
   }
 

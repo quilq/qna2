@@ -13,18 +13,18 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 
 const routes: Routes = [
   {
-    path: 'questions', component: QuestionsComponent, children: [
-      { path: '', component: PopularQuestionsComponent },
+    path: '', component: QuestionsComponent, children: [
+      { path: 'popular-questions', component: PopularQuestionsComponent },
+      { path: 'unanswered-questions', component: UnansweredQuestionsComponent },
+      { path: 'recent-questions', component: RecentQuestionsComponent },
+      { path: 'question-details/:id', component: QuestionDetailsComponent },
+      { path: 'search-results', component: SearchResultsComponent },
       {
         path: 'tags', component: TagsComponent, children: [
           { path: '', component: AllTagsComponent },
           { path: 'questions-by-tag/:tag', component: QuestionsByTagComponent }
         ]
-      },
-      { path: 'unanswered-questions', component: UnansweredQuestionsComponent },
-      { path: 'recent-questions', component: RecentQuestionsComponent },
-      { path: 'question-details/:id', component: QuestionDetailsComponent },
-      { path: 'search-results', component: SearchResultsComponent }
+      }
     ]
   }
 ]

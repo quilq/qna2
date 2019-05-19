@@ -5,10 +5,11 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const questionSchema = new mongoose.Schema({
     // _id: ObjectId,
     tags: [String],
-    questionTitle: {
-        type: String,
-        index: 'text'
-    },
+    questionTitle: String,
+    // questionTitle: {  
+    //     type: String,
+    //     index: 'text'  //for text searching
+    // },
     questionContent: String,
     askedByUser: {
         type: ObjectId,
@@ -35,8 +36,9 @@ questionSchema.plugin(autopopulate);
 //find all questions
 questionSchema.statics.getPopularQuestions = function (req, res) {
     const Question = this;
+    const skip = ((req.query.next)*1);
 
-    Question.find({}, null, { skip: 0, limit: 20, sort: { questionVotes: -1 } }, (err, doc) => {
+    Question.find({}, null, { skip: skip, limit: 10, sort: { questionVotes: -1 } }, (err, doc) => {
         if (err) {
             console.log('Unable to get popular questions ', err);
         } else {
@@ -47,9 +49,10 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
 
 questionSchema.statics.getRecentQuestions = function (req, res) {
     const Question = this;
+    const skip = ((req.query.next)*1);
 
     //sort: {field: -1} => descending order
-    Question.find({}, null, { skip: 0, limit: 20, sort: { createdAt: -1 } }, (err, doc) => {
+    Question.find({}, null, { skip: skip, limit: 10, sort: { createdAt: -1 } }, (err, doc) => {
         if (err) {
             console.log('Unable to get recent questions ', err);
         } else {
@@ -139,8 +142,9 @@ questionSchema.statics.getTags = function (req, res) {
 
 questionSchema.statics.getUnansweredQuestions = function (req, res) {
     const Question = this;
+    const skip = ((req.query.next)*1);
 
-    Question.find({ answers: { $size: 0 } }, (err, doc) => {
+    Question.find({ answers: { $size: 0 } }, null, { skip: skip, limit: 10 }, (err, doc) => {
         if (err) {
             console.log('Unable to find unanswered questions ', err);
         } else {
@@ -167,12 +171,13 @@ questionSchema.statics.findQuestionsByUser = function (req, res) {
 
 //find questions by tag
 questionSchema.statics.findQuestionsByTag = function (req, res) {
+    const skip = ((req.query.next)*1);
     const tag = req.query.tag;
     console.log('tag ', tag);
 
     const Question = this;
 
-    Question.find({ tags: tag }, (err, doc) => {
+    Question.find({ tags: tag }, null, { skip: skip, limit: 10 }, (err, doc) => {
         if (err) {
             console.log('Unable to get questions by tag ', err);
         } else {
@@ -182,11 +187,14 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
 }
 
 questionSchema.statics.findQuestionsByKeywords = function (req, res) {
-    const keywords = req.query.keywords;
+    const skip = ((req.query.next)*1);
+    const keywords = new RegExp(req.query.keywords);
     console.log(keywords);
 
     const Question = this;
-    Question.find({$text: {$search: `${keywords}` }}, (err, doc) => {
+
+    Question.find({ questionTitle: keywords }, null, { skip: skip, limit: 10 }, (err, doc) => {
+        // Question.find({$text: {$search: `${keywords}` }}, null, {skip: 0, limit: 10}, (err, doc) => {
         if (err) {
             console.log('Unable to get questions by keywords ', err);
         } else {

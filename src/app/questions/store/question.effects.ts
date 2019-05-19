@@ -16,8 +16,8 @@ export class QuestionEffects {
     getPopularQuestions$: Observable<Action> = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
-            switchMap(() => {
-                return this.questionService.getPopularQuestions()
+            switchMap((action: QuestionActions.OnGetPopularQuestions) => {
+                return this.questionService.getPopularQuestions(action.payload.next)
                     .pipe(
                         map((questions: Question[]) => {
                             return new QuestionActions.GetPopularQuestions({ questions });
@@ -34,8 +34,8 @@ export class QuestionEffects {
     getRecentQuestions$: Observable<Action> = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnGetRecentQuestions),
-            switchMap(() => {
-                return this.questionService.getRecentQuestions()
+            switchMap((action: QuestionActions.OnGetRecentQuestions) => {
+                return this.questionService.getRecentQuestions(action.payload.next)
                     .pipe(
                         map((questions: Question[]) => {
                             return new QuestionActions.GetRecentQuestions({ questions });
@@ -108,8 +108,8 @@ export class QuestionEffects {
     getUnansweredQuestions$ = this.actions$
         .pipe(
             ofType(QuestionActions.ActionTypes.OnGetUnansweredQuestions),
-            switchMap(() => {
-                return this.questionService.getUnansweredQuestions()
+            switchMap((action: QuestionActions.OnGetUnansweredQuestions) => {
+                return this.questionService.getUnansweredQuestions(action.payload.next)
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {
@@ -149,7 +149,7 @@ export class QuestionEffects {
         .pipe(
             ofType(QuestionActions.ActionTypes.OnFindQuestionsByTag),
             switchMap((action: QuestionActions.OnFindQuestionsByTag) => {
-                return this.questionService.findQuestionsByTag(action.payload.tag)
+                return this.questionService.findQuestionsByTag(action.payload.tag, action.payload.next)
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {
@@ -173,7 +173,7 @@ export class QuestionEffects {
         .pipe(
             ofType(QuestionActions.ActionTypes.OnFindQuestionsByKeywords),
             switchMap((action: QuestionActions.OnFindQuestionsByKeywords) => {
-                return this.questionService.findQuestionsByKeywords(action.payload.keywords)
+                return this.questionService.findQuestionsByKeywords(action.payload.keywords, action.payload.next)
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {

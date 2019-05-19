@@ -5,7 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { QuestionState } from '../store/question.reducers';
 import { Question } from '../question.model';
-import { getPopularQuestions, hasLoaded } from '../store/question.selectors';
+// import { getPopularQuestions, hasLoaded } from '../store/question.selectors';
+import { getPopularQuestions } from '../store/question.selectors';
 import * as QuestionActions from '../store/question.actions';
 
 @Component({
@@ -16,20 +17,30 @@ import * as QuestionActions from '../store/question.actions';
 export class PopularQuestionsComponent implements OnInit {
 
   private ngUnsubscribe$ = new Subject();
-  questions: Question[];
+  popularQuestions: Question[];
 
   constructor(private store: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.store.select(hasLoaded)
-    .pipe(takeUntil(this.ngUnsubscribe$))
-    .subscribe(hasLoaded => {
-      if (!hasLoaded) {
-        this.store.dispatch(new QuestionActions.OnGetPopularQuestions());
-      }
-    });
+    this.store.dispatch(new QuestionActions.OnGetPopularQuestions({ next: 0 }));
+    // this.store.select(hasLoaded)
+    //   .pipe(takeUntil(this.ngUnsubscribe$))
+    //   .subscribe(hasLoaded => {
+    //     if (!hasLoaded) {
+    //       this.store.dispatch(new QuestionActions.OnGetPopularQuestions({ next: 0 }));
+    //     }
+    //   });
 
-    this.store.select(getPopularQuestions).subscribe(questions => this.questions = questions);
+    this.store.select(getPopularQuestions)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(questions => this.popularQuestions = questions);
+
+    window.scroll(0, 0);
+  }
+
+  getMoreQuestions() {
+    console.log(this.popularQuestions.length);
+    this.store.dispatch(new QuestionActions.OnGetPopularQuestions({ next: this.popularQuestions.length }));
   }
 
   ngOnDestroy() {

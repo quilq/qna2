@@ -6,10 +6,10 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthState } from '../../auth/store/auth.reducers';
 import { isAuthenticated } from '../../auth/store/auth.selectors';
 import { UserService } from '../../auth/user/user.service';
-import { QuestionState } from '../../questions/store/question.reducers';
-import { hasLoaded } from '../../questions/store/question.selectors';
+// import { QuestionState } from '../../questions/store/question.reducers';
+// import { hasLoaded } from '../../questions/store/question.selectors';
 import * as AuthActions from '../../auth/store/auth.actions';
-import * as QuestionActions from '../../questions/store/question.actions';
+// import * as QuestionActions from '../../questions/store/question.actions';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private userStore: Store<AuthState>,
-    private questionStore: Store<QuestionState>,
+    // private questionStore: Store<QuestionState>,
     private userService: UserService
   ) { }
 
@@ -38,13 +38,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.questionStore.select(hasLoaded)
-      .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(hasLoaded => {
-        if (!hasLoaded) {
-          this.questionStore.dispatch(new QuestionActions.OnGetPopularQuestions());
-        }
-      });
+    // this.questionStore.select(hasLoaded)
+    //   .pipe(takeUntil(this.ngUnsubscribe$))
+    //   .subscribe(hasLoaded => {
+    //     if (!hasLoaded) {
+    //       this.questionStore.dispatch(new QuestionActions.OnGetPopularQuestions({next: 0}));
+    //     }
+    //   });
   }
 
   onSignout() {

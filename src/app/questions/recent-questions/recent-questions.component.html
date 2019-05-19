@@ -1,11 +1,12 @@
-<div class="margin-child-2-0" *ngIf="recentQuestions$ | async as recentQuestions; else loading">
+<div class="margin-child-2-0" *ngIf="recentQuestions; else loading">
   <h2>Recent questions </h2>
 
   <app-question-view [questions]="recentQuestions"></app-question-view>
 
-  <button mat-raised-button class="margin-child-2-0">more questions </button>
+  <button mat-raised-button (click)="getMoreQuestions()">more questions </button>
 </div>
 
 <ng-template #loading>
+    <br>
     Loading recent questions...
 </ng-template>

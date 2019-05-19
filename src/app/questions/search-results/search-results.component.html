@@ -1,13 +1,17 @@
-<div class="margin-child-2-0" *ngIf="searchResults$ | async as searchResults; else loading">
-  <h2>Search results: </h2>
+<div class="margin-child-2-0" *ngIf="searchResults; else loading">
+  <h2>Search results </h2>
+
   <p>for "{{searchResults.keywords}}" :</p>
-
-
   <app-question-view [questions]="searchResults.questions"></app-question-view>
 
-  <p *ngIf="searchResults.questions"> There's no questions with the keywords </p>
+  <button *ngIf="searchResults.questions.length == 10" mat-raised-button (click)="getMoreQuestions()">
+    more questions
+  </button>
+
+  <p *ngIf="searchResults.questions.length == 0"> There's no questions with the keywords </p>
 </div>
 
 <ng-template #loading>
+  <br>
   Searching...
 </ng-template>

@@ -1,12 +1,19 @@
-<div class="margin-child-1-2" fxLayout="column">
+<div class="margin-child-1-1" fxLayout="column">
     <app-search></app-search>
 
-    <app-featured-questions></app-featured-questions>
-
     <div>
-        <p>Looking for more? </p>
-        <button mat-raised-button routerLink="questions" class="margin-2-0">explore popular questions</button>
+        <h2> Learn, Share, Build </h2>
+        <p> Each month, million developers come to qna2.xyz to learn, share their knowledge. </p>
+        <p> Join the active developer community now ! </p>
     </div>
-    
+
+    <p>Ask your question</p>
     <app-new-question></app-new-question>
+
+
+    <!-- <app-featured-questions></app-featured-questions> -->
+
+    <a routerLink="questions/popular-questions" class="margin-2-0">
+        Explore popular questions
+    </a>
 </div>

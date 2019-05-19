@@ -20,11 +20,11 @@
 
     <mat-form-field>
       <textarea matInput type="text" formControlName="questionContent" placeholder="Your question content" rows="10">
-      </textarea>
+        </textarea>
     </mat-form-field>
 
     <app-markdown-preview [content]="questionForm.value.questionContent">
-    </app-markdown-preview>  
+    </app-markdown-preview>
 
     <mat-form-field>
       <mat-chip-list #tagList>

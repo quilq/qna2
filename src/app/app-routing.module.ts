@@ -5,8 +5,10 @@ import { HomeComponent } from './core/home/home.component';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: '**', component: PageNotFoundComponent}
+  { path: 'questions', loadChildren: './questions/questions.module#QuestionsModule' }, //lazy loading
+  // { path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
+  { path: '', pathMatch: 'full', component: HomeComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
