@@ -18,6 +18,7 @@ export class PopularQuestionsComponent implements OnInit {
 
   private ngUnsubscribe$ = new Subject();
   popularQuestions: Question[];
+  totalQuestions: number;
 
   constructor(private store: Store<QuestionState>) { }
 
@@ -33,13 +34,15 @@ export class PopularQuestionsComponent implements OnInit {
 
     this.store.select(getPopularQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(questions => this.popularQuestions = questions);
+      .subscribe(questionsState => {
+        this.totalQuestions = questionsState.totalQuestions;
+        this.popularQuestions = questionsState.questions;
+      });
 
     window.scroll(0, 0);
   }
 
   getMoreQuestions() {
-    console.log(this.popularQuestions.length);
     this.store.dispatch(new QuestionActions.OnGetPopularQuestions({ next: this.popularQuestions.length }));
   }
 

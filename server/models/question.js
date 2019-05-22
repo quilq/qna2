@@ -36,29 +36,117 @@ questionSchema.plugin(autopopulate);
 //find all questions
 questionSchema.statics.getPopularQuestions = function (req, res) {
     const Question = this;
-    const skip = ((req.query.next)*1);
+    const skip = ((req.query.next) * 1);
 
-    Question.find({}, null, { skip: skip, limit: 10, sort: { questionVotes: -1 } }, (err, doc) => {
-        if (err) {
-            console.log('Unable to get popular questions ', err);
-        } else {
-            res.status(200).json(doc);
+    //return doc = [{questions [{--}], totalQuestions [{count: --}]}]
+    Question.aggregate(
+        [
+            {
+                '$facet': {
+                    'questions': [
+                        { '$match': {} },
+                        { '$sort': { questionVotes: -1 } },
+                        { '$skip': skip },
+                        { '$limit': 10 }
+                    ],
+                    'totalQuestions': [
+                        { '$count': 'count' }
+                    ]
+                }
+            }
+        ], (err, doc) => {
+            if (err) {
+                console.log('Unable to get popular questions ', err);
+            } else {
+                res.status(200).json(doc[0]);
+            }
         }
-    });
+    );
+
+    // Question.find({}, null, { skip: skip, limit: 10, sort: { questionVotes: -1 } }, (err, doc) => {
+    //     if (err) {
+    //         console.log('Unable to get popular questions ', err);
+    //     } else {
+    //         res.status(200).json(doc);
+    //     }
+    // });
 }
 
 questionSchema.statics.getRecentQuestions = function (req, res) {
     const Question = this;
-    const skip = ((req.query.next)*1);
+    const skip = ((req.query.next) * 1);
+
+    Question.aggregate(
+        [
+            {
+                '$facet': {
+                    'questions': [
+                        { '$match': {} },
+                        { '$sort': { createdAt: -1 } },
+                        { '$skip': skip },
+                        { '$limit': 10 }
+                    ],
+                    'totalQuestions': [
+                        { '$count': 'count' }
+                    ]
+                }
+            }
+        ], (err, doc) => {
+            if (err) {
+                console.log('Unable to get recent questions ', err);
+            } else {
+                res.status(200).json(doc[0]);
+            }
+        }
+    );
 
     //sort: {field: -1} => descending order
-    Question.find({}, null, { skip: skip, limit: 10, sort: { createdAt: -1 } }, (err, doc) => {
-        if (err) {
-            console.log('Unable to get recent questions ', err);
-        } else {
-            res.status(200).json(doc);
+    // Question.find({}, null, { skip: skip, limit: 10, sort: { createdAt: -1 } }, (err, doc) => {
+    //     if (err) {
+    //         console.log('Unable to get recent questions ', err);
+    //     } else {
+    //         res.status(200).json(doc);
+    //     }
+    // });
+}
+
+questionSchema.statics.getUnansweredQuestions = function (req, res) {
+    const Question = this;
+    const skip = ((req.query.next) * 1);
+
+    //TODO: UPDATE
+    Question.aggregate(
+        [
+            {
+                '$facet': {
+                    'questions': [
+                        { '$match': { answers: { $size: 0 } } },
+                        { '$skip': skip },
+                        { '$limit': 10 }
+                    ],
+                    'totalQuestions': [
+                        { '$match': { answers: { $size: 0 } } },
+                        { '$count': 'count' }
+                    ]
+                }
+
+            },
+        ], (err, doc) => {
+            if (err) {
+                console.log('Unable to get unanswered questions ', err);
+            } else {
+                res.status(200).json(doc[0]);
+            }
         }
-    });
+    );
+
+    // Question.find({ answers: { $size: 0 } }, null, { skip: skip, limit: 10 }, (err, doc) => {
+    //     if (err) {
+    //         console.log('Unable to find unanswered questions ', err);
+    //     } else {
+    //         res.status(200).json(doc);
+    //     }
+    // })
 }
 
 questionSchema.statics.getRelatedQuestions = function (req, res) {
@@ -66,7 +154,7 @@ questionSchema.statics.getRelatedQuestions = function (req, res) {
     //tags in header converted to string => need to split
     // const tags = req.header('tags').split(',');
     const tags = req.query.tags;
-    console.log('related query ', tags);
+    // console.log('related query ', tags);
 
     Question.find({ tags: { $in: tags } }, null, { skip: 0, limit: 10 }, (err, doc) => {
         if (err) {
@@ -140,24 +228,11 @@ questionSchema.statics.getTags = function (req, res) {
     });
 }
 
-questionSchema.statics.getUnansweredQuestions = function (req, res) {
-    const Question = this;
-    const skip = ((req.query.next)*1);
-
-    Question.find({ answers: { $size: 0 } }, null, { skip: skip, limit: 10 }, (err, doc) => {
-        if (err) {
-            console.log('Unable to find unanswered questions ', err);
-        } else {
-            res.status(200).json(doc);
-        }
-    })
-}
-
 //find questions by user(name)
 questionSchema.statics.findQuestionsByUser = function (req, res) {
     const userId = req.query.userId;
     const Question = this;
-    console.log('userId ', userId);
+    // console.log('userId ', userId);
 
     Question.find({ askedByUser: userId }, (err, doc) => {
         if (err) {
@@ -171,9 +246,9 @@ questionSchema.statics.findQuestionsByUser = function (req, res) {
 
 //find questions by tag
 questionSchema.statics.findQuestionsByTag = function (req, res) {
-    const skip = ((req.query.next)*1);
+    const skip = ((req.query.next) * 1);
     const tag = req.query.tag;
-    console.log('tag ', tag);
+    // console.log('tag ', tag);
 
     const Question = this;
 
@@ -187,9 +262,9 @@ questionSchema.statics.findQuestionsByTag = function (req, res) {
 }
 
 questionSchema.statics.findQuestionsByKeywords = function (req, res) {
-    const skip = ((req.query.next)*1);
+    const skip = ((req.query.next) * 1);
     const keywords = new RegExp(req.query.keywords);
-    console.log(keywords);
+    // console.log(keywords);
 
     const Question = this;
 
@@ -208,7 +283,7 @@ questionSchema.statics.findQuestionsByKeywords = function (req, res) {
 questionSchema.statics.createQuestion = function (req, res) {
     const Question = this;
 
-    console.log('create questions called! ');
+    // console.log('create questions called! ');
 
     Question.create(req.body, (err, doc) => {
         if (err) {
@@ -292,7 +367,7 @@ questionSchema.statics.findAnswersByUser = function (req, res) {
     const userId = req.query.userId;
     const Question = this;
 
-    console.log('userId ', userId);
+    // console.log('userId ', userId);
 
     Question.find({ 'answers.answeredByUser': userId }, (err, doc) => {
         if (err) {

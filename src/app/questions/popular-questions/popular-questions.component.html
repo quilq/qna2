@@ -3,7 +3,9 @@
 
   <app-question-view [questions]="popularQuestions"></app-question-view>
 
-  <button mat-raised-button (click)="getMoreQuestions()">more questions </button>
+  <button mat-raised-button (click)="getMoreQuestions()" *ngIf="!(popularQuestions.length === totalQuestions)">
+    more questions
+  </button>
 </div>
 
 <ng-template #loading>

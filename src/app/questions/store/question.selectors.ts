@@ -25,6 +25,13 @@ export const getRecentQuestions = createSelector(
     }
 );
 
+export const getUnansweredQuestions = createSelector(
+    selectQuestionFeature,
+    (questionState: fromQuestion.QuestionState) => {
+        return questionState.unansweredQuestions;
+    }
+);
+
 export const getRelatedQuestions = createSelector(
     selectQuestionFeature,
     (questionState: fromQuestion.QuestionState) => {
@@ -57,13 +64,6 @@ export const getTags = createSelector(
     selectQuestionFeature,
     (questionState: fromQuestion.QuestionState) => {
         return questionState.tags; 
-    }
-);
-
-export const getUnansweredQuestions = createSelector(
-    selectQuestionFeature,
-    (questionState: fromQuestion.QuestionState) => {
-        return questionState.unansweredQuestions;
     }
 );
 

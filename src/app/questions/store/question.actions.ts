@@ -65,7 +65,7 @@ export class OnGetPopularQuestions implements Action {
 
 export class GetPopularQuestions implements Action {
     readonly type = ActionTypes.GetPopularQuestions;
-    constructor(public payload: { questions: Question[] }) { }
+    constructor(public payload: {totalQuestions: number, questions: Question[] }) { }
 }
 
 export class OnGetRecentQuestions implements Action {
@@ -75,7 +75,7 @@ export class OnGetRecentQuestions implements Action {
 
 export class GetRecentQuestions implements Action {
     readonly type = ActionTypes.GetRecentQuestions;
-    constructor(public payload: { questions: Question[] }) { }
+    constructor(public payload: {totalQuestions: number, questions: Question[] }) { }
 }
 
 export class OnGetRelatedQuestions implements Action {
@@ -104,7 +104,7 @@ export class OnGetUnansweredQuestions implements Action {
 
 export class GetUnansweredQuestions implements Action {
     readonly type = ActionTypes.GetUnansweredQuestions;
-    constructor(public payload: { questions: Question[] }) { }
+    constructor(public payload: { totalQuestions: number, questions: Question[] }) { }
 }
 
 export class OnGetTags implements Action {

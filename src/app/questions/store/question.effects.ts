@@ -9,6 +9,11 @@ import { Question } from '../question.model';
 import { QuestionsService } from '../questions.service';
 import * as QuestionActions from './question.actions';
 
+interface LoadedQuestions {
+    totalQuestions: number,
+    questions: Question[]
+}
+
 @Injectable()
 export class QuestionEffects {
 
@@ -19,8 +24,13 @@ export class QuestionEffects {
             switchMap((action: QuestionActions.OnGetPopularQuestions) => {
                 return this.questionService.getPopularQuestions(action.payload.next)
                     .pipe(
-                        map((questions: Question[]) => {
-                            return new QuestionActions.GetPopularQuestions({ questions });
+                        // map((loadedQuestions: LoadedQuestions) => {
+                        map((loadedQuestions: any) => {
+                            console.log('popular ', loadedQuestions);
+                            return new QuestionActions.GetPopularQuestions({
+                                totalQuestions: loadedQuestions.totalQuestions[0].count,
+                                questions: loadedQuestions.questions
+                            });
                         }),
                         catchError((error) => {
                             console.log('Error (getPopularQuestions effect): ', error);
@@ -37,8 +47,12 @@ export class QuestionEffects {
             switchMap((action: QuestionActions.OnGetRecentQuestions) => {
                 return this.questionService.getRecentQuestions(action.payload.next)
                     .pipe(
-                        map((questions: Question[]) => {
-                            return new QuestionActions.GetRecentQuestions({ questions });
+                        map((loadedQuestions: any) => {
+                            console.log('recent ', loadedQuestions);
+                            return new QuestionActions.GetRecentQuestions({
+                                totalQuestions: loadedQuestions.totalQuestions[0].count,
+                                questions: loadedQuestions.questions
+                            });
                         }),
                         catchError((error) => {
                             console.log('Error (getRecentQuestions effect): ', error);
@@ -74,6 +88,7 @@ export class QuestionEffects {
                 return this.questionService.getFeaturedQuestions()
                     .pipe(
                         map((questions: Question[]) => {
+                            console.log('featuredquestions: ', questions);
                             return new QuestionActions.GetFeaturedQuestions({ questions });
                         }),
                         catchError((error) => {
@@ -111,10 +126,12 @@ export class QuestionEffects {
             switchMap((action: QuestionActions.OnGetUnansweredQuestions) => {
                 return this.questionService.getUnansweredQuestions(action.payload.next)
                     .pipe(
-                        map((questions: Question[]) => {
-                            if (questions) {
-                                return new QuestionActions.GetUnansweredQuestions({ questions });
-                            }
+                        map((loadedQuestions: any) => {
+                            console.log('unansered ', loadedQuestions);
+                            return new QuestionActions.GetUnansweredQuestions({
+                                totalQuestions: loadedQuestions.totalQuestions[0].count,
+                                questions: loadedQuestions.questions
+                            });
                         }),
                         catchError((error) => {
                             console.log('Error (getUnansweredQuestions effect): ', error);

@@ -1,12 +1,18 @@
 import * as QuestionActions from './question.actions';
 import { Question } from '../question.model';
+import { User } from 'src/app/auth/user/user.model';
+
+export interface LoadedQuestions {
+    totalQuestions: number,  //total questions from database
+    questions: Question[]
+}
 
 export interface QuestionState {
     // hasLoaded: boolean,
-    popularQuestions: Question[],
-    recentQuestions: Question[],
+    popularQuestions: LoadedQuestions,
+    recentQuestions: LoadedQuestions,
+    unansweredQuestions: LoadedQuestions,
     relatedQuestions: Question[],
-    unansweredQuestions: Question[],
     featuredQuestions: Question[],
     tags: string[],
     questionsByTag: {
@@ -22,10 +28,10 @@ export interface QuestionState {
 
 export const initialState: QuestionState = {
     // hasLoaded: false,
-    recentQuestions: [],
+    recentQuestions: {totalQuestions: 0, questions: []},
+    popularQuestions: {totalQuestions: 0, questions: []},
+    unansweredQuestions: {totalQuestions: 0, questions: []},
     relatedQuestions: [],
-    popularQuestions: [],
-    unansweredQuestions: [],
     featuredQuestions: [],
     tags: [],
     questionsByTag: {
@@ -44,20 +50,28 @@ export function questionReducer(state: QuestionState = initialState, action: Que
         case QuestionActions.ActionTypes.GetPopularQuestions:
             return {
                 ...state,
-                // hasLoaded: true,
-                popularQuestions: [...state.popularQuestions, ...action.payload.questions]
+                popularQuestions: {
+                    totalQuestions: action.payload.totalQuestions,
+                    questions: [...state.popularQuestions.questions, ...action.payload.questions]
+                }
             };
 
         case QuestionActions.ActionTypes.GetRecentQuestions:
             return {
                 ...state,
-                recentQuestions: [...state.recentQuestions, ...action.payload.questions]
+                recentQuestions: {
+                    totalQuestions: action.payload.totalQuestions,
+                    questions: [...state.recentQuestions.questions, ...action.payload.questions]
+                }
             };
 
         case QuestionActions.ActionTypes.GetUnansweredQuestions:
-            return { 
-                ...state, 
-                unansweredQuestions: [...state.unansweredQuestions, ...action.payload.questions] 
+            return {
+                ...state,
+                unansweredQuestions: {
+                    totalQuestions: action.payload.totalQuestions,
+                    questions: [...state.unansweredQuestions.questions, ...action.payload.questions]
+                }
             };
 
         case QuestionActions.ActionTypes.GetRelatedQuestions:
@@ -70,55 +84,68 @@ export function questionReducer(state: QuestionState = initialState, action: Que
             return { ...state, tags: action.payload.tags };
 
         case QuestionActions.ActionTypes.FindQuestionById:
+            console.log(typeof state.questionById);
             return { ...state, questionById: action.payload.question };
 
         case QuestionActions.ActionTypes.FindQuestionsByTag:
             return {
                 ...state,
-                questionsByTag: { 
-                    tag: action.payload.tag, 
-                    questions: [...state.questionsByTag.questions, ...action.payload.questions] 
+                questionsByTag: {
+                    tag: action.payload.tag,
+                    questions: [...state.questionsByTag.questions, ...action.payload.questions]
                 }
             };
 
         case QuestionActions.ActionTypes.FindQuestionsByKeywords:
             return {
                 ...state,
-                searchResult: { 
-                    keywords: action.payload.keywords, 
-                    questions: [...state.searchResult.questions, ...action.payload.questions] 
+                searchResult: {
+                    keywords: action.payload.keywords,
+                    questions: [...state.searchResult.questions, ...action.payload.questions]
                 }
             };
 
         case QuestionActions.ActionTypes.CreateQuestion:
             return {
                 ...state,
-                popularQuestions: [...state.popularQuestions, action.payload.question]
+                popularQuestions: {
+                    totalQuestions: state.popularQuestions.totalQuestions + 1,
+                    questions: [...state.popularQuestions.questions, action.payload.question]
+                }
             };
 
         case QuestionActions.ActionTypes.EditQuestion:
-            let newQuestions = state.popularQuestions;
+            let newQuestions = state.popularQuestions.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     newQuestions[i].questionContent = action.payload.newQuestion;
                     break;
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         case QuestionActions.ActionTypes.DeleteQuestion:
-            newQuestions = state.popularQuestions;
+            newQuestions = state.popularQuestions.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     newQuestions.splice(i, 1);
                     break;
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         case QuestionActions.ActionTypes.VoteQuestion:
-            console.log(action.payload);
-            newQuestions = state.popularQuestions;
+            newQuestions = state.popularQuestions.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     if (action.payload.upvote) {
@@ -129,10 +156,15 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                     break;
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         case QuestionActions.ActionTypes.AddAnswer:
-            newQuestions = state.popularQuestions;
+            newQuestions = state.popularQuestions.questions;
             let newAnswer = action.payload.newAnswer;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
@@ -140,10 +172,15 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                     break;
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         case QuestionActions.ActionTypes.UpdateCorrectAnswer:
-            newQuestions = state.popularQuestions;
+            newQuestions = state.popularQuestions.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
@@ -163,10 +200,15 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                     }
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         case QuestionActions.ActionTypes.EditAnswer:
-            newQuestions = state.popularQuestions;
+            newQuestions = state.popularQuestions.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
@@ -177,10 +219,15 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                     }
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         case QuestionActions.ActionTypes.VoteAnswer:
-            newQuestions = state.popularQuestions;
+            newQuestions = state.popularQuestions.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
@@ -196,10 +243,15 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                     break;
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         case QuestionActions.ActionTypes.DeleteAnswer:
-            newQuestions = state.popularQuestions;
+            newQuestions = state.popularQuestions.questions;
             for (let i = 0; i < newQuestions.length; i++) {
                 if (newQuestions[i]._id === action.payload.questionId) {
                     for (let ii = 0; ii < newQuestions[i].answers.length; ii++) {
@@ -211,7 +263,12 @@ export function questionReducer(state: QuestionState = initialState, action: Que
                     break;
                 }
             }
-            return { ...state, popularQuestions: newQuestions };
+            return {
+                ...state, ...state, popularQuestions: {
+                    ...state.popularQuestions,
+                    questions: newQuestions
+                }
+            };
 
         default:
             return state;

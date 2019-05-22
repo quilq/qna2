@@ -14,8 +14,9 @@ import * as QuestionActions from '../store/question.actions';
   styleUrls: ['./recent-questions.component.scss']
 })
 export class RecentQuestionsComponent implements OnInit, OnDestroy {
-  recentQuestions: Question[];
   private ngUnsubscribe$ = new Subject();
+  recentQuestions: Question[];
+  totalQuestions: number;
 
   constructor(private questionStore: Store<QuestionState>) { }
 
@@ -23,7 +24,10 @@ export class RecentQuestionsComponent implements OnInit, OnDestroy {
     this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions({ next: 0 }));
     this.questionStore.select(getRecentQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(questions => this.recentQuestions = questions);
+      .subscribe(questionsState => {
+        this.totalQuestions = questionsState.totalQuestions;
+        this.recentQuestions = questionsState.questions;
+      });
 
     window.scroll(0, 0);
   }

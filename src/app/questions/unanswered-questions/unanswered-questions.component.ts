@@ -14,8 +14,9 @@ import * as QuestionActions from '../store/question.actions';
   styleUrls: ['./unanswered-questions.component.scss']
 })
 export class UnansweredQuestionsComponent implements OnInit {
-  unansweredQuestions: Question[];
   private ngUnsubscribe$ = new Subject;
+  unansweredQuestions: Question[];
+  totalQuestions: number;
 
   constructor(private questionStore: Store<QuestionState>) { }
 
@@ -23,7 +24,11 @@ export class UnansweredQuestionsComponent implements OnInit {
     this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions({ next: 0 }));
     this.questionStore.select(getUnansweredQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(questions => this.unansweredQuestions = questions);
+      .subscribe(questionsState => {
+        this.totalQuestions = questionsState.totalQuestions;
+        this.unansweredQuestions = questionsState.questions;
+      });
+
 
     window.scroll(0, 0);
   }

@@ -2,7 +2,9 @@
   <h2>Unanswered questions </h2>
   <app-question-view [questions]="unansweredQuestions"></app-question-view>
 
-  <button mat-raised-button (click)="getMoreQuestions()">more questions </button>
+  <button mat-raised-button (click)="getMoreQuestions()" *ngIf="!(unansweredQuestions.length === totalQuestions)">
+    more questions
+  </button>
 </div>
 
 <ng-template #loading>
