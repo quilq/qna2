@@ -1,6 +1,5 @@
 import * as QuestionActions from './question.actions';
 import { Question } from '../question.model';
-import { User } from 'src/app/auth/user/user.model';
 
 export interface LoadedQuestions {
     totalQuestions: number,  //total questions from database
@@ -8,7 +7,6 @@ export interface LoadedQuestions {
 }
 
 export interface QuestionState {
-    // hasLoaded: boolean,
     popularQuestions: LoadedQuestions,
     recentQuestions: LoadedQuestions,
     unansweredQuestions: LoadedQuestions,
@@ -84,7 +82,6 @@ export function questionReducer(state: QuestionState = initialState, action: Que
             return { ...state, tags: action.payload.tags };
 
         case QuestionActions.ActionTypes.FindQuestionById:
-            console.log(typeof state.questionById);
             return { ...state, questionById: action.payload.question };
 
         case QuestionActions.ActionTypes.FindQuestionsByTag:

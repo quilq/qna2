@@ -1,13 +1,19 @@
-<div fxLayout="row" fxLayoutAlign="space-between " class="full-page-80 margin-child-1-2">
-  <div fxFlex="65">
-    <app-new-question></app-new-question>
+<div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="space-between " 
+class="full-page-80 margin-child-1-2">
+ <!-- [ngClass.gt-sm]="{'padding-top-64': false, 'full-page-80 margin-child-1-2': true}" 
+ [ngClass.lt-md]="{'padding-top-64': true, 'full-page-80 margin-child-1-2': true}"> -->
+
+  <div fxFlex.gt-sm="65">
+    <app-search></app-search>
 
     <router-outlet></router-outlet>
+
+    <div class="margin-2-0">
+      <app-new-question></app-new-question>
+    </div>
   </div>
 
-  <div>
-    <app-search></app-search>
-    
+  <div fxHide.lt-md="true">
     <app-featured-questions></app-featured-questions>
   </div>
 </div>

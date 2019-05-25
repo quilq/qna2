@@ -5,7 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { QuestionState } from '../store/question.reducers';
 import { Question } from '../question.model';
-// import { getPopularQuestions, hasLoaded } from '../store/question.selectors';
 import { getPopularQuestions } from '../store/question.selectors';
 import * as QuestionActions from '../store/question.actions';
 
@@ -23,20 +22,15 @@ export class PopularQuestionsComponent implements OnInit {
   constructor(private store: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.store.dispatch(new QuestionActions.OnGetPopularQuestions({ next: 0 }));
-    // this.store.select(hasLoaded)
-    //   .pipe(takeUntil(this.ngUnsubscribe$))
-    //   .subscribe(hasLoaded => {
-    //     if (!hasLoaded) {
-    //       this.store.dispatch(new QuestionActions.OnGetPopularQuestions({ next: 0 }));
-    //     }
-    //   });
-
     this.store.select(getPopularQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(questionsState => {
-        this.totalQuestions = questionsState.totalQuestions;
-        this.popularQuestions = questionsState.questions;
+        if (questionsState.totalQuestions > 0){
+          this.totalQuestions = questionsState.totalQuestions;
+          this.popularQuestions = questionsState.questions;
+        } else {
+          this.store.dispatch(new QuestionActions.OnGetPopularQuestions({ next: 0 }));
+        }
       });
 
     window.scroll(0, 0);

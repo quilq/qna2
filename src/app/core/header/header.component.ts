@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,9 +17,10 @@ import * as AuthActions from '../../auth/store/auth.actions';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
-  private ngUnsubscribe$ = new Subject();
-  isAuthenticated: boolean;
+  @Output() sidenavEvent: EventEmitter<any> = new EventEmitter();
+  // isSidenavOpen: boolean = false;
+  private ngUnsubscribe$: Subject<any> = new Subject();
+  isAuthenticated: boolean = false;
 
   constructor(
     private userStore: Store<AuthState>,
@@ -49,6 +50,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onSignout() {
     this.userStore.dispatch(new AuthActions.OnSignout());
+  }
+
+  toggleSidenav() {
+    // this.isSidenavOpen = !this.isSidenavOpen;
+    this.sidenavEvent.emit(null);
   }
 
   ngOnDestroy() {

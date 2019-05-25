@@ -19,10 +19,6 @@ export class AllTagsComponent implements OnInit {
 
   ngOnInit() {
     this.questionStore.dispatch(new QuestionActions.OnGetTags());
-    this.tags$ = this.questionStore.select(getTags); 
+    this.tags$ = this.questionStore.select(getTags);
   }
-
-  // onSearchTag(tag: string){
-  //   console.log(tag);
-  // }
 }

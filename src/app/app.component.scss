@@ -1,4 +1,7 @@
 @import './shared/style/full-page';
+@import './shared/style/color';
+@import './shared/style/effects';
+@import './shared/style/margin';
 
 .header {
     position: fixed;
@@ -7,6 +10,18 @@
     z-index: 1;
 }
 
-.main-content {
+.padding-top-128 {
     padding-top: 128px;
 }
+
+.padding-top-64 {
+    padding-top: 64px;
+}
+
+.padding-top-32 {
+    padding-top: 32px;
+}
+
+// .menu {
+//     background-color: $dark-blue;
+// }

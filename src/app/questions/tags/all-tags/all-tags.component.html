@@ -1,14 +1,13 @@
-<h2>All tags </h2>
+<div *ngIf="tags$ | async as tags; else loading" class="margin-child-2-0">
+  <h2>All tags </h2>
+  <mat-chip-list>
+    <mat-chip *ngFor="let tag of tags" [routerLink]="['questions-by-tag', tag]" class="hover-pointer">
+      {{tag}}
+    </mat-chip>
+  </mat-chip-list>
+</div>
 
-<!-- <mat-form-field floatLabel="never" appearance="outline">
-  <input matInput placeholder="Filter by tag name" type="search" #keywords>
-  <button matPrefix mat-icon-button (click)="onSearchTag(keywords.value)">
-    <mat-icon>search</mat-icon>
-  </button>
-</mat-form-field> -->
-
-<mat-chip-list class="margin-child-1-0">
-  <mat-chip *ngFor="let tag of (tags$ | async)" [routerLink]="['questions-by-tag', tag]" class="hover-pointer">
-    {{tag}}
-  </mat-chip>
-</mat-chip-list>
+<ng-template #loading>
+  <br>
+  Loading tags ...
+</ng-template>

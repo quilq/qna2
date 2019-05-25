@@ -1,23 +1,27 @@
 <mat-toolbar class="header">
   <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" class="top-toolbar">
-    <nav class="hover-pointer">
-      <h1 routerLink="">QnA2</h1>
-    </nav>
+    <div fxLayout="row">
+      <!-- output -->
+      <button mat-icon-button (click)="toggleSidenav()" fxHide.gt-sm="true">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button mat-button>
+        <h1 routerLink="">QnA2</h1>
+      </button>
+    </div>
 
-    <!-- <nav *ngIf="!(isAuthenticated$ | async)"> -->
     <nav *ngIf="!(isAuthenticated)">
       <button mat-button routerLink="auth/signin"> Sign in </button>
       <button mat-button routerLink="auth/signup"> Create account </button>
     </nav>
 
-    <!-- <nav *ngIf="(isAuthenticated$ | async)"> -->
     <nav *ngIf="(isAuthenticated)">
       <button mat-button routerLink="user"> User page </button>
       <button mat-button (click)="onSignout()"> Sign out </button>
     </nav>
   </mat-toolbar-row>
 
-  <mat-toolbar-row class="bottom-toolbar">
+  <mat-toolbar-row class="bottom-toolbar" fxHide.lt-md="true">
     <nav>
       <button mat-button routerLink="questions/popular-questions">
         <mat-icon>trending_up</mat-icon>

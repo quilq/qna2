@@ -21,12 +21,16 @@ export class RecentQuestionsComponent implements OnInit, OnDestroy {
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions({ next: 0 }));
     this.questionStore.select(getRecentQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(questionsState => {
-        this.totalQuestions = questionsState.totalQuestions;
-        this.recentQuestions = questionsState.questions;
+        if (questionsState.totalQuestions > 0) {
+          console.log(questionsState);
+          this.totalQuestions = questionsState.totalQuestions;
+          this.recentQuestions = questionsState.questions;
+        } else {
+          this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions({ next: 0 }));
+        }
       });
 
     window.scroll(0, 0);

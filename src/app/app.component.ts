@@ -20,4 +20,8 @@ export class AppComponent {
       this.onUserAuthPage = false;
     }
   }
+
+  toggleSidenav(open: boolean){
+    console.log(open);
+  }
 }

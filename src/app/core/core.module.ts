@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 // import { CommonModule } from '@angular/common';
-// import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-// import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   declarations: [
@@ -20,15 +20,18 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   imports: [
     // CommonModule,
     RouterModule,
-    // MaterialModule,
-    // FlexLayoutModule,
+    MaterialModule,
+    FlexLayoutModule,
     SharedModule
   ],
   exports: [
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    MaterialModule,
+    FlexLayoutModule,
+    PageNotFoundComponent,
+    // SharedModule
   ]
 })
 export class CoreModule { }

@@ -1,5 +1,45 @@
-<app-header class="header" *ngIf="!onUserAuthPage"></app-header>
-<div class="main-content full-page-80">
-    <router-outlet (activate)="onActivate()"></router-outlet>
-</div>
-<app-footer class="footer" *ngIf="!onUserAuthPage"></app-footer>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav>
+        <!-- <app-search></app-search> -->
+        <nav fxLayout="column" fxLayoutAlign="center start" class="padding-top-32 margin-child-1-0">
+            <button mat-button routerLink="questions/popular-questions" (click)="sidenav.close()">
+                <mat-icon>trending_up</mat-icon>
+                Popular
+            </button>
+            <button mat-button routerLink="questions/unanswered-questions" (click)="sidenav.close()">
+                <mat-icon>flag</mat-icon>
+                Unanswered
+            </button>
+            <button mat-button routerLink="questions/recent-questions" (click)="sidenav.close()">
+                <mat-icon>update</mat-icon>
+                Recent
+            </button>
+            <button mat-button routerLink="questions/tags" (click)="sidenav.close()">
+                <mat-icon>local_offer</mat-icon>
+                Tags
+            </button>
+        </nav>
+    </mat-sidenav>
+
+    <mat-sidenav-content fxLayout="column">
+        <!-- <mat-toolbar class="menu" fxHide.gt-sm="true" *ngIf="!onUserAuthPage">
+            <button mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <nav class="hover-pointer">
+                <h1 routerLink="">QnA2</h1>
+            </nav>
+        </mat-toolbar> -->
+        <app-header class="header" *ngIf="!onUserAuthPage" (sidenavEvent)="sidenav.toggle()">
+        <!-- <app-header class="header" *ngIf="!onUserAuthPage" (sidenavEvent)="toggleSidenav($event)"> -->
+        </app-header>
+        <div [ngClass.gt-sm]="{'padding-top-128': true, 'padding-top-64': false}" 
+        [ngClass.lt-md]="{'padding-top-128': false, 'padding-top-64':true}" fxFlex>
+        <!-- <div class="padding-top-128" fxFlex> -->
+            <router-outlet (activate)="onActivate()"></router-outlet>
+        </div>
+
+        <app-footer class="footer" *ngIf="!onUserAuthPage"></app-footer>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

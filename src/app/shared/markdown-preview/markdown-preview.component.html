@@ -1,7 +1,7 @@
 <div>
     <!-- set type="button" to avoid submitting form accedentally... -->
     <button type="button" mat-raised-button (click)="preview = !preview" class="margin-1-0"
-        [ngClass]="{active: preview}">
+        [ngClass]="{'active': preview}">
         <!-- or use property biding: [class.active]="preview"> -->
         <!-- toggle the "active" class on/off with 'preview' property -->
 

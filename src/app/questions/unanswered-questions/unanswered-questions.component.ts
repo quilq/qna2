@@ -21,12 +21,16 @@ export class UnansweredQuestionsComponent implements OnInit {
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions({ next: 0 }));
+    
     this.questionStore.select(getUnansweredQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(questionsState => {
-        this.totalQuestions = questionsState.totalQuestions;
-        this.unansweredQuestions = questionsState.questions;
+        if (questionsState.totalQuestions > 0) {
+          this.totalQuestions = questionsState.totalQuestions;
+          this.unansweredQuestions = questionsState.questions;
+        } else {
+          this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions({ next: 0 }));
+        }
       });
 
 
