@@ -18,7 +18,7 @@ import { AuthModule } from './auth/auth.module';
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,

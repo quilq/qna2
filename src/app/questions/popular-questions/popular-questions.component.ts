@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { QuestionState } from '../store/question.reducers';
 import { Question } from '../question.model';
 import { getPopularQuestions } from '../store/question.selectors';
 import * as QuestionActions from '../store/question.actions';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-popular-questions',
@@ -19,13 +20,15 @@ export class PopularQuestionsComponent implements OnInit {
   popularQuestions: Question[];
   totalQuestions: number;
 
-  constructor(private store: Store<QuestionState>) { }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private store: Store<QuestionState>) { }
 
   ngOnInit() {
     this.store.select(getPopularQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(questionsState => {
-        if (questionsState.totalQuestions > 0){
+        if (questionsState.totalQuestions > 0) {
           this.totalQuestions = questionsState.totalQuestions;
           this.popularQuestions = questionsState.questions;
         } else {
@@ -33,7 +36,9 @@ export class PopularQuestionsComponent implements OnInit {
         }
       });
 
-    window.scroll(0, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      window.scroll(0, 0);
+    }
   }
 
   getMoreQuestions() {

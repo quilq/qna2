@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 import { QuestionState } from '../store/question.reducers';
 import { Question } from '../question.model';
@@ -18,10 +19,12 @@ export class UnansweredQuestionsComponent implements OnInit {
   unansweredQuestions: Question[];
   totalQuestions: number;
 
-  constructor(private questionStore: Store<QuestionState>) { }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    
+
     this.questionStore.select(getUnansweredQuestions)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(questionsState => {
@@ -33,8 +36,9 @@ export class UnansweredQuestionsComponent implements OnInit {
         }
       });
 
-
-    window.scroll(0, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      window.scroll(0, 0);
+    }
   }
 
   getMoreQuestions() {

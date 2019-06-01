@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { QuestionState } from '../../questions/store/question.reducers';
-// import * as QuestionActions from '../../questions/store/question.actions';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -11,10 +9,11 @@ import { QuestionState } from '../../questions/store/question.reducers';
 export class HomeComponent implements OnInit {
 
   // constructor(private questionStore: Store<QuestionState>) { }
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit() {
-    window.scroll(0, 0);
+    if (isPlatformBrowser(this.platformId)) {
+      window.scroll(0, 0);
+   }
   }
-
 }

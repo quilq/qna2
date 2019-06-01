@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
 export class UserService {
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private httpClient: HttpClient,
     private router: Router
   ) { }
@@ -17,7 +19,9 @@ export class UserService {
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
+    }
   }
 
   authenticateUser(token: string) {

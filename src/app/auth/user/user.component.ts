@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { AuthState } from '../store/auth.reducers';
 import { User } from './user.model';
 import { selectUser, getUserQuestions, getUserAnswers } from '../store/auth.selectors';
-import { Observable } from 'rxjs';
-import { Question } from 'src/app/questions/question.model';
+import { Question } from '../../questions/question.model';
 import { OnGetUserQuestions, OnGetUserAnswers } from '../store/auth.actions';
 
 @Component({

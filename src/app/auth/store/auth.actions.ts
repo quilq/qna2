@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Question } from 'src/app/questions/question.model';
+import { Question } from '../../questions/question.model';
 
 export enum ActionTypes {
     OnSignin = '[Auth] On sign in',
