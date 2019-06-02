@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 
 import { NewAnswerComponent } from './new-answer/new-answer.component';
-import { NewQuestionComponent } from './new-question/new-question.component';
 import { SearchComponent } from './search/search.component';
 import { MaterialModule } from '../material/material.module';
 import { QuestionViewComponent } from './question-view/question-view.component';
@@ -16,7 +15,6 @@ import { MarkdownPreviewComponent } from './markdown-preview/markdown-preview.co
 @NgModule({
   declarations: [
     SearchComponent, 
-    NewQuestionComponent, 
     NewAnswerComponent, 
     QuestionViewComponent, 
     QuestionDetailsViewComponent, 
@@ -31,8 +29,7 @@ import { MarkdownPreviewComponent } from './markdown-preview/markdown-preview.co
     MarkdownModule.forChild()
   ],
   exports: [
-    SearchComponent, 
-    NewQuestionComponent, 
+    SearchComponent,
     NewAnswerComponent,
     QuestionViewComponent, 
     QuestionDetailsViewComponent, 

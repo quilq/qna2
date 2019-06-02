@@ -11,6 +11,13 @@ export const isAuthenticated = createSelector(
     }
 );
 
+export const getToken = createSelector(
+    selectAuthFeature,
+    (authState: fromAuth.AuthState) => {
+        return authState.token;
+    }
+)
+
 export const selectUser = createSelector(
     selectAuthFeature,
     (authState: fromAuth.AuthState) => {

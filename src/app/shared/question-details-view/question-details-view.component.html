@@ -9,13 +9,17 @@
     <!-- question content -->
     <p markdown ngPreserveWhitespaces [data]="question.questionContent"></p>
     <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
-    <button mat-raised-button (click)="onEditQuestion()" *ngIf="!canEditQuestion">Edit</button>
+    <button mat-raised-button (click)="onEditQuestion()" [disabled]="canEditQuestion">Edit</button>
 
-    <mat-form-field *ngIf="canEditQuestion">
-        <textarea matInput placeholder="New question" rows="3" #newQuestion></textarea>
-        <button mat-raised-button (click)="editQuestion(question._id, newQuestion.value)">Edit</button>
-        <button mat-raised-button (click)="onCancelEditQuestion()">Cancel</button>
-    </mat-form-field>
+    <div *ngIf="canEditQuestion">
+        <mat-form-field class="updated-question">
+            <textarea matInput placeholder="New question" rows="10" #newQuestion></textarea>
+        </mat-form-field>
+        <div>
+            <button mat-raised-button (click)="editQuestion(question._id, newQuestion.value)">Update</button>
+            <button mat-raised-button (click)="onCancelEditQuestion()">Cancel</button>
+        </div>
+    </div>
 
     <mat-chip-list>
         <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>

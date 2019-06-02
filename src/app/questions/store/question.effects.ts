@@ -26,7 +26,6 @@ export class QuestionEffects {
                     .pipe(
                         // map((loadedQuestions: LoadedQuestions) => {
                         map((loadedQuestions: any) => {
-                            console.log('popular ', loadedQuestions);
                             return new QuestionActions.GetPopularQuestions({
                                 totalQuestions: loadedQuestions.totalQuestions[0].count,
                                 questions: loadedQuestions.questions
@@ -48,7 +47,6 @@ export class QuestionEffects {
                 return this.questionService.getRecentQuestions(action.payload.next)
                     .pipe(
                         map((loadedQuestions: any) => {
-                            console.log('recent ', loadedQuestions);
                             return new QuestionActions.GetRecentQuestions({
                                 totalQuestions: loadedQuestions.totalQuestions[0].count,
                                 questions: loadedQuestions.questions
@@ -88,7 +86,6 @@ export class QuestionEffects {
                 return this.questionService.getFeaturedQuestions()
                     .pipe(
                         map((questions: Question[]) => {
-                            console.log('featuredquestions: ', questions);
                             return new QuestionActions.GetFeaturedQuestions({ questions });
                         }),
                         catchError((error) => {
@@ -127,7 +124,6 @@ export class QuestionEffects {
                 return this.questionService.getUnansweredQuestions(action.payload.next)
                     .pipe(
                         map((loadedQuestions: any) => {
-                            console.log('unansered ', loadedQuestions);
                             return new QuestionActions.GetUnansweredQuestions({
                                 totalQuestions: loadedQuestions.totalQuestions[0].count,
                                 questions: loadedQuestions.questions
@@ -194,7 +190,6 @@ export class QuestionEffects {
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {
-                                console.log('search result: ', questions);
                                 return new QuestionActions.FindQuestionsByKeywords({
                                     keywords: action.payload.keywords,
                                     questions
@@ -218,7 +213,6 @@ export class QuestionEffects {
                 return this.questionService.createQuestion(action.payload.question)
                     .pipe(
                         map((question: Question) => {
-                            console.log('create question effects ', question);
                             if (question) {
                                 return new QuestionActions.CreateQuestion({ question });
                             }
@@ -378,11 +372,6 @@ export class QuestionEffects {
                         mergeMap((response: string) => {
                             if (response === 'correct-answer-updated') {
                                 return [
-                                    // new QuestionActions.UpdateCorrectAnswer({
-                                    //     questionId: action.payload.questionId,
-                                    //     correctAnswerId: action.payload.correctAnswerId,
-                                    //     undo: action.payload.undo
-                                    // }),
                                     new QuestionActions.UpdateCorrectAnswer({ ...action.payload }),
                                     new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
                                 ];

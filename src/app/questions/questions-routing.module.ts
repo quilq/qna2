@@ -10,6 +10,7 @@ import { QuestionsByTagComponent } from './tags/questions-by-tag/questions-by-ta
 import { AllTagsComponent } from './tags/all-tags/all-tags.component';
 import { RecentQuestionsComponent } from './recent-questions/recent-questions.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { NewQuestionComponent } from './new-question/new-question.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'recent-questions', component: RecentQuestionsComponent },
       { path: 'question-details/:id', component: QuestionDetailsComponent },
       { path: 'search-results', component: SearchResultsComponent },
+      { path: 'new-question', component: NewQuestionComponent},
       {
         path: 'tags', component: TagsComponent, children: [
           { path: '', component: AllTagsComponent },

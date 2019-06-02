@@ -1,32 +1,33 @@
-<form fxLayout="column" fxLayoutAlign="center center" [formGroup]="signinForm" (ngSubmit)="onSubmit()"
-  class="full-page-60">
-  <mat-card fxLayout="column" fxLayoutAlign="center center">
-    <h2 routerLink="/" class="hover-pointer">Home</h2>
-    <h3>Signin</h3>
-
-    <mat-form-field>
-      <input matInput type="text" placeholder="Email" formControlName="email">
-      <mat-icon matSuffix>email</mat-icon>
-      <mat-error
-        *ngIf="signinForm.get('email').invalid && (signinForm.get('email').dirty || signinForm.get('email').touched)">
-        Invalid email
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Password" formControlName="password">
-      <mat-icon matSuffix (click)="hidePassword = !hidePassword">
-        {{hidePassword ? 'visibility_off' : 'visibility'}}
-      </mat-icon>
-      <mat-error
-        *ngIf="signinForm.get('password').invalid && (signinForm.get('password').dirty || signinForm.get('password').touched)">
-        Password required (min 6 char)
-      </mat-error>
-    </mat-form-field>
-
-    <button mat-raised-button type="submit">Sign in</button>
-    <a routerLink="/auth/signup">Sign up instead</a>
-  </mat-card>
-
-  <a>Forgot password</a>
-</form>
+<div class="full-page-100">
+  <form fxLayout="column" fxLayoutAlign="center center" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <mat-card fxLayout="column" fxLayoutAlign="center center">
+      <h2 routerLink="/" class="hover-pointer">Home</h2>
+      <h3>Signin</h3>
+  
+      <mat-form-field>
+        <input matInput type="text" placeholder="Email" formControlName="email">
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error
+          *ngIf="signinForm.get('email').invalid && (signinForm.get('email').dirty || signinForm.get('email').touched)">
+          Invalid email
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Password" formControlName="password">
+        <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+          {{hidePassword ? 'visibility_off' : 'visibility'}}
+        </mat-icon>
+        <mat-error
+          *ngIf="signinForm.get('password').invalid && (signinForm.get('password').dirty || signinForm.get('password').touched)">
+          Password required (min 6 char)
+        </mat-error>
+      </mat-form-field>
+  
+      <button mat-raised-button type="submit">Sign in</button>
+      <a routerLink="/auth/signup">Sign up instead</a>
+    </mat-card>
+  
+    <a>Forgot password</a>
+  </form>
+</div>

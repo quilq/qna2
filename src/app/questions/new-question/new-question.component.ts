@@ -6,19 +6,19 @@ import { MatChipInputEvent, MatExpansionPanel } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Question } from '../../questions/question.model';
-import { QuestionState } from '../../questions/store/question.reducers';
+import { Question } from '../question.model';
+import { QuestionState } from '../store/question.reducers';
 import { UserService } from '../../auth/user/user.service';
 import { User } from '../../auth/user/user.model';
 import { isAuthenticated, selectUser } from '../../auth/store/auth.selectors';
-import * as QuestionActions from '../../questions/store/question.actions';
+import * as QuestionActions from '../store/question.actions';
 
 @Component({
   selector: 'app-new-question',
   templateUrl: './new-question.component.html',
   styleUrls: ['./new-question.component.scss']
 })
-export class NewQuestionComponent implements OnInit, AfterViewInit, OnDestroy {
+export class NewQuestionComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe$ = new Subject();
 
@@ -97,9 +97,6 @@ export class NewQuestionComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('sign in to continue !');
       this.userService.toSignin();
     }
-  }
-
-  ngAfterViewInit(){
   }
 
   ngOnDestroy() {

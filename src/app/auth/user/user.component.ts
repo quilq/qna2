@@ -35,5 +35,4 @@ export class UserComponent implements OnInit {
     this.authStore.dispatch(new OnGetUserAnswers({userId}));
   }
 
-
 }

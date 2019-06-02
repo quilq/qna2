@@ -3,11 +3,8 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
 const { mongoose } = require('../database/mongoose');
-// const { Question } = require('../models/question');
-// const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new mongoose.Schema({
-    // _id: ObjectId,
     username: {
         type: String,
         required: true,
@@ -29,9 +26,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
         minlength: 6
-    },
-    // questions: [{ type: ObjectId, ref: 'Question' }],
-    // answers: [{ type: ObjectId, ref: 'Question' }]
+    }
 });
 
 //Hash password before saving

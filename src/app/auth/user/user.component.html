@@ -1,31 +1,34 @@
 <div class="margin-child-2-2" *ngIf="user$ | async as user; else loading">
-    <div> {{user.username}}</div>
+    <div> Hello {{user.username}}</div>
     <div> {{user.email}}</div>
 
-    <div>
-        <button mat-button (click)="getUserQuestions(user._id)">Get user questions</button>
-        <div *ngIf="userQuestions$ | async as userQuestions">
-            <div *ngFor="let question of userQuestions">
-                <mat-divider></mat-divider>
-                <a [routerLink]="['/questions/question-details', question._id]">
-                    {{question.questionTitle}}
-                </a>
-            </div>
-        </div>
-    </div>
+    <button mat-raised-button routerLink="questions/new-question">Ask new question </button>
 
-    <div>
-        <button mat-button (click)="getUserAnswers(user._id)">Get user answers</button>
-        <div *ngIf="userAnswers$ | async as userAnswers">
-            <div *ngFor="let question of userAnswers">
-                <mat-divider></mat-divider>
-                <a [routerLink]="['/questions/question-details', question._id]">
-                    {{question.questionTitle}}
-                </a>
+    <mat-tab-group>
+        <mat-tab label="My questions">
+            <button mat-button (click)="getUserQuestions(user._id)">Get user questions</button>
+            <div *ngIf="userQuestions$ | async as userQuestions">
+                <div *ngFor="let question of userQuestions">
+                    <mat-divider></mat-divider>
+                    <a [routerLink]="['/questions/question-details', question._id]" class="margin-1-0">
+                        {{question.questionTitle}}
+                    </a>
+                </div>
             </div>
-        </div>
-    </div>
+        </mat-tab>
 
+        <mat-tab label="My answers">
+            <button mat-button (click)="getUserAnswers(user._id)">Get user answers</button>
+            <div *ngIf="userAnswers$ | async as userAnswers">
+                <div *ngFor="let question of userAnswers">
+                    <mat-divider></mat-divider>
+                    <a [routerLink]="['/questions/question-details', question._id]">
+                        {{question.questionTitle}}
+                    </a>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 </div>
 
 <ng-template #loading>

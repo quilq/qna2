@@ -1,4 +1,4 @@
-<div class="margin-child-1-1" fxLayout="column">
+<div class="margin-child-1-1 full-page-80" fxLayout="column">
     <app-search></app-search>
 
     <div>
@@ -7,13 +7,12 @@
         <p> Join the active developer community now ! </p>
     </div>
 
-    <p>Ask your question</p>
-    <app-new-question></app-new-question>
-
-
-    <!-- <app-featured-questions></app-featured-questions> -->
-
-    <a routerLink="questions/popular-questions" class="margin-2-0">
-        Explore popular questions
-    </a>
+    <p>
+        Explore
+        <a routerLink="questions/popular-questions" class="margin-2-0" class="no-style-link blue">
+           popular questions
+        </a>
+        or
+        <a routerLink="questions/new-question" class="no-style-link blue">ask a new one </a>
+    </p>
 </div>

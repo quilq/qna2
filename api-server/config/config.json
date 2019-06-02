@@ -1,0 +1,7 @@
+{
+    "development": {
+        "PORT": 3000,
+        "MONGODB_URL": "mongodb://admin:adminqna2@ds056419.mlab.com:56419/qna2",
+        "JWT_SECRET": "qna2jwtsecret"
+    }
+}

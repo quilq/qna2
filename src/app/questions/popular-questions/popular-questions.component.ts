@@ -2,12 +2,12 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 import { QuestionState } from '../store/question.reducers';
 import { Question } from '../question.model';
 import { getPopularQuestions } from '../store/question.selectors';
 import * as QuestionActions from '../store/question.actions';
-import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-popular-questions',

@@ -1,27 +1,37 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { AuthState } from '../store/auth.reducers';
+import { isAuthenticated, getToken } from '../store/auth.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements OnDestroy {
+  private ngUnsubscribe$ = new Subject();
+  isAuthenticated: boolean;
+  token: string;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
     private httpClient: HttpClient,
-    private router: Router
-  ) { }
+    private router: Router,
+    private authStore: Store<AuthState>
+  ) {
+    this.authStore.select(isAuthenticated)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
 
-  toSignin() {
-    this.router.navigate(['/signin']);
+    this.authStore.select(getToken)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(token => this.token = token);
   }
 
-  getToken() {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('token');
-    }
+  toSignin() {
+    this.router.navigate(['/auth/signin']);
   }
 
   authenticateUser(token: string) {
@@ -41,20 +51,23 @@ export class UserService {
 
   signout() {
     let url = 'api/user/signout';;
-    return this.httpClient.delete(url, { headers: { 'x-auth': this.getToken() } });
+    return this.httpClient.delete(url, { headers: { 'x-auth': this.token } });
   }
 
   //get user questions
   findQuestionsByUser = (userId: string) => {
     let url = `api/user/questions`;
-    console.log(this.getToken());
-    return this.httpClient.get(url, { headers: { 'x-auth': this.getToken() }, params: { 'userId': userId } });
+    return this.httpClient.get(url, { headers: { 'x-auth': this.token }, params: { 'userId': userId } });
   }
 
   //get user answers
   findAnswersByUser = (userId: string) => {
     let url = `api/user/answers`;
-    console.log(this.getToken());
-    return this.httpClient.get(url, { headers: { 'x-auth': this.getToken() }, params: { 'userId': userId } });
+    return this.httpClient.get(url, { headers: { 'x-auth': this.token }, params: { 'userId': userId } });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }
