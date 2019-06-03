@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
-import { UserService } from '../../auth/user/user.service';
+import { AuthService } from '../../auth/auth.service';
 import { isAuthenticated } from '../../auth/store/auth.selectors';
 import * as QuestionActions from '../../questions/store/question.actions';
 
@@ -26,7 +26,7 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   constructor(private questionStore: Store<QuestionState>,
     private userStore: Store<QuestionState>,
-    private userService: UserService) { }
+    private userService: AuthService) { }
 
   ngOnInit() {
     this.userStore.select(isAuthenticated)

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Question, Answer } from './question.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,14 @@ import { Question, Answer } from './question.model';
 export class QuestionsService {
 
   constructor(
-    private httpClient: HttpClient
-  ) { }
-
-  getToken() {
-    return localStorage.getItem('token');
-  }
+    private httpClient: HttpClient,
+    private authService: AuthService
+  ) {}
   
+  getToken(): string {
+    return this.authService.token;
+  }
+
   getPopularQuestions = (next: number) => {
     let url = `api/q`;
     return this.httpClient.get(url, {params: {'next': next.toString()} });

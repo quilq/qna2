@@ -1,0 +1,14 @@
+<div *ngIf="unansweredQuestions; else loading">
+  <h2>Unanswered questions </h2>
+  <app-question-view [questions]="unansweredQuestions"></app-question-view>
+
+  <button mat-raised-button (click)="getMoreQuestions()" *ngIf="!(unansweredQuestions.length === totalQuestions)"
+    class="margin-2-0">
+    more questions
+  </button>
+</div>
+
+<ng-template #loading>
+  <br>
+  Loading unanswered questions...
+</ng-template>

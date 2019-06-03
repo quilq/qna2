@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { AuthState } from '../../auth/store/auth.reducers';
-import { UserService } from '../../auth/user/user.service';
+import { AuthService } from '../../auth/auth.service';
 import * as AuthActions from '../../auth/store/auth.actions';
 
 @Component({
@@ -12,22 +12,21 @@ import * as AuthActions from '../../auth/store/auth.actions';
 })
 export class HeaderComponent implements OnInit {
   @Output() sidenavEvent: EventEmitter<any> = new EventEmitter();
-  isAuthenticated = this.userService.isAuthenticated;
 
   constructor(
-    private userStore: Store<AuthState>,
-    private userService: UserService
+    private authStore: Store<AuthState>,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     let token = localStorage.getItem('token');
-    if ((!this.isAuthenticated) && (token)) {
-      this.userStore.dispatch(new AuthActions.OnAuthenticateUser({ token }));
+    if ((!this.authService.isAuthenticated) && (token)) {
+      this.authStore.dispatch(new AuthActions.OnAuthenticateUser({ token }));
     }
   }
 
   onSignout() {
-    this.userStore.dispatch(new AuthActions.OnSignout());
+    this.authStore.dispatch(new AuthActions.OnSignout());
   }
 
   toggleSidenav() {

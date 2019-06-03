@@ -8,7 +8,8 @@ import { Answer } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { User } from '../../auth/user/user.model';
 import { selectUser, isAuthenticated } from '../../auth/store/auth.selectors';
-import { UserService } from '../../auth/user/user.service';
+import { AuthService } from '../../auth/auth.service';
+import { AuthState } from '../../auth/store/auth.reducers';
 import * as QuestionActions from '../../questions/store/question.actions';
 
 @Component({
@@ -21,8 +22,6 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
   @Input() questionId: string;
 
   private ngUnsubscribe$ = new Subject();
-
-  isAuthenticated = false;
   user: User;
   canEditQuestion = false;
   canEditAnswer = false;
@@ -32,21 +31,17 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
   })
 
   constructor(private questionStore: Store<QuestionState>,
-    private userStore: Store<QuestionState>,
-    private userService: UserService) { }
+    private authStore: Store<AuthState>,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this.userStore.select(selectUser)
+    this.authStore.select(selectUser)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(user => this.user = user);
-
-    this.userStore.select(isAuthenticated)
-      .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
   }
 
   onSubmit() {
-    if (this.isAuthenticated) {
+    if (this.authService.isAuthenticated) {
       let newAnswer = new Answer(this.answerForm.value.newAnswer, this.user);
 
       this.questionStore.dispatch(new QuestionActions.OnAddAnswer({
@@ -57,7 +52,7 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
       this.answerForm.reset();
 
     } else {
-      this.userService.toSignin();
+      this.authService.toSignin();
     }
   }
 

@@ -2,29 +2,30 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { QuestionDetailsComponent } from './question-details/question-details.component';
-import { TagsComponent } from './tags/tags.component';
-import { UnansweredQuestionsComponent } from './unanswered-questions/unanswered-questions.component';
+import { QuestionsPopularComponent } from './questions-popular/questions-popular.component';
+import { QuestionsUnansweredComponent } from './questions-unanswered/questions-unanswered.component';
+import { QuestionsRecentComponent } from './questions-recent/questions-recent.component';
+import { QuestionsSearchResultsComponent } from './questions-search-results/questions-search-results.component';
+import { QuestionNewComponent } from './question-new/question-new.component';
 import { QuestionsComponent } from './questions.component';
-import { PopularQuestionsComponent } from './popular-questions/popular-questions.component';
-import { QuestionsByTagComponent } from './tags/questions-by-tag/questions-by-tag.component';
-import { AllTagsComponent } from './tags/all-tags/all-tags.component';
-import { RecentQuestionsComponent } from './recent-questions/recent-questions.component';
-import { SearchResultsComponent } from './search-results/search-results.component';
-import { NewQuestionComponent } from './new-question/new-question.component';
+import { QuestionsTagsComponent } from './questions-tags/questions-tags.component';
+import { QuestionsTagsListComponent } from './questions-tags/questions-tags-list/questions-tags-list.component';
+import { QuestionsTagsDetailsComponent } from './questions-tags/questions-tags-details/questions-tags-details.component';
+
 
 const routes: Routes = [
   {
     path: '', component: QuestionsComponent, children: [
-      { path: 'popular-questions', component: PopularQuestionsComponent },
-      { path: 'unanswered-questions', component: UnansweredQuestionsComponent },
-      { path: 'recent-questions', component: RecentQuestionsComponent },
+      { path: 'popular-questions', component: QuestionsPopularComponent },
+      { path: 'unanswered-questions', component: QuestionsUnansweredComponent },
+      { path: 'recent-questions', component: QuestionsRecentComponent },
       { path: 'question-details/:id', component: QuestionDetailsComponent },
-      { path: 'search-results', component: SearchResultsComponent },
-      { path: 'new-question', component: NewQuestionComponent},
+      { path: 'search-results', component: QuestionsSearchResultsComponent },
+      { path: 'new-question', component: QuestionNewComponent},
       {
-        path: 'tags', component: TagsComponent, children: [
-          { path: '', component: AllTagsComponent },
-          { path: 'questions-by-tag/:tag', component: QuestionsByTagComponent }
+        path: 'tags', component: QuestionsTagsComponent, children: [
+          { path: '', component: QuestionsTagsListComponent },
+          { path: 'questions-by-tag/:tag', component: QuestionsTagsDetailsComponent }
         ]
       }
     ]

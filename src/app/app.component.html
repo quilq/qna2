@@ -1,6 +1,5 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav>
-        <!-- <app-search></app-search> -->
         <nav fxLayout="column" fxLayoutAlign="center start" class="padding-top-32 margin-child-1-0">
             <button mat-button routerLink="questions/popular-questions" (click)="sidenav.close()">
                 <mat-icon>trending_up</mat-icon>
@@ -22,21 +21,11 @@
     </mat-sidenav>
 
     <mat-sidenav-content fxLayout="column">
-        <!-- <mat-toolbar class="menu" fxHide.gt-sm="true" *ngIf="!onUserAuthPage">
-            <button mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <nav class="hover-pointer">
-                <h1 routerLink="">QnA2</h1>
-            </nav>
-        </mat-toolbar> -->
-        <app-header class="header" *ngIf="!onUserAuthPage" (sidenavEvent)="sidenav.toggle()">
-        <!-- <app-header class="header" *ngIf="!onUserAuthPage" (sidenavEvent)="toggleSidenav($event)"> -->
-        </app-header>
-        <div [ngClass.gt-sm]="{'padding-top-128': true, 'padding-top-64': false}" 
-        [ngClass.lt-md]="{'padding-top-128': false, 'padding-top-64':true}" fxFlex>
-        <!-- <div class="padding-top-128" fxFlex> -->
-            <router-outlet (activate)="onActivate()"></router-outlet>
+        <app-header class="header" *ngIf="!onUserAuthPage" (sidenavEvent)="sidenav.toggle()"> </app-header>
+        <div [ngClass.gt-sm]="{'padding-top-128': true, 'padding-top-64': false}"
+            [ngClass.lt-md]="{'padding-top-128': false, 'padding-top-64':true}" fxFlex>
+
+            <router-outlet (activate)="onCheckAppRoute()"></router-outlet>
         </div>
 
         <app-footer class="footer" *ngIf="!onUserAuthPage"></app-footer>

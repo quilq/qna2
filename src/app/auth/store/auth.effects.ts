@@ -5,7 +5,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
 
-import { UserService } from '../user/user.service';
+import { AuthService } from '../auth.service';
 import { Question } from '../../questions/question.model';
 import * as AuthActions from './auth.actions';
 
@@ -17,7 +17,7 @@ export class AuthEffects {
         .pipe(
             ofType(AuthActions.ActionTypes.OnSignin),
             switchMap((action: AuthActions.OnSignin) => {
-                return this.userService.signin(action.payload.email, action.payload.password)
+                return this.authService.signin(action.payload.email, action.payload.password)
                     .pipe(
                         map((response: any) => {
                             //observe: 'response' => access .body to get info
@@ -42,7 +42,7 @@ export class AuthEffects {
         .pipe(
             ofType(AuthActions.ActionTypes.OnGetUserQuestions),
             switchMap((action: AuthActions.OnGetUserQuestions) => {
-                return this.userService.findQuestionsByUser(action.payload.userId)
+                return this.authService.findQuestionsByUser(action.payload.userId)
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {
@@ -63,7 +63,7 @@ export class AuthEffects {
         .pipe(
             ofType(AuthActions.ActionTypes.OnGetUserAnswers),
             switchMap((action: AuthActions.OnGetUserAnswers) => {
-                return this.userService.findAnswersByUser(action.payload.userId)
+                return this.authService.findAnswersByUser(action.payload.userId)
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {
@@ -83,7 +83,7 @@ export class AuthEffects {
         .pipe(
             ofType(AuthActions.ActionTypes.OnAuthenticateUser),
             switchMap((action: AuthActions.OnAuthenticateUser) => {
-                return this.userService.authenticateUser(action.payload.token)
+                return this.authService.authenticateUser(action.payload.token)
                     .pipe(
                         map((response: any) => {
                             return new AuthActions.Signin({ ...response, token: action.payload.token })
@@ -103,7 +103,7 @@ export class AuthEffects {
             ofType(AuthActions.ActionTypes.OnSignup),
             tap(() => console.log('on sign up effect called!')),
             switchMap((action: AuthActions.OnSignup) => {
-                return this.userService.signup(action.payload.username, action.payload.email, action.payload.password)
+                return this.authService.signup(action.payload.username, action.payload.email, action.payload.password)
                     .pipe(
                         map((response: any) => {
                             if (response.body._id) {
@@ -126,7 +126,7 @@ export class AuthEffects {
         .pipe(
             ofType(AuthActions.ActionTypes.OnSignout),
             switchMap(() => {
-                return this.userService.signout()
+                return this.authService.signout()
                     .pipe(
                         map(() => {
                             localStorage.removeItem('token');
@@ -141,5 +141,5 @@ export class AuthEffects {
             })
         )
 
-    constructor(private action$: Actions, private userService: UserService, private router: Router) { }
+    constructor(private action$: Actions, private authService: AuthService, private router: Router) { }
 }

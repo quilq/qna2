@@ -1,7 +1,7 @@
-<div class="full-page-100">
+<div class="full-page-80">
   <form fxLayout="column" fxLayoutAlign="center center" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <mat-card fxLayout="column" fxLayoutAlign="center center">
-      <h2 routerLink="/" class="hover-pointer">Home</h2>
+      <h2 routerLink="/" class="hover-pointer">qna2</h2>
       <h3>Sign up</h3>
   
       <mat-form-field>
@@ -34,9 +34,9 @@
       </mat-form-field>
   
       <button mat-raised-button type="submit">Sign up</button>
-      <a routerLink="/auth/signin">Sign in instead</a>
+      <a routerLink="/auth/signin" class="no-style-link">Sign in instead</a>
     </mat-card>
   
-    <a>Forgot password</a>
+    <a class="margin-1-0">Forgot password</a>
   </form>
 </div>

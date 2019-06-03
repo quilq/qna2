@@ -13,7 +13,6 @@ import * as QuestionActions from '../../questions/store/question.actions';
 })
 export class SearchComponent implements OnInit {
   
-
   constructor(
     private questionStore: Store<QuestionState>,
     private router: Router) { }

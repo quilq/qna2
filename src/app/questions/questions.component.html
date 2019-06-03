@@ -1,17 +1,15 @@
 <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="space-between " 
 class="margin-child-1-2">
- <!-- [ngClass.gt-sm]="{'padding-top-64': false, 'full-page-80 margin-child-1-2': true}" 
- [ngClass.lt-md]="{'padding-top-64': true, 'full-page-80 margin-child-1-2': true}"> -->
 
-  <div fxFlex.gt-sm="65" fxLayout="column" class="margin-child-2-0">
+  <div fxFlex.gt-sm="65" fxLayout="column" class="margin-child-1-0">
     <app-search></app-search>
 
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="onCheckQuestionRoute()"></router-outlet>
 
-    <button mat-raised-button (click)="newQuestion()">Ask new question</button>
+    <button mat-raised-button (click)="newQuestion()" *ngIf="!onNewQuestionPage">Ask new question</button>
   </div>
 
   <div fxHide.lt-md="true">
-    <app-featured-questions></app-featured-questions>
+    <app-questions-featured></app-questions-featured>
   </div>
 </div>

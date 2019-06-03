@@ -1,2 +1,9 @@
 @import '../../shared/style/full-page';
 @import '../../shared/style/effects';
+@import '../../shared/style/margin';
+@import '../../shared/style/color';
+
+.no-style-link {
+    text-decoration: none;
+    // color: $light-blue;
+}

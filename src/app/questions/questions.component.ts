@@ -8,9 +8,19 @@ import { Router } from '@angular/router';
 })
 export class QuestionsComponent implements OnInit {
 
+  onNewQuestionPage = false;
+
   constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onCheckQuestionRoute() {
+    if (this.router.url == '/questions/new-question'){
+      this.onNewQuestionPage = true;
+    } else {
+      this.onNewQuestionPage = false;
+    }
   }
 
   newQuestion(){
