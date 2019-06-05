@@ -8,12 +8,14 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class QuestionsTagsComponent implements OnInit {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(
+    // @Inject(PLATFORM_ID) private platformId: Object
+    ) { }
 
   ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
+    // if (isPlatformBrowser(this.platformId)) {
       window.scroll(0, 0);
-    }
+    // }
   }
 
 }

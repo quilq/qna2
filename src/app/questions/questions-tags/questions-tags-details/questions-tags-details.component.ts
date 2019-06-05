@@ -22,7 +22,7 @@ export class QuestionsTagsDetailsComponent implements OnInit {
   tag: string;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+    // @Inject(PLATFORM_ID) private platformId: Object,
     private questionStore: Store<QuestionState>,
     private activatedRoute: ActivatedRoute
   ) { }
@@ -34,9 +34,9 @@ export class QuestionsTagsDetailsComponent implements OnInit {
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(questions => this.questionsByTag = questions);
 
-      if (isPlatformBrowser(this.platformId)) {
+    // if (isPlatformBrowser(this.platformId)) {
     window.scroll(0, 0);
-      }
+    // }
   }
 
   getMoreQuestions() {

@@ -6,7 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { AuthService } from '../../auth/auth.service';
-import { isAuthenticated } from '../../auth/store/auth.selectors';
+import { isAuthenticated, selectUser } from '../../auth/store/auth.selectors';
+import { User } from '../../auth/user/user.model';
 import * as QuestionActions from '../../questions/store/question.actions';
 
 @Component({
@@ -17,6 +18,7 @@ import * as QuestionActions from '../../questions/store/question.actions';
 export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   @Input() question: Question;
+  user: User;
 
   private ngUnsubscribe$ = new Subject();
 
@@ -30,10 +32,12 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userStore.select(isAuthenticated)
-    .pipe(takeUntil(this.ngUnsubscribe$))
-    .subscribe(isAuthenticated =>
-      this.isAuthenticated = isAuthenticated
-    );
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
+
+    this.userStore.select(selectUser)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe(user => this.user = user);
   }
 
   onEditQuestion() {
@@ -100,7 +104,7 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
     this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId, undo }));
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }

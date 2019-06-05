@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+// import { isPlatformBrowser } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -19,7 +19,7 @@ export class QuestionDetailsComponent implements OnInit {
   question$: Observable<Question>;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+    // @Inject(PLATFORM_ID) private platformId: Object,
     private questionStore: Store<QuestionState>,
     private activatedRoute: ActivatedRoute
   ) {
@@ -35,9 +35,9 @@ export class QuestionDetailsComponent implements OnInit {
     this.question$ = this.questionStore.select(getQuestionById);
 
     //scroll to top
-    if (isPlatformBrowser(this.platformId)) {
+    // if (isPlatformBrowser(this.platformId)) {
       window.scroll(0, 0);
-    }
+    // }
   }
 
 }

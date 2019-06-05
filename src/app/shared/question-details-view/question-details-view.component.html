@@ -8,8 +8,10 @@
 
     <!-- question content -->
     <p markdown ngPreserveWhitespaces [data]="question.questionContent"></p>
-    <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
-    <button mat-raised-button (click)="onEditQuestion()" [disabled]="canEditQuestion">Edit</button>
+    <div *ngIf="question.askedByUser._id == user._id">
+        <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
+        <button mat-raised-button (click)="onEditQuestion()" [disabled]="canEditQuestion">Edit</button>
+    </div>
 
     <div *ngIf="canEditQuestion">
         <mat-form-field class="updated-question">
@@ -43,16 +45,22 @@
             <!-- answer content -->
             <p markdown [data]="answer.answer"> </p>
             <mat-icon *ngIf="answer.isCorrectAnswer">check_circle</mat-icon>
-            <button mat-raised-button *ngIf="!answer.isCorrectAnswer"
-                (click)="updateCorrectAnswer(question._id, answer._id, false)">
-                Mark as correct answer
-            </button>
-            <button mat-raised-button *ngIf="answer.isCorrectAnswer"
-                (click)="updateCorrectAnswer(question._id, answer._id, true)">
-                Mark as uncorrect answer
-            </button>
-            <button mat-raised-button (click)="deleteAnswer(question._id, answer._id)">Delete</button>
-            <button mat-raised-button (click)="onEditAnswer()" *ngIf="!canEditAnswer">Edit</button>
+
+            <div *ngIf="user._id == question.askedByUser._id">
+                <button mat-raised-button *ngIf="!answer.isCorrectAnswer"
+                    (click)="updateCorrectAnswer(question._id, answer._id, false)">
+                    Mark as correct answer
+                </button>
+                <button mat-raised-button *ngIf="answer.isCorrectAnswer"
+                    (click)="updateCorrectAnswer(question._id, answer._id, true)">
+                    Mark as uncorrect answer
+                </button>
+            </div>
+            
+            <div *ngIf="answer.answeredByUser._id == user._id">
+                <button mat-raised-button (click)="deleteAnswer(question._id, answer._id)">Delete</button>
+                <button mat-raised-button (click)="onEditAnswer()" *ngIf="!canEditAnswer">Edit</button>
+            </div>
 
             <mat-form-field *ngIf="canEditAnswer">
                 <textarea matInput placeholder="New answer" rows="3" #newAnswer></textarea>

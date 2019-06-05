@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
+// import { isPlatformBrowser } from '@angular/common';
 
 import { QuestionState } from '../store/question.reducers';
 import { Question } from '../question.model';
@@ -21,7 +21,7 @@ export class QuestionsPopularComponent implements OnInit {
   totalQuestions: number;
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
+    // @Inject(PLATFORM_ID) private platformId: Object,
     private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
@@ -36,9 +36,9 @@ export class QuestionsPopularComponent implements OnInit {
         }
       });
 
-    if (isPlatformBrowser(this.platformId)) {
+    // if (isPlatformBrowser(this.platformId)) {
       window.scroll(0, 0);
-    }
+    // }
   }
 
   getMoreQuestions() {
