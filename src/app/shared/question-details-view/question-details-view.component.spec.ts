@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionDetailsViewComponent } from './question-details-view.component';
+import { MaterialModule } from 'src/app/material/material.module';
+import { MarkdownModule } from 'ngx-markdown';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('QuestionDetailsViewComponent', () => {
   let component: QuestionDetailsViewComponent;
@@ -8,6 +14,14 @@ describe('QuestionDetailsViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        RouterTestingModule,
+        MarkdownModule.forChild()
+      ],
       declarations: [ QuestionDetailsViewComponent ]
     })
     .compileComponents();

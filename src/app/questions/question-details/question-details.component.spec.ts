@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionDetailsComponent } from './question-details.component';
+import { SharedModule } from '../../shared/shared.module';
+import { QuestionsRelatedComponent } from '../questions-related/questions-related.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('QuestionDetailsComponent', () => {
   let component: QuestionDetailsComponent;
@@ -8,9 +11,15 @@ describe('QuestionDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuestionDetailsComponent ]
+      imports: [
+        SharedModule,
+        RouterTestingModule
+      ],
+      declarations: [
+        QuestionDetailsComponent,
+        QuestionsRelatedComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

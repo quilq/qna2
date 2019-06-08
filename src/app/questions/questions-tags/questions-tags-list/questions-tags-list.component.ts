@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { QuestionState } from '../../store/question.reducers';
 import { getTags } from '../../store/question.selectors';
@@ -12,7 +12,6 @@ import * as QuestionActions from '../../store/question.actions';
   styleUrls: ['./questions-tags-list.component.scss']
 })
 export class QuestionsTagsListComponent implements OnInit {
-
   tags$: Observable<string[]>;
 
   constructor(private questionStore: Store<QuestionState>) { }

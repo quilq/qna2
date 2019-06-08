@@ -12,7 +12,6 @@ import { QuestionsTagsComponent } from './questions-tags/questions-tags.componen
 import { QuestionsTagsListComponent } from './questions-tags/questions-tags-list/questions-tags-list.component';
 import { QuestionsTagsDetailsComponent } from './questions-tags/questions-tags-details/questions-tags-details.component';
 
-
 const routes: Routes = [
   {
     path: '', component: QuestionsComponent, children: [
@@ -21,7 +20,7 @@ const routes: Routes = [
       { path: 'recent-questions', component: QuestionsRecentComponent },
       { path: 'question-details/:id', component: QuestionDetailsComponent },
       { path: 'search-results', component: QuestionsSearchResultsComponent },
-      { path: 'new-question', component: QuestionNewComponent},
+      { path: 'new-question', component: QuestionNewComponent },
       {
         path: 'tags', component: QuestionsTagsComponent, children: [
           { path: '', component: QuestionsTagsListComponent },

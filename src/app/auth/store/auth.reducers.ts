@@ -1,6 +1,6 @@
-import * as AuthActions from './auth.actions';
 import { User } from '../user/user.model';
 import { Question } from '../../questions/question.model';
+import * as AuthActions from './auth.actions';
 
 export interface AuthState {
     user: User;

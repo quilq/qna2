@@ -20,10 +20,9 @@ interface SearchResults {
 })
 
 export class QuestionsSearchResultsComponent implements OnInit, OnDestroy {
+  searchResults: SearchResults;
 
   private ngUnsubscribe$ = new Subject();
-
-  searchResults: SearchResults;
 
   constructor(private questionStore: Store<QuestionState>) { }
 

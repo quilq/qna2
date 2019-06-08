@@ -15,9 +15,10 @@ import * as QuestionActions from '../store/question.actions';
   styleUrls: ['./questions-recent.component.scss']
 })
 export class QuestionsRecentComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe$ = new Subject();
   recentQuestions: Question[];
   totalQuestions: number;
+  
+  private ngUnsubscribe$ = new Subject();
 
   constructor(
     // @Inject(PLATFORM_ID) private platformId: Object,
@@ -36,7 +37,7 @@ export class QuestionsRecentComponent implements OnInit, OnDestroy {
       });
 
     // if (isPlatformBrowser(this.platformId)) {
-      window.scroll(0, 0);
+      // window.scroll(0, 0);
     // }
   }
 

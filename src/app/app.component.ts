@@ -1,6 +1,7 @@
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -14,23 +15,33 @@ export class AppComponent {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router: Router) { }
+    private router: Router
+  ) {
+    router.events.pipe(
+      filter(e => e instanceof RouterEvent)
+    ).subscribe((e: RouterEvent) => {
+      if (e.url === this.previousUrl) {
+        return;
 
-  onCheckAppRoute() {
-    if (this.router.url == this.previousUrl) {
-
-      return;
-    } else {
-      if (this.router.url === '/auth/signup' || this.router.url === '/auth/signin') {
-        this.onUserAuthPage = true;
       } else {
-        this.onUserAuthPage = false;
-      }
+        if (e.url === '/auth/signup' || e.url === '/auth/signin') {
+          this.onUserAuthPage = true;
+        } else {
+          this.onUserAuthPage = false;
+        }
 
-      if (isPlatformBrowser(this.platformId)) {
-        window.scroll(0, 0);
+        if (isPlatformBrowser(this.platformId)) {
+          window.scroll(0, 0);
+        }
+
+        this.previousUrl = e.url;
       }
-      this.previousUrl = this.router.url;
-    }
+      // console.log(e.id, e.url);
+    });
   }
+
+  // onCheckAppRoute() {
+  //   if (this.router.url == this.previousUrl) {
+
+  // }
 }

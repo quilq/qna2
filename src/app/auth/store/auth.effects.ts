@@ -20,8 +20,6 @@ export class AuthEffects {
                 return this.authService.signin(action.payload.email, action.payload.password)
                     .pipe(
                         map((response: any) => {
-                            //observe: 'response' => access .body to get info
-                            //let user = {_id: response.body._id, username: response.body.username, email: response.body.email };
                             if (response.body._id) {
                                 let token: string = response.headers.get('x-auth');
                                 localStorage.setItem('token', token);
@@ -46,7 +44,6 @@ export class AuthEffects {
                     .pipe(
                         map((questions: Question[]) => {
                             if (questions) {
-                                console.log('questions ', questions);
                                 return new AuthActions.GetUserQuestions({ userQuestions: questions });
                             }
                         }),
@@ -101,7 +98,6 @@ export class AuthEffects {
     authSignup$: Observable<Action> = this.action$
         .pipe(
             ofType(AuthActions.ActionTypes.OnSignup),
-            tap(() => console.log('on sign up effect called!')),
             switchMap((action: AuthActions.OnSignup) => {
                 return this.authService.signup(action.payload.username, action.payload.email, action.payload.password)
                     .pipe(

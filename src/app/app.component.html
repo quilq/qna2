@@ -1,19 +1,27 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav>
         <nav fxLayout="column" fxLayoutAlign="center start" class="padding-top-32 margin-child-1-0">
-            <button mat-button routerLink="questions/popular-questions" (click)="sidenav.close()">
+            <div>
+                <button mat-button disableRipple="true" class="no-overlay nav-title">qna2</button>
+                <mat-divider class="divider"></mat-divider>
+            </div>
+            <button mat-button disableRipple="true" class="no-overlay" routerLink="questions/popular-questions"
+                (click)="sidenav.close()">
                 <mat-icon>trending_up</mat-icon>
                 Popular
             </button>
-            <button mat-button routerLink="questions/unanswered-questions" (click)="sidenav.close()">
+            <button mat-button disableRipple="true" class="no-overlay" routerLink="questions/unanswered-questions"
+                (click)="sidenav.close()">
                 <mat-icon>flag</mat-icon>
                 Unanswered
             </button>
-            <button mat-button routerLink="questions/recent-questions" (click)="sidenav.close()">
+            <button mat-button disableRipple="true" class="no-overlay" routerLink="questions/recent-questions"
+                (click)="sidenav.close()">
                 <mat-icon>update</mat-icon>
                 Recent
             </button>
-            <button mat-button routerLink="questions/tags" (click)="sidenav.close()">
+            <button mat-button disableRipple="true" class="no-overlay" routerLink="questions/tags"
+                (click)="sidenav.close()">
                 <mat-icon>local_offer</mat-icon>
                 Tags
             </button>
@@ -25,7 +33,7 @@
         <div [ngClass.gt-sm]="{'padding-top-128': true, 'padding-top-64': false}"
             [ngClass.lt-md]="{'padding-top-128': false, 'padding-top-64':true}" fxFlex>
 
-            <router-outlet (activate)="onCheckAppRoute()"></router-outlet>
+            <router-outlet></router-outlet>
         </div>
 
         <app-footer class="footer" *ngIf="!onUserAuthPage"></app-footer>

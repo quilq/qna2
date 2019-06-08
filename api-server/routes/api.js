@@ -84,12 +84,10 @@ router.put('/a/delete', authenticate, (req, res) => {
 })
 
 router.get('/user/questions', authenticate, (req, res) => {
-    console.log('finfindQuestionsByUser called! ');
     Question.findQuestionsByUser(req, res);
 });
 
 router.get('/user/answers', authenticate, (req, res) => {
-    console.log('findAnswersByUser called! ');
     Question.findAnswersByUser(req, res);
 });
 

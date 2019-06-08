@@ -20,16 +20,16 @@ import { MaterialModule } from '../material/material.module';
   imports: [
     // CommonModule,
     RouterModule,
-    MaterialModule,
-    FlexLayoutModule,
+    // MaterialModule,
+    // FlexLayoutModule,
     SharedModule
   ],
   exports: [
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    MaterialModule,
-    FlexLayoutModule,
+    // MaterialModule,
+    // FlexLayoutModule,
     PageNotFoundComponent,
     // SharedModule
   ]

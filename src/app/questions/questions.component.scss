@@ -1,6 +1,16 @@
 @import '../shared/style/full-page';
 @import '../shared/style/margin';
+@import '../shared/style/color';
 
 .padding-top-56 {
     padding-top: 56px;
+}
+
+.no-style-link {
+    text-decoration: none;
+    color: $light-blue;
+}
+
+.blue:hover {
+    color: $dark-blue;
 }

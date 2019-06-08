@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionsUnansweredComponent } from './questions-unanswered.component';
+import { SharedModule } from '../../shared/shared.module';
 
 describe('QuestionsUnansweredComponent', () => {
   let component: QuestionsUnansweredComponent;
@@ -8,6 +9,9 @@ describe('QuestionsUnansweredComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        SharedModule
+      ],
       declarations: [ QuestionsUnansweredComponent ]
     })
     .compileComponents();

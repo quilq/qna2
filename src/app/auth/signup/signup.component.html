@@ -1,9 +1,9 @@
 <div class="full-page-80">
   <form fxLayout="column" fxLayoutAlign="center center" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <mat-card fxLayout="column" fxLayoutAlign="center center">
-      <h2 routerLink="/" class="hover-pointer">qna2</h2>
+      <button mat-button disableRipple="true" class="no-overlay nav-title" routerLink=""> qna2 </button>
       <h3>Sign up</h3>
-  
+
       <mat-form-field>
         <input matInput type="text" placeholder="Username" formControlName="username">
         <mat-icon matSuffix>person</mat-icon>
@@ -12,7 +12,7 @@
           Username required
         </mat-error>
       </mat-form-field>
-  
+
       <mat-form-field>
         <input matInput type="text" placeholder="Email" formControlName="email">
         <mat-icon matSuffix>email</mat-icon>
@@ -21,7 +21,7 @@
           Invalid email
         </mat-error>
       </mat-form-field>
-  
+
       <mat-form-field>
         <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Password" formControlName="password">
         <mat-icon matSuffix (click)="hidePassword = !hidePassword">
@@ -32,11 +32,11 @@
           Password required (min 6 char)
         </mat-error>
       </mat-form-field>
-  
-      <button mat-raised-button type="submit">Sign up</button>
-      <a routerLink="/auth/signin" class="no-style-link">Sign in instead</a>
+
+      <button mat-raised-button type="submit" [disabled]="signupForm.invalid" class="margin-2-0">Sign up</button>
+      <a routerLink="/auth/signin" class="no-style-link blue">Sign in instead</a>
     </mat-card>
-  
+
     <a class="margin-1-0">Forgot password</a>
   </form>
 </div>

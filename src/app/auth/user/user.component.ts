@@ -14,7 +14,6 @@ import { OnGetUserQuestions, OnGetUserAnswers } from '../store/auth.actions';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-
   user$: Observable<User>;
   userQuestions$: Observable<Question[]>;
   userAnswers$: Observable<Question[]>;

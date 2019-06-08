@@ -14,7 +14,7 @@ export class QuestionsTagsComponent implements OnInit {
 
   ngOnInit() {
     // if (isPlatformBrowser(this.platformId)) {
-      window.scroll(0, 0);
+      // window.scroll(0, 0);
     // }
   }
 

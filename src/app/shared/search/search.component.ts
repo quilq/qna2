@@ -12,10 +12,11 @@ import * as QuestionActions from '../../questions/store/question.actions';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit {
-  
+
   constructor(
     private questionStore: Store<QuestionState>,
-    private router: Router) { }
+    private router: Router
+  ) { }
 
   ngOnInit() { }
 

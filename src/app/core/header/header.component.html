@@ -5,9 +5,7 @@
       <button mat-icon-button (click)="toggleSidenav()" fxHide.gt-sm="true">
         <mat-icon>menu</mat-icon>
       </button>
-      <button mat-button>
-        <h1 routerLink="">QnA2</h1>
-      </button>
+      <button mat-button disableRipple="true" class="no-overlay nav-title" routerLink=""> qna2 </button>
     </div>
 
     <nav *ngIf="!(isAuthenticated)">

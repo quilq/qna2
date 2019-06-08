@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { NewAnswerComponent } from './new-answer.component';
+import { MaterialModule } from 'src/app/material/material.module';
+import { MarkdownPreviewComponent } from '../markdown-preview/markdown-preview.component';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NewAnswerComponent', () => {
   let component: NewAnswerComponent;
@@ -8,9 +15,20 @@ describe('NewAnswerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewAnswerComponent ]
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        RouterTestingModule,
+        MarkdownModule.forChild()
+      ],
+      declarations: [
+        NewAnswerComponent,
+        MarkdownPreviewComponent
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

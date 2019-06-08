@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormControl, FormGroup } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent, MatExpansionPanel } from '@angular/material';
+import { MatChipInputEvent } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -20,31 +20,30 @@ import * as QuestionActions from '../store/question.actions';
   styleUrls: ['./question-new.component.scss']
 })
 export class QuestionNewComponent implements OnInit, OnDestroy {
-
-  private ngUnsubscribe$ = new Subject();
-
   // @ViewChild('newQuestionPanel') newQuestionPanel: MatExpansionPanel;
-
   user: User;
-
-  constructor(
-    private authStore: Store<AuthState>,
-    private questionStore: Store<QuestionState>,
-    private authService: AuthService) { }
-
   visible = true;
   selectable = true;
   removable = true;  //delete current tag
   addOnBlur = true;
-
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: string[] = [];
-
+  
   questionForm = new FormGroup({
     questionTitle: new FormControl(''),
     questionContent: new FormControl(''),
     tag: new FormControl('')
   });
+
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  private ngUnsubscribe$ = new Subject();
+
+  constructor(
+    private authStore: Store<AuthState>,
+    private questionStore: Store<QuestionState>,
+    private authService: AuthService,
+    // private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.authStore.select(selectUser)
@@ -87,11 +86,8 @@ export class QuestionNewComponent implements OnInit, OnDestroy {
       this.questionStore.dispatch(new QuestionActions.OnCreateQuestion({ question: newQuestion }));
       this.questionForm.reset('');
       this.tags = [];
-      // this.newQuestionPanel.close();
 
     } else {
-      //TODO: ALERT
-      console.log('sign in to continue !');
       this.authService.toSignin();
     }
   }

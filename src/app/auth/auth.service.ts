@@ -2,25 +2,27 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { MatSnackBar } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { AuthState } from './store/auth.reducers';
-import { isAuthenticated, getToken, selectUser } from './store/auth.selectors';
-import { User } from './user/user.model';
+import { isAuthenticated, getToken } from './store/auth.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
-  private ngUnsubscribe$ = new Subject();
   isAuthenticated: boolean;
   token: string;
+  
+  private ngUnsubscribe$ = new Subject();
 
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private authStore: Store<AuthState>
+    private authStore: Store<AuthState>,
+    private snackBar: MatSnackBar
   ) {
     this.authStore.select(isAuthenticated)
       .pipe(takeUntil(this.ngUnsubscribe$))
@@ -32,7 +34,17 @@ export class AuthService implements OnDestroy {
   }
 
   toSignin() {
+    this.signinAlert();
     this.router.navigate(['/auth/signin']);
+  }
+
+  signinAlert(){
+    let message = 'Sign in to continue !';
+    let action = 'Ok';
+    this.snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'top'
+    });
   }
 
   authenticateUser(token: string) {

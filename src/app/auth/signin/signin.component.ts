@@ -11,15 +11,14 @@ import * as AuthActions from '../store/auth.actions';
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent implements OnInit {
-
-  constructor(private authStore: Store<AuthState>) { }
-
+  hidePassword = true;
+  
   signinForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)])
   });
-
-  hidePassword = true;
+  
+  constructor(private authStore: Store<AuthState>) { }
 
   ngOnInit() {
   }

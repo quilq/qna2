@@ -15,7 +15,6 @@ import * as QuestionActions from '../store/question.actions';
   styleUrls: ['./question-details.component.scss']
 })
 export class QuestionDetailsComponent implements OnInit {
-
   question$: Observable<Question>;
 
   constructor(
@@ -36,7 +35,7 @@ export class QuestionDetailsComponent implements OnInit {
 
     //scroll to top
     // if (isPlatformBrowser(this.platformId)) {
-      window.scroll(0, 0);
+      // window.scroll(0, 0);
     // }
   }
 

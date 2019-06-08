@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Question } from '../../questions/question.model';
 
 export enum ActionTypes {
@@ -30,7 +31,6 @@ export class Signin implements Action {
     readonly type = ActionTypes.Signin;
     constructor(public payload: { _id: string, username: string, email: string, token: string }) { }
 }
-
 
 export class OnGetUserQuestions implements Action {
     readonly type = ActionTypes.OnGetUserQuestions;

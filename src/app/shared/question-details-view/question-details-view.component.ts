@@ -19,16 +19,16 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   @Input() question: Question;
   user: User;
-
-  private ngUnsubscribe$ = new Subject();
-
   isAuthenticated = false;
   canEditQuestion = false;
   canEditAnswer = false;
 
+  private ngUnsubscribe$ = new Subject();
+
   constructor(private questionStore: Store<QuestionState>,
     private userStore: Store<QuestionState>,
-    private userService: AuthService) { }
+    private userService: AuthService
+  ) { }
 
   ngOnInit() {
     this.userStore.select(isAuthenticated)
@@ -84,10 +84,8 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   voteQuestion(questionId: string, upvote: boolean) {
     if (this.isAuthenticated) {
-      console.log('begin to vote');
       this.questionStore.dispatch(new QuestionActions.OnVoteQuestion({ questionId, upvote }));
     } else {
-      console.log('vote error');
       this.userService.toSignin();
     }
   }

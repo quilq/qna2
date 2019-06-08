@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { getFeaturedQuestions } from '../store/question.selectors';
 import { OnGetFeaturedQuestions } from '../store/question.actions';
@@ -14,7 +14,6 @@ import { QuestionState } from '../store/question.reducers';
   // encapsulation: ViewEncapsulation.None
 })
 export class QuestionsFeaturedComponent implements OnInit {
-
   featuredQuestions$: Observable<Question[]>;
 
   constructor(private questionStore: Store<QuestionState>) { }

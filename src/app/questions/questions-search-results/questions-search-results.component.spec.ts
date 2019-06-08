@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionsSearchResultsComponent } from './questions-search-results.component';
+import { SharedModule } from '../../shared/shared.module';
 
 describe('QuestionsSearchResultsComponent', () => {
   let component: QuestionsSearchResultsComponent;
@@ -8,6 +9,9 @@ describe('QuestionsSearchResultsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        SharedModule
+      ],
       declarations: [ QuestionsSearchResultsComponent ]
     })
     .compileComponents();

@@ -4,13 +4,14 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { Answer } from '../../questions/question.model';
+import { Answer, Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { User } from '../../auth/user/user.model';
-import { selectUser, isAuthenticated } from '../../auth/store/auth.selectors';
+import { selectUser } from '../../auth/store/auth.selectors';
 import { AuthService } from '../../auth/auth.service';
 import { AuthState } from '../../auth/store/auth.reducers';
 import * as QuestionActions from '../../questions/store/question.actions';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-new-answer',
@@ -18,10 +19,8 @@ import * as QuestionActions from '../../questions/store/question.actions';
   styleUrls: ['./new-answer.component.scss']
 })
 export class NewAnswerComponent implements OnInit, OnDestroy {
+  @Input() question: Question;
 
-  @Input() questionId: string;
-
-  private ngUnsubscribe$ = new Subject();
   user: User;
   canEditQuestion = false;
   canEditAnswer = false;
@@ -30,9 +29,13 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
     newAnswer: new FormControl('')
   })
 
+  private ngUnsubscribe$ = new Subject();
+
   constructor(private questionStore: Store<QuestionState>,
     private authStore: Store<AuthState>,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.authStore.select(selectUser)
@@ -42,21 +45,33 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.authService.isAuthenticated) {
-      let newAnswer = new Answer(this.answerForm.value.newAnswer, this.user);
+      let didAnswer = false;
+      for (let i = 0; i < this.question.answers.length; i++) {
+        if (this.user._id === this.question.answers[i]._id) {
+          this.snackBar.open('You answered this question.', 'Ok', {
+            duration: 5000,
+            verticalPosition: 'top'
+          });
+          didAnswer = true;
+        }
+      }
 
-      this.questionStore.dispatch(new QuestionActions.OnAddAnswer({
-        questionId: this.questionId,
-        newAnswer: newAnswer
-      }));
+      if (!didAnswer) {
+        let newAnswer = new Answer(this.answerForm.value.newAnswer, this.user);
 
-      this.answerForm.reset();
+        this.questionStore.dispatch(new QuestionActions.OnAddAnswer({
+          questionId: this.question._id,
+          newAnswer: newAnswer
+        }));
 
+        this.answerForm.reset();
+      }
     } else {
       this.authService.toSignin();
     }
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.ngUnsubscribe$.next();
     this.ngUnsubscribe$.complete();
   }

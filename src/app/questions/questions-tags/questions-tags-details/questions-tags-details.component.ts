@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { Question } from '../../question.model';
 import { QuestionState } from '../../store/question.reducers';
@@ -16,10 +16,10 @@ import * as QuestionActions from '../../store/question.actions';
   styleUrls: ['./questions-tags-details.component.scss']
 })
 export class QuestionsTagsDetailsComponent implements OnInit {
-
-  private ngUnsubscribe$ = new Subject();
   questionsByTag: Question[];
   tag: string;
+
+  private ngUnsubscribe$ = new Subject();
 
   constructor(
     // @Inject(PLATFORM_ID) private platformId: Object,
@@ -35,7 +35,7 @@ export class QuestionsTagsDetailsComponent implements OnInit {
       .subscribe(questions => this.questionsByTag = questions);
 
     // if (isPlatformBrowser(this.platformId)) {
-    window.scroll(0, 0);
+    // window.scroll(0, 0);
     // }
   }
 

@@ -15,14 +15,15 @@ import * as QuestionActions from '../store/question.actions';
   styleUrls: ['./questions-popular.component.scss']
 })
 export class QuestionsPopularComponent implements OnInit {
-
-  private ngUnsubscribe$ = new Subject();
   popularQuestions: Question[];
   totalQuestions: number;
 
+  private ngUnsubscribe$ = new Subject();
+
   constructor(
     // @Inject(PLATFORM_ID) private platformId: Object,
-    private questionStore: Store<QuestionState>) { }
+    private questionStore: Store<QuestionState>
+    ) { }
 
   ngOnInit() {
     this.questionStore.select(getPopularQuestions)
@@ -37,7 +38,7 @@ export class QuestionsPopularComponent implements OnInit {
       });
 
     // if (isPlatformBrowser(this.platformId)) {
-      window.scroll(0, 0);
+      // window.scroll(0, 0);
     // }
   }
 

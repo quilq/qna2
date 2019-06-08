@@ -5,5 +5,13 @@
 
 .no-style-link {
     text-decoration: none;
-    // color: $light-blue;
+    color: $light-blue;
+}
+
+.nav-title {
+    font-size: 2em;
+}
+
+.blue:hover {
+    color: $dark-blue;
 }

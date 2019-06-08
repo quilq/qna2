@@ -6,8 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./markdown-preview.component.scss']
 })
 export class MarkdownPreviewComponent implements OnInit {
-
   @Input() content: string;
+  
   preview = false;
 
   constructor() { }

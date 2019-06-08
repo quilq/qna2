@@ -15,13 +15,15 @@ import * as QuestionActions from '../store/question.actions';
   styleUrls: ['./questions-unanswered.component.scss']
 })
 export class QuestionsUnansweredComponent implements OnInit {
-  private ngUnsubscribe$ = new Subject;
   unansweredQuestions: Question[];
   totalQuestions: number;
 
+  private ngUnsubscribe$ = new Subject;
+
   constructor(
     // @Inject(PLATFORM_ID) private platformId: Object,
-    private questionStore: Store<QuestionState>) { }
+    private questionStore: Store<QuestionState>
+  ) { }
 
   ngOnInit() {
     this.questionStore.select(getUnansweredQuestions)
@@ -36,7 +38,7 @@ export class QuestionsUnansweredComponent implements OnInit {
       });
 
     // if (isPlatformBrowser(this.platformId)) {
-      window.scroll(0, 0);
+    // window.scroll(0, 0);
     // }
   }
 
