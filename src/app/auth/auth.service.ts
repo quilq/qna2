@@ -15,7 +15,7 @@ import { isAuthenticated, getToken } from './store/auth.selectors';
 export class AuthService implements OnDestroy {
   isAuthenticated: boolean;
   token: string;
-  
+
   private ngUnsubscribe$ = new Subject();
 
   constructor(
@@ -34,17 +34,17 @@ export class AuthService implements OnDestroy {
   }
 
   toSignin() {
-    this.signinAlert();
+    let message = 'Sign in to continue !';
+    this.errorAlert(message);
+
     this.router.navigate(['/auth/signin']);
   }
 
-  signinAlert(){
-    let message = 'Sign in to continue !';
-    let action = 'Ok';
-    this.snackBar.open(message, action, {
+  errorAlert(message: string) {
+    this.snackBar.open(message, 'Ok', {
       duration: 5000,
       verticalPosition: 'top'
-    });
+    })
   }
 
   authenticateUser(token: string) {

@@ -61,7 +61,7 @@ userSchema.statics.findByCredentials = function (email, password) {
     //Find user
     return User.findOne({ email }).then((user) => {
         if (!user) {
-            return Promise.reject();
+            return Promise.reject('wrong-email');
         }
 
         //Return User if password is correct
@@ -70,7 +70,7 @@ userSchema.statics.findByCredentials = function (email, password) {
                 if (res) {
                     resolve(user);
                 } else {
-                    reject();
+                    reject('wrong-password');
                 }
             });
         });

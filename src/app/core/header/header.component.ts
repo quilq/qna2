@@ -12,11 +12,14 @@ import * as AuthActions from '../../auth/store/auth.actions';
 })
 export class HeaderComponent implements OnInit {
   @Output() sidenavEvent: EventEmitter<any> = new EventEmitter();
+  isAuthenticated: boolean;
 
   constructor(
     private authStore: Store<AuthState>,
     private authService: AuthService
-  ) { }
+  ) {
+    this.isAuthenticated = this.authService.isAuthenticated;
+  }
 
   ngOnInit() {
     let token = localStorage.getItem('token');

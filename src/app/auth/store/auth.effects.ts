@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, map, tap, catchError } from 'rxjs/operators';
-import { Observable, EMPTY } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { Observable, EMPTY } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { AuthService } from '../auth.service';
 import { Question } from '../../questions/question.model';
@@ -28,7 +28,12 @@ export class AuthEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Cannot signin. Error: ', error);
+                            // console.log('Cannot signin. Error: ', error.error);
+                            if ((error.error === 'wrong-email') || (error.error === 'wrong-password')) {
+                                this.authService.errorAlert(error.error);
+                            } else {
+                                this.authService.errorAlert('Signin error.');
+                            }
                             return EMPTY;
                         })
                     )
@@ -48,7 +53,8 @@ export class AuthEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Cannot get user\'s questions. Error: ', error);
+                            // console.log('Cannot get user\'s questions. Error: ', error.error);
+                            this.authService.errorAlert('Cannot get questions.');
                             return EMPTY;
                         })
                     )
@@ -68,7 +74,8 @@ export class AuthEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Cannot get user\'s answers. Error: ', error);
+                            // console.log('Cannot get user\'s answers. Error: ', error.error);
+                            this.authService.errorAlert('Cannot get answers.');
                             return EMPTY;
                         })
                     )
@@ -86,7 +93,10 @@ export class AuthEffects {
                             return new AuthActions.Signin({ ...response, token: action.payload.token })
                         }),
                         catchError((error) => {
-                            console.log('Cannot authenticate user. Error: ', error.error.message);
+                            // console.log('Cannot authenticate user. Error: ', error.error.message);
+                            if (error.error.name === 'TokenExpiredError'){
+                                this.authService.errorAlert('Session expired.');
+                            }
                             localStorage.removeItem('token');
                             return EMPTY;
                         })
@@ -110,7 +120,12 @@ export class AuthEffects {
                             }
                         }),
                         catchError((error) => {
-                            console.log('Signup error: ', error);
+                            // console.log('Signup error: ', error.error.errmsg);
+                            if (error.error.code === 11000){
+                                this.authService.errorAlert('This email has been registered.');
+                            } else {
+                                this.authService.errorAlert('Signup error. Please try again.');
+                            }
                             return EMPTY;
                         })
                     )
@@ -130,7 +145,8 @@ export class AuthEffects {
                             return new AuthActions.Signout();
                         }),
                         catchError((error) => {
-                            console.log('Signout error: ', error);
+                            // console.log('Signout error: ', error.error);
+                            this.authService.errorAlert('Signout error.');
                             return EMPTY;
                         })
                     )

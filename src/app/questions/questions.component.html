@@ -5,8 +5,10 @@
 
     <router-outlet (activate)="onCheckQuestionRoute()"></router-outlet>
 
-    <p *ngIf="!onNewQuestionPage">Can't find what you need?
-      <a (click)="newQuestion()" class="no-style-link blue"> Ask your own question now. </a>
+    <p *ngIf="!onNewQuestionPage" class="margin-2-0">
+      <br>
+      Cannot find what you need? <h4 (click)="newQuestion()" class="no-style-link blue"> Ask your own question. </h4>
+      <br>
     </p>
   </div>
 
