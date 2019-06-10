@@ -1,12 +1,2 @@
 @import '../../shared/style/margin';
 @import '../../shared/style/effects';
-@import '../../shared/style/color';
-
-.question-title {
-    text-decoration: none;
-    color: $dark-blue;
-}
-
-.question-title:hover {
-    color: $light-blue;
-}

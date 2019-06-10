@@ -1,13 +1,3 @@
 @import '../../shared/style/margin';
-@import '../../shared/style/color';
 @import '../../shared/style/full-page';
-
-.no-style-link {
-    text-decoration: none;
-    color: $light-blue;
-}
-
-.blue:hover {
-    color: $dark-blue;
-    cursor: pointer;
-}
+@import '../../shared/style/effects';

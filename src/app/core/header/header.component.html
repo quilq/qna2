@@ -1,21 +1,23 @@
 <mat-toolbar class="header">
-  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" class="top-toolbar">
+  <mat-toolbar-row class="top-toolbar" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayout="row">
       <!-- output -->
       <button mat-icon-button (click)="toggleSidenav()" fxHide.gt-sm="true">
         <mat-icon>menu</mat-icon>
       </button>
-      <button mat-button disableRipple="true" class="no-overlay nav-title" routerLink=""> qna2 </button>
+      <button class="g-no-overlay nav-title white-font" mat-button disableRipple="true" routerLink="">
+        qna2
+      </button>
     </div>
 
     <nav *ngIf="!(isAuthenticated)">
-      <button mat-button routerLink="auth/signin"> Sign in </button>
-      <button mat-button routerLink="auth/signup"> Create account </button>
+      <button class="white-font" mat-button routerLink="auth/signin"> Sign in </button>
+      <button class="white-font" mat-stroked-button routerLink="auth/signup"> Sign up </button>
     </nav>
 
     <nav *ngIf="(isAuthenticated)">
-      <button mat-button routerLink="user"> My account </button>
-      <button mat-button (click)="onSignout()"> Sign out </button>
+      <button class="white-font" mat-button routerLink="user"> My account </button>
+      <button class="white-font" mat-stroked-button (click)="onSignout()"> Sign out </button>
     </nav>
   </mat-toolbar-row>
 

@@ -1,3 +1,16 @@
-.hover-pointer {
+@import './colors';
+
+.c-no-style-link {
+    text-decoration: none;
+    color: $c-dark-blue;
+}
+
+.c-no-style-link:hover {
+    cursor: pointer;
+
+    color: $c-light-blue;
+}
+
+.c-pointer {
     cursor: pointer;
 }

@@ -1,4 +1,4 @@
-<div class="margin-child-2-0">
+<div class="c-margin-child-2-0">
     <h3>{{question.questionTitle}}</h3>
     <div fxLayout="row">
         <button mat-stroked-button (click)="voteQuestion(question._id, true)">+1</button>
@@ -24,7 +24,7 @@
     </div>
 
     <mat-chip-list>
-        <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>
+        <mat-chip class="c-pointer" *ngFor="let tag of question.tags" >{{tag}}</mat-chip>
     </mat-chip-list>
 
     <mat-card>
@@ -38,10 +38,10 @@
     <h3> {{question.answers.length}} answer(s) </h3>
 
     <!-- Answer -->
-    <div *ngFor="let answer of question.answers; let i = index" class="margin-child-2-0">
+    <div class="c-margin-child-2-0" *ngFor="let answer of question.answers; let i = index">
         <mat-divider></mat-divider>
 
-        <div class="margin-child-1-0">
+        <div class="c-margin-child-1-0">
             <!-- answer content -->
             <p markdown [data]="answer.answer"> </p>
             <mat-icon *ngIf="answer.isCorrectAnswer">check_circle</mat-icon>

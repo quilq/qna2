@@ -3,8 +3,8 @@
 
   <app-question-view [questions]="recentQuestions"></app-question-view>
 
-  <button mat-raised-button (click)="getMoreQuestions()" *ngIf="!(recentQuestions.length === totalQuestions)"
-  class="margin-2-0" >
+  <button class="c-margin-2-0" mat-raised-button (click)="getMoreQuestions()"
+    *ngIf="!(recentQuestions.length === totalQuestions)">
     more questions
   </button>
 

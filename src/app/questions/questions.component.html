@@ -1,14 +1,14 @@
-<div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="space-between " class="margin-child-1-2">
+<div class="c-margin-child-1-2 c-full-page-80" fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="space-between" >
 
-  <div fxFlex.gt-sm="65" fxLayout="column" class="margin-child-1-0">
+  <div class="c-margin-child-1-0" fxFlex.gt-sm="65" fxLayout="column" >
     <app-search></app-search>
 
     <router-outlet (activate)="onCheckQuestionRoute()"></router-outlet>
 
-    <p *ngIf="!onNewQuestionPage" class="margin-2-0">
+    <p class="c-margin-2-0" *ngIf="!onNewQuestionPage" >
       <br>
       Cannot find what you need?
-      <a (click)="newQuestion()" class="no-style-link blue"> Ask your own question.</a>
+      <a class="c-no-style-link" (click)="newQuestion()"> Ask your own question.</a>
     </p>
   </div>
 

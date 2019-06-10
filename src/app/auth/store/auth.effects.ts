@@ -30,7 +30,7 @@ export class AuthEffects {
                         catchError((error) => {
                             // console.log('Cannot signin. Error: ', error.error);
                             if ((error.error === 'wrong-email') || (error.error === 'wrong-password')) {
-                                this.authService.errorAlert(error.error);
+                                this.authService.errorAlert('Wrong email or password !');
                             } else {
                                 this.authService.errorAlert('Signin error.');
                             }

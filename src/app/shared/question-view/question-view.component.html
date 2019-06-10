@@ -1,6 +1,6 @@
-<div *ngFor="let question of questions" class="margin-child-1-0">
+<div class="c-margin-child-1-0" *ngFor="let question of questions">
   <mat-divider></mat-divider>
-  <a [routerLink]="['/questions/question-details', question._id]" class="question-title">
+  <a class="c-no-style-link" [routerLink]="['/questions/question-details', question._id]">
     {{question.questionTitle}}
   </a>
 
@@ -13,6 +13,6 @@
   <div>Asked by user: {{question.askedByUser.username}}</div>
 
   <mat-chip-list>
-    <mat-chip *ngFor="let tag of question.tags" class="hover-pointer">{{tag}}</mat-chip>
+    <mat-chip class="c-pointer" *ngFor="let tag of question.tags">{{tag}}</mat-chip>
   </mat-chip-list>
 </div>

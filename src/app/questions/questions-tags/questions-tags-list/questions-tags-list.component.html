@@ -1,7 +1,7 @@
-<div *ngIf="tags$ | async as tags; else loading" class="margin-child-2-0">
+<div class="c-margin-child-2-0" *ngIf="tags$ | async as tags; else loading" >
   <h2>All tags </h2>
   <mat-chip-list>
-    <mat-chip *ngFor="let tag of tags" [routerLink]="['questions-by-tag', tag]" class="hover-pointer">
+    <mat-chip class="c-pointer" *ngFor="let tag of tags" [routerLink]="['questions-by-tag', tag]">
       {{tag}}
     </mat-chip>
   </mat-chip-list>

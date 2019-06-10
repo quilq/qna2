@@ -1,16 +1,20 @@
-@import '../../shared/style/color';
+@import '../../shared/style/colors';
 @import '../../shared/style/effects';
 
 .header {
     .top-toolbar {
-        background-color: $dark-blue;
+        background-color: $c-dark-blue;
     }
 
     .bottom-toolbar {
-        background-color: $light-blue;
+        background-color: $c-light-blue;
     }
 }
 
 .nav-title {
     font-size: 1.5em;
+}
+
+.white-font {
+    color: #ffffff;
 }

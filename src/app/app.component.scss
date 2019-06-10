@@ -1,25 +1,14 @@
 @import './shared/style/full-page';
-@import './shared/style/color';
+@import './shared/style/colors';
 @import './shared/style/effects';
 @import './shared/style/margin';
+@import './shared/style/padding';
 
 .header {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1;
-}
-
-.padding-top-128 {
-    padding-top: 128px;
-}
-
-.padding-top-64 {
-    padding-top: 64px;
-}
-
-.padding-top-32 {
-    padding-top: 32px;
 }
 
 .nav-title {

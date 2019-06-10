@@ -1,15 +1,6 @@
 @import '../../shared/style/margin';
-@import '../../shared/style/color';
+@import '../../shared/style/colors';
 @import '../../shared/style/effects';
-
-.question-title {
-    text-decoration: none;
-    color: $dark-blue;
-}
-
-.question-title:hover {
-    color: $light-blue;
-}
 
 mat-chip {
     font-size: 12px;
