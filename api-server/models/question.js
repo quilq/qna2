@@ -51,12 +51,19 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
                         { '$count': 'count' }
                     ]
                 }
-            }
+            },
         ], (err, doc) => {
             if (err) {
                 console.log('Unable to get popular questions ', err);
             } else {
-                res.status(200).json(doc[0]);
+                //aggregate wont apply autopopulate => need another query for populating
+                Question.populate(doc[0].questions, {path: 'askedByUser'}, (err2, doc2) => {
+                    if (err2) {
+                        console.log('Cannot populate popular questions ', err2);
+                    } else {
+                        res.status(200).json(doc[0]);
+                    }
+                });
             }
         }
     );
@@ -85,7 +92,13 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
             if (err) {
                 console.log('Unable to get recent questions ', err);
             } else {
-                res.status(200).json(doc[0]);
+                Question.populate(doc[0].questions, {path: 'askedByUser'}, (err2, doc2) => {
+                    if (err2) {
+                        console.log('Cannot populate recent questions ', err2);
+                    } else {
+                        res.status(200).json(doc[0]);
+                    }
+                });
             }
         }
     );
@@ -109,13 +122,18 @@ questionSchema.statics.getUnansweredQuestions = function (req, res) {
                         { '$count': 'count' }
                     ]
                 }
-
             },
         ], (err, doc) => {
             if (err) {
                 console.log('Unable to get unanswered questions ', err);
             } else {
-                res.status(200).json(doc[0]);
+                Question.populate(doc[0].questions, {path: 'askedByUser'}, (err2, doc2) => {
+                    if (err2) {
+                        console.log('Cannot populate unanswered questions ', err2);
+                    } else {
+                        res.status(200).json(doc[0]);
+                    }
+                });
             }
         }
     );

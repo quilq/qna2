@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 
 import { Question } from '../../questions/question.model';
 
@@ -15,5 +15,6 @@ export class QuestionViewComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }

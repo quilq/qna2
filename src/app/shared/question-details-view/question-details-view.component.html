@@ -2,7 +2,9 @@
     <h3>{{question.questionTitle}}</h3>
     <div fxLayout="row">
         <button mat-stroked-button (click)="voteQuestion(question._id, true)">+1</button>
-        <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
+        <button mat-stroked-button>
+            {{question.questionVotes}} {{question.questionVotes > 1 ? 'votes' : 'vote' }}
+        </button>
         <button mat-stroked-button (click)="voteQuestion(question._id, false)">-1</button>
     </div>
 
@@ -24,7 +26,7 @@
     </div>
 
     <mat-chip-list>
-        <mat-chip class="c-pointer" *ngFor="let tag of question.tags" >{{tag}}</mat-chip>
+        <mat-chip class="c-pointer" *ngFor="let tag of question.tags">{{tag}}</mat-chip>
     </mat-chip-list>
 
     <mat-card>
@@ -35,7 +37,7 @@
     </mat-card>
 
     <br>
-    <h3> {{question.answers.length}} answer(s) </h3>
+    <h3> {{question.answers.length}} {{question.answers.length > 1 ? 'answers' : 'answer' }} </h3>
 
     <!-- Answer -->
     <div class="c-margin-child-2-0" *ngFor="let answer of question.answers; let i = index">
@@ -56,7 +58,7 @@
                     Mark as uncorrect answer
                 </button>
             </div>
-            
+
             <div *ngIf="answer.answeredByUser._id == user._id">
                 <button mat-raised-button (click)="deleteAnswer(question._id, answer._id)">Delete</button>
                 <button mat-raised-button (click)="onEditAnswer()" *ngIf="!canEditAnswer">Edit</button>
@@ -71,7 +73,8 @@
 
         <div fxLayout="row">
             <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, true)">+1</button>
-            <button mat-stroked-button> {{answer.answerVotes}} vote(s) </button>
+            <button mat-stroked-button> 
+                {{answer.answerVotes}} {{answer.answerVotes > 1 ? 'votes' : 'vote'}} </button>
             <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, false)">-1</button>
         </div>
 

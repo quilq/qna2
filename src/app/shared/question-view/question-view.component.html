@@ -5,12 +5,16 @@
   </a>
 
   <div fxLayout="row">
-    <button mat-stroked-button> {{question.questionVotes}} vote(s) </button>
-    <button mat-stroked-button> {{question.answers.length}} answers </button>
+    <button mat-stroked-button>
+      {{question.questionVotes}} {{question.questionVotes > 1 ? 'votes' : 'vote' }}
+    </button>
+    <button mat-stroked-button>
+      {{question.answers.length}} {{question.questionVotes > 1 ? 'answers' : 'answer' }}
+    </button>
   </div>
 
   <div> Asked: {{question.createdAt  | date: 'MMM d, y'}}</div>
-  <div>Asked by user: {{question.askedByUser.username}}</div>
+  <div> Asked by: {{question.askedByUser.username}}</div>
 
   <mat-chip-list>
     <mat-chip class="c-pointer" *ngFor="let tag of question.tags">{{tag}}</mat-chip>
