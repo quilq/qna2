@@ -1,23 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
 
 import { QuestionsPopularComponent } from './questions-popular.component';
 import { SharedModule } from '../../shared/shared.module';
+import { questionReducer } from '../store/question.reducers';
 
 describe('QuestionsPopularComponent', () => {
   let component: QuestionsPopularComponent;
   let fixture: ComponentFixture<QuestionsPopularComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule
+        SharedModule,
+        StoreModule.forRoot({ question: questionReducer }),
       ],
       declarations: [ QuestionsPopularComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
+    });
     fixture = TestBed.createComponent(QuestionsPopularComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

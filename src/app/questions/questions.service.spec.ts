@@ -1,19 +1,34 @@
 import { TestBed } from '@angular/core/testing';
-
-import { QuestionsService } from './questions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
+
+import { QuestionsService } from './questions.service';
+import { questionReducer } from './store/question.reducers';
+import { SharedModule } from '../shared/shared.module';
+import { AuthService } from '../auth/auth.service';
 
 describe('QuestionsService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [
-      HttpClientTestingModule,
-      RouterTestingModule
-    ]
-  }));
+  let questionServiceStub: Partial<AuthService>;
+  let questionService: AuthService;
+
+  beforeEach(() => {
+    questionServiceStub = {}
+
+    TestBed.configureTestingModule({
+      imports: [
+        SharedModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        StoreModule.forRoot({ question: questionReducer }),
+      ],
+      providers: [{ provide: QuestionsService, useValue: questionServiceStub }]
+    });
+
+    questionService = TestBed.get(QuestionsService);
+  });
 
   it('should be created', () => {
-    const service: QuestionsService = TestBed.get(QuestionsService);
-    expect(service).toBeTruthy();
+    expect(questionService).toBeTruthy();
   });
 });

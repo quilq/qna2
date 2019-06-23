@@ -1,39 +1,61 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { MarkdownPreviewComponent } from './markdown-preview.component';
-import { MaterialModule } from 'src/app/material/material.module';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MarkdownModule } from 'ngx-markdown';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Component } from '@angular/core';
+
+import { MarkdownPreviewComponent } from './markdown-preview.component';
+import { MaterialModule } from '../../material/material.module';
+
+@Component({
+  template: `
+  <app-markdown-preview 
+    [content]="content">
+  <app-markdown-preview>`
+})
+class TestHostComponent {
+  content: string = 'test content';
+}
 
 describe('MarkdownPreviewComponent', () => {
-  let component: MarkdownPreviewComponent;
-  let fixture: ComponentFixture<MarkdownPreviewComponent>;
-
-  beforeEach(async(() => {
+  let testHost: TestHostComponent;
+  let fixture: ComponentFixture<TestHostComponent>;
+  let previewButton: HTMLElement;
+  let previewContent: HTMLElement;
+  
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        ReactiveFormsModule,
         MaterialModule,
-        FlexLayoutModule,
-        RouterTestingModule,
-        MarkdownModule.forChild()
+        MarkdownModule.forRoot()
       ],
-      declarations: [ MarkdownPreviewComponent ]
-    })
-    .compileComponents();
-  }));
+      declarations: [ 
+        MarkdownPreviewComponent,
+        TestHostComponent 
+      ]
+    });
+    
+    //create TestHostComponent instead of MarkdownPreviewComponent
+    fixture = TestBed.createComponent(TestHostComponent);
+    testHost = fixture.componentInstance;
+    previewButton = fixture.nativeElement.querySelector('.preview-button');
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MarkdownPreviewComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(testHost).toBeTruthy();
+  });
+
+  it('should display preview button // inside test host', () => {
+    expect(previewButton.textContent).toContain('preview');
+  });
+
+  it('should display content when clicked // inside test host', () => {
+    previewButton.click();
+    fixture.detectChanges();
+    previewContent = fixture.nativeElement.querySelector('.preview-content');
+    fixture.detectChanges();
+    expect(previewContent.textContent).toContain('test content');
   });
 });

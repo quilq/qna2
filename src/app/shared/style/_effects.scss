@@ -1,11 +1,11 @@
 @import './colors';
 
-.c-no-style-link {
+.c-link {
     text-decoration: none;
     color: $c-dark-blue;
 }
 
-.c-no-style-link:hover {
+.c-link:hover {
     cursor: pointer;
 
     color: $c-light-blue;

@@ -1,6 +1,6 @@
 <div class="c-margin-child-1-0" *ngFor="let question of questions">
   <mat-divider></mat-divider>
-  <a class="c-no-style-link" [routerLink]="['/questions/question-details', question._id]">
+  <a class="c-link question-title" [routerLink]="['/questions/question-details', question._id]">
     {{question.questionTitle}}
   </a>
 

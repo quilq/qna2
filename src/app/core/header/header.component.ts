@@ -17,11 +17,10 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authStore: Store<AuthState>,
     private authService: AuthService
-  ) {
-    this.isAuthenticated = this.authService.isAuthenticated;
-  }
+  ) { }
 
   ngOnInit() {
+    this.isAuthenticated = this.authService.isAuthenticated;
     let token = localStorage.getItem('token');
     if ((!this.authService.isAuthenticated) && (token)) {
       this.authStore.dispatch(new AuthActions.OnAuthenticateUser({ token }));

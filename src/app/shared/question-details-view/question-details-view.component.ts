@@ -25,7 +25,8 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe$ = new Subject();
 
-  constructor(private questionStore: Store<QuestionState>,
+  constructor(
+    private questionStore: Store<QuestionState>,
     private userStore: Store<QuestionState>,
     private userService: AuthService
   ) { }

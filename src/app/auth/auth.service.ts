@@ -13,8 +13,8 @@ import { isAuthenticated, getToken } from './store/auth.selectors';
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
-  isAuthenticated: boolean;
-  token: string;
+  isAuthenticated = false;
+  token: string = '';
 
   private ngUnsubscribe$ = new Subject();
 

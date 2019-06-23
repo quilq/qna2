@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -11,7 +12,6 @@ import { selectUser } from '../../auth/store/auth.selectors';
 import { AuthService } from '../../auth/auth.service';
 import { AuthState } from '../../auth/store/auth.reducers';
 import * as QuestionActions from '../../questions/store/question.actions';
-import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-new-answer',
@@ -31,7 +31,8 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe$ = new Subject();
 
-  constructor(private questionStore: Store<QuestionState>,
+  constructor(
+    private questionStore: Store<QuestionState>,
     private authStore: Store<AuthState>,
     private authService: AuthService,
     private snackBar: MatSnackBar
@@ -48,7 +49,7 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
       let didAnswer = false;
       for (let i = 0; i < this.question.answers.length; i++) {
         if (this.user._id === this.question.answers[i]._id) {
-          this.snackBar.open('You answered this question.', 'Ok', {
+          this.snackBar.open('You had answered this question.', 'Ok', {
             duration: 5000,
             verticalPosition: 'top'
           });

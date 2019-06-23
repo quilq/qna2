@@ -1,5 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { QuestionsTagsComponent } from './questions-tags.component';
 import { SharedModule } from '../../shared/shared.module';
@@ -7,19 +7,16 @@ import { SharedModule } from '../../shared/shared.module';
 describe('QuestionsTagsComponent', () => {
   let component: QuestionsTagsComponent;
   let fixture: ComponentFixture<QuestionsTagsComponent>;
-
-  beforeEach(async(() => {
+  
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        RouterModule
+        RouterTestingModule
       ],
       declarations: [ QuestionsTagsComponent ]
-    })
-    .compileComponents();
-  }));
+    });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QuestionsTagsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

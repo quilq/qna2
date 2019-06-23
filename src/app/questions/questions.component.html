@@ -5,10 +5,8 @@
 
     <router-outlet (activate)="onCheckQuestionRoute()"></router-outlet>
 
-    <p class="c-margin-2-0" *ngIf="!onNewQuestionPage" >
-      <br>
-      Cannot find what you need?
-      <a class="c-no-style-link" (click)="newQuestion()"> Ask your own question.</a>
+    <p class="c-margin-2-0 line-height-3" *ngIf="!onNewQuestionPage" >
+      Did not find what you need ? <a class="c-link" (click)="newQuestion()"> Ask your own question now ! </a>
     </p>
   </div>
 

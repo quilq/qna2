@@ -9,9 +9,9 @@
             <button mat-button (click)="getUserQuestions(user._id)">Get user questions</button>
             <div *ngIf="userQuestions$ | async as userQuestions">
                 <div *ngFor="let question of userQuestions">
-                    <br>
+
                     <mat-divider></mat-divider>
-                    <a class="c-no-style-link c-margin-2-0" 
+                    <a class="c-link c-margin-2-0" 
                     [routerLink]="['/questions/question-details', question._id]">                    
                         {{question.questionTitle}}
                     </a>

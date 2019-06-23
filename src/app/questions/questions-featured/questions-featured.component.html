@@ -1,21 +1,21 @@
 <div>
-    <h2> Featured questions</h2>
-    <div *ngIf="featuredQuestions$ | async as featuredQuestions; else loading">
-        <div *ngFor="let question of featuredQuestions">
-            <a class="c-no-style-link" [routerLink]="['/questions/question-details', question._id]">
-                {{question.questionTitle}}
-            </a>
+  <h2> Featured questions</h2>
+  <div *ngIf="featuredQuestions$ | async as featuredQuestions; else loading">
+      <div *ngFor="let question of featuredQuestions">
+          <a class="c-link" [routerLink]="['/questions/question-details', question._id]">
+              {{question.questionTitle}}
+          </a>
 
-            <mat-chip-list>
-                <mat-chip class="c-pointer" *ngFor="let tag of question.tags" >{{tag}}</mat-chip>
-            </mat-chip-list>
-            <br>
-            <mat-divider></mat-divider>
-            <br>
-        </div>
-    </div>
+          <mat-chip-list class="c-padding-8">
+              <mat-chip class="c-pointer" *ngFor="let tag of question.tags" >{{tag}}</mat-chip>
+          </mat-chip-list>
 
-    <ng-template #loading>
-        Loading featured questions...
-    </ng-template>
+          <mat-divider></mat-divider>
+
+      </div>
+  </div>
+
+  <ng-template #loading>
+    Loading featured questions...
+  </ng-template>
 </div>

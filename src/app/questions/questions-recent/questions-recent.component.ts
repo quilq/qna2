@@ -22,7 +22,8 @@ export class QuestionsRecentComponent implements OnInit, OnDestroy {
 
   constructor(
     // @Inject(PLATFORM_ID) private platformId: Object,
-    private questionStore: Store<QuestionState>) { }
+    private questionStore: Store<QuestionState>
+    ) { }
 
   ngOnInit() {
     this.questionStore.select(getRecentQuestions)

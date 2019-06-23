@@ -9,7 +9,7 @@
     </div>
 
     <!-- question content -->
-    <p markdown ngPreserveWhitespaces [data]="question.questionContent"></p>
+    <p class="question-content" markdown ngPreserveWhitespaces [data]="question.questionContent"></p>
     <div *ngIf="question.askedByUser._id == user._id">
         <button mat-raised-button (click)="deleteQuestion(question._id)">Delete</button>
         <button mat-raised-button (click)="onEditQuestion()" [disabled]="canEditQuestion">Edit</button>
@@ -36,7 +36,6 @@
         </mat-card-content>
     </mat-card>
 
-    <br>
     <h3> {{question.answers.length}} {{question.answers.length > 1 ? 'answers' : 'answer' }} </h3>
 
     <!-- Answer -->

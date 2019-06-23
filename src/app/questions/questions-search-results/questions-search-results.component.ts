@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { Question } from '../question.model';
 import { QuestionState } from '../store/question.reducers';
 import { getSearchResults } from '../store/question.selectors';
-import { Question } from '../question.model';
 import * as QuestionActions from '../store/question.actions';
 
 interface SearchResults {
