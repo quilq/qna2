@@ -6,7 +6,7 @@ import { PageNotFoundComponent } from './core/page-not-found/page-not-found.comp
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
-  { path: 'questions', loadChildren: './questions/questions.module#QuestionsModule' }, //lazy loading
+  { path: 'questions', loadChildren: () => import('./questions/questions.module').then(m => m.QuestionsModule) }, //lazy loading
   { path: '**', component: PageNotFoundComponent }
 ];
 
