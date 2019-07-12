@@ -27,11 +27,11 @@ export class UserComponent implements OnInit {
   }
 
   getUserQuestions(userId: string){
-    this.authStore.dispatch(new OnGetUserQuestions({userId}));
+    this.authStore.dispatch(OnGetUserQuestions({userId}));
   }
 
   getUserAnswers(userId: string){
-    this.authStore.dispatch(new OnGetUserAnswers({userId}));
+    this.authStore.dispatch(OnGetUserAnswers({userId}));
   }
 
 }

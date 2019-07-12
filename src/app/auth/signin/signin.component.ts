@@ -24,7 +24,7 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authStore.dispatch(new AuthActions.OnSignin({
+    this.authStore.dispatch(AuthActions.OnSignin({
       email: this.signinForm.value.email,
       password: this.signinForm.value.password
     }));

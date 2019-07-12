@@ -1,87 +1,56 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 import { Question } from '../../questions/question.model';
 
-export enum ActionTypes {
-    OnSignin = '[Auth] On sign in',
-    Signin = '[Auth] Sign in',
+export const onSignin = createAction(
+    '[Auth] On Sign In',
+    props<{ email: string, password: string }>()
+);
 
-    OnAuthenticateUser = '[Auth] On authenticate user',
-    // AuthenticateUser = Signin
+export const signin = createAction(
+    '[Auth] Sign In',
+    props<{ _id: string, username: string, email: string, token: string }>()
+);
 
-    OnSignup = '[Auth] On sign up',
-    Signup = '[Auth] Sign up',
+export const onGetUserQuestions = createAction(
+    '[Auth] On Get User Questions',
+    props<{ userId: string }>()
+);
 
-    OnGetUserQuestions = '[Auth] On get user questions',
-    GetUserQuestions = '[Auth] Get user questions',
+export const getUserQuestions = createAction(
+    '[Auth] Get User Questions',
+    props<{ userQuestions: Question[] }>()
+);
 
-    OnGetUserAnswers = '[Auth] On get user answers',
-    GetUserAnswers = '[Auth] Get user answers',
+export const onGetUserAnswers = createAction(
+    '[Auth] On Get User Answers',
+    props<{ userId: string }>()
+);
 
-    OnSignout = '[Auth] On sign out',
-    Signout = '[Auth] Sign out',
-}
+export const getUserAnswers = createAction(
+    '[Auth] Get User Answers',
+    props<{ userAnswers: Question[] }>()
+);
 
-export class OnSignin implements Action {
-    readonly type = ActionTypes.OnSignin;
-    constructor(public payload: { email: string, password: string }) { }
-}
+export const onAuthenticateUser = createAction(
+    '[Auth] On Authenticate User',
+    props<{ token: string }>()
+);
 
-export class Signin implements Action {
-    readonly type = ActionTypes.Signin;
-    constructor(public payload: { _id: string, username: string, email: string, token: string }) { }
-}
+export const onSignup = createAction(
+    '[Auth] On Sign Up',
+    props<{ username: string, email: string, password: string }>()
+);
 
-export class OnGetUserQuestions implements Action {
-    readonly type = ActionTypes.OnGetUserQuestions;
-    constructor(public payload: { userId: string }) { }
-}
+export const signup = createAction(
+    '[Auth] Sign Up',
+    props<{ _id: string, username: string, email: string, token: string }>()
+);
 
-export class GetUserQuestions implements Action {
-    readonly type = ActionTypes.GetUserQuestions;
-    constructor(public payload: { userQuestions: Question[] }) { }
-}
+export const onSignout = createAction(
+    '[Auth] On Sign Out'
+);
 
-export class OnGetUserAnswers implements Action {
-    readonly type = ActionTypes.OnGetUserAnswers;
-    constructor(public payload: { userId: string }) { }
-}
-
-export class GetUserAnswers implements Action {
-    readonly type = ActionTypes.GetUserAnswers;
-    constructor(public payload: { userAnswers: Question[] }) { }
-}
-
-export class OnAuthenticateUser implements Action {
-    readonly type = ActionTypes.OnAuthenticateUser;
-    constructor(public payload: { token: string }) { }
-}
-
-export class OnSignup implements Action {
-    readonly type = ActionTypes.OnSignup;
-    constructor(public payload: { username: string, email: string, password: string }) { }
-}
-
-export class Signup implements Action {
-    readonly type = ActionTypes.Signup;
-    constructor(public payload: { _id: string, username: string, email: string, token: string }) { }
-}
-export class OnSignout implements Action {
-    readonly type = ActionTypes.OnSignout;
-}
-
-export class Signout implements Action {
-    readonly type = ActionTypes.Signout;
-}
-
-export type Union =
-    | OnSignin
-    | Signin
-    | OnGetUserQuestions
-    | GetUserQuestions
-    | OnGetUserAnswers
-    | GetUserAnswers
-    | OnSignup
-    | Signup
-    | OnSignout
-    | Signout;
+export const signout = createAction(
+    '[Auth] Sign Out'
+);

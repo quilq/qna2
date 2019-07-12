@@ -23,12 +23,12 @@ export class HeaderComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated;
     let token = localStorage.getItem('token');
     if ((!this.authService.isAuthenticated) && (token)) {
-      this.authStore.dispatch(new AuthActions.OnAuthenticateUser({ token }));
+      this.authStore.dispatch(AuthActions.OnAuthenticateUser({ token }));
     }
   }
 
   onSignout() {
-    this.authStore.dispatch(new AuthActions.OnSignout());
+    this.authStore.dispatch(AuthActions.OnSignout());
   }
 
   toggleSidenav() {

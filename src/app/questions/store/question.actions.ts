@@ -1,275 +1,181 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 import { Question, Answer } from '../question.model';
 
-export enum ActionTypes {
-    OnGetPopularQuestions = '[Question] On Get Popular Questions',
-    GetPopularQuestions = '[Question] Get Popular Questions',
+export const onGetPopularQuestions = createAction(
+    '[Question] On Get Popular Questions',
+    props<{ next: number }>()
+);
 
-    OnGetRecentQuestions = '[Question] On Get Recent Questions',
-    GetRecentQuestions = '[Question] Get Recent Questions',
+export const getPopularQuestions = createAction(
+    '[Question] Get Popular Questions',
+    props<{ totalQuestions: number, questions: Question[] }>()
+);
 
-    OnGetRelatedQuestions = '[Question] On Get Related Questions',
-    GetRelatedQuestions = '[Question] Get Related Questions',
+export const onGetRecentQuestions = createAction(
+    '[Question] On Get Recent Questions',
+    props<{ next: number }>()
+);
 
-    OnGetFeaturedQuestions = '[Question] On Get Featured Questions',
-    GetFeaturedQuestions = '[Question] Get Featured Questions',
+export const getRecentQuestions = createAction(
+    '[Question] Get Recent Questions',
+    props<{ totalQuestions: number, questions: Question[] }>()
+);
 
-    OnGetUnansweredQuestions = '[Question] On Get Unanswered Questions',
-    GetUnansweredQuestions = '[Question] Get Unanswered Questions',
+export const onGetRelatedQuestions = createAction(
+    '[Question] On Get Related Questions',
+    props<{ tags: string[] }>()
+);
 
-    OnGetTags = '[Question] On Get Tags',
-    GetTags = '[Question] Get Tags',
+export const getRelatedQuestions = createAction(
+    '[Question] Get Related Questions',
+    props<{ questions: Question[] }>()
+);
 
-    OnFindQuestionById = '[Question] On Find Question By Id',
-    FindQuestionById = '[Question] Find Question By Id',
+export const onGetFeaturedQuestions = createAction(
+    '[Question] On Get Featured Questions'
+);
 
-    OnFindQuestionsByTag = '[Question] On Find Question By Tag',
-    FindQuestionsByTag = '[Question] Find Question By Tag',
+export const getFeaturedQuestions = createAction(
+    '[Question] Get Featured Questions',
+    props<{ questions: Question[] }>()
+);
 
-    OnFindQuestionsByKeywords = '[Question] On Find Question By Keywords',
-    FindQuestionsByKeywords = '[Question] Find Question By Keywords',
+export const onGetUnansweredQuestions = createAction(
+    '[Question] On Get Unanswered Questions',
+    props<{ next: number }>()
+);
 
-    OnCreateQuestion = '[Question] On Create Question',
-    CreateQuestion = '[Question] Create Question',
+export const getUnansweredQuestions = createAction(
+    '[Question] Get Unanswered Questions',
+    props<{ totalQuestions: number, questions: Question[] }>()
+);
 
-    OnEditQuestion = '[Question] On Edit Question',
-    EditQuestion = '[Question] Edit Question',
+export const onGetTags = createAction(
+    '[Question] On Get Tags'
+);
 
-    OnVoteQuestion = '[Question] On Vote Question',
-    VoteQuestion = '[Question] Vote Question',
+export const getTags = createAction(
+    '[Question] Get Tags',
+    props<{ tags: string[] }>()
+);
 
-    OnDeleteQuestion = '[Question] On Delete Question',
-    DeleteQuestion = '[Question] Delete Question',
+export const onFindQuestionById = createAction(
+    '[Question] On Find Question By Id',
+    props<{ id: string }>()
+);
 
-    OnAddAnswer = '[Answer] On Add Answer',
-    AddAnswer = '[Answer] Add Answer',
+export const findQuestionById = createAction(
+    '[Question] Find Question By Id',
+    props<{ question: Question }>()
+);
 
-    OnEditAnswer = '[Answer] On Edit Answer',
-    EditAnswer = '[Answer] Edit Answer',
+export const onFindQuestionsByTag = createAction(
+    '[Question] On Find Question By Tag',
+    props<{ tag: string, next: number }>()
+);
 
-    OnUpdateCorrectAnswer = '[Answer] On Update Correct Answer',
-    UpdateCorrectAnswer = '[Answer] Update Correct Answer',
+export const findQuestionsByTag = createAction(
+    '[Question] Find Question By Tag',
+    props<{ tag: string, questions: Question[] }>()
+);
 
-    OnVoteAnswer = '[Answer] On Vote Answer',
-    VoteAnswer = '[Answer] Vote Answer',
+export const onFindQuestionsByKeywords = createAction(
+    '[Question] On Find Question By Keywords',
+    props<{ keywords: string, next: number }>()
+);
 
-    OnDeleteAnswer = '[Answer] On Delete Answer',
-    DeleteAnswer = '[Answer] Delete Answer'
-}
+export const findQuestionsByKeywords = createAction(
+    '[Question] Find Question By Keywords',
+    props<{ keywords: string, questions: Question[] }>()
+);
 
-export class OnGetPopularQuestions implements Action {
-    readonly type = ActionTypes.OnGetPopularQuestions;
-    constructor (public payload: {next: number}) {}
-}
+export const onCreateQuestion = createAction(
+    '[Question] On Create Question',
+    props<{ question: Question }>()
+);
 
-export class GetPopularQuestions implements Action {
-    readonly type = ActionTypes.GetPopularQuestions;
-    constructor(public payload: {totalQuestions: number, questions: Question[] }) { }
-}
+export const createQuestion = createAction(
+    '[Question] Create Question',
+    props<{ question: Question }>()
+);
 
-export class OnGetRecentQuestions implements Action {
-    readonly type = ActionTypes.OnGetRecentQuestions;
-    constructor (public payload: {next: number}) {}
-}
+export const onEditQuestion = createAction(
+    '[Question] On Edit Question',
+    props<{ questionId: string, newQuestion: string }>()
+);
 
-export class GetRecentQuestions implements Action {
-    readonly type = ActionTypes.GetRecentQuestions;
-    constructor(public payload: {totalQuestions: number, questions: Question[] }) { }
-}
+export const editQuestion = createAction(
+    '[Question] Edit Question',
+    props<{ questionId: string, newQuestion: string }>()
+);
 
-export class OnGetRelatedQuestions implements Action {
-    readonly type = ActionTypes.OnGetRelatedQuestions;
-    constructor(public payload: { tags: string[] }) { }
-}
+export const onDeleteQuestion = createAction(
+    '[Question] On Delete Question',
+    props<{ questionId: string }>()
+);
 
-export class GetRelatedQuestions implements Action {
-    readonly type = ActionTypes.GetRelatedQuestions;
-    constructor(public payload: { questions: Question[] }) { }
-}
+export const deleteQuestion = createAction(
+    '[Question] Delete Question',
+    props<{ questionId: string }>()
+);
 
-export class OnGetFeaturedQuestions implements Action {
-    readonly type = ActionTypes.OnGetFeaturedQuestions;
-}
+export const onVoteQuestion = createAction(
+    '[Question] On Vote Question',
+    props<{ questionId: string, upvote: boolean }>()
+);
 
-export class GetFeaturedQuestions implements Action {
-    readonly type = ActionTypes.GetFeaturedQuestions;
-    constructor(public payload: { questions: Question[] }) { }
-}
+export const voteQuestion = createAction(
+    '[Question] Vote Question',
+    props<{ questionId: string, upvote: boolean }>()
+);
 
-export class OnGetUnansweredQuestions implements Action {
-    readonly type = ActionTypes.OnGetUnansweredQuestions;
-    constructor (public payload: {next: number}) {}
-}
+export const onAddAnswer = createAction(
+    '[Answer] On Add Answer',
+    props<{ questionId: string, newAnswer: Answer }>()
+);
 
-export class GetUnansweredQuestions implements Action {
-    readonly type = ActionTypes.GetUnansweredQuestions;
-    constructor(public payload: { totalQuestions: number, questions: Question[] }) { }
-}
+export const addAnswer = createAction(
+    '[Answer] Add Answer',
+    props<{ questionId: string, newAnswer: Answer }>()
+);
 
-export class OnGetTags implements Action {
-    readonly type = ActionTypes.OnGetTags;
-}
+export const onEditAnswer = createAction(
+    '[Answer] On Edit Answer',
+    props<{ questionId: string, answerId: string, newAnswer: string }>()
+);
 
-export class GetTags implements Action {
-    readonly type = ActionTypes.GetTags;
-    constructor(public payload: { tags: string[] }) { }
-}
+export const editAnswer = createAction(
+    '[Answer] Edit Answer',
+    props<{ questionId: string, answerId: string, newAnswer: string }>()
+);
 
-export class OnFindQuestionById implements Action {
-    readonly type = ActionTypes.OnFindQuestionById;
-    constructor(public payload: { id: string }) { }
-}
+export const onUpdateCorrectAnswer = createAction(
+    '[Answer] On Update Correct Answer',
+    props<{ questionId: string, correctAnswerId: string, undo: boolean }>()
+);
 
-export class FindQuestionById implements Action {
-    readonly type = ActionTypes.FindQuestionById;
-    constructor(public payload: { question: Question }) { }
-}
+export const updateCorrectAnswer = createAction(
+    '[Answer] Update Correct Answer',
+    props<{ questionId: string, correctAnswerId: string, undo: boolean }>()
+);
 
-export class OnFindQuestionsByTag implements Action {
-    readonly type = ActionTypes.OnFindQuestionsByTag;
-    constructor(public payload: { tag: string, next: number }) { }
-}
+export const onVoteAnswer = createAction(
+    '[Answer] On Vote Answer',
+    props<{ questionId: string, answerId: string, upvote: boolean }>()
+);
 
-export class FindQuestionsByTag implements Action {
-    readonly type = ActionTypes.FindQuestionsByTag;
-    constructor(public payload: { tag: string, questions: Question[] }) { }
-}
+export const voteAnswer = createAction(
+    '[Answer] Vote Answer',
+    props<{ questionId: string, answerId: string, upvote: boolean }>()
+);
 
-export class OnFindQuestionsByKeywords implements Action {
-    readonly type = ActionTypes.OnFindQuestionsByKeywords;
-    constructor(public payload: { keywords: string, next: number }) { }
-}
+export const onDeleteAnswer = createAction(
+    '[Answer] On Delete Answer',
+    props<{ questionId: string, answerId: string }>()
+);
 
-export class FindQuestionsByKeywords implements Action {
-    readonly type = ActionTypes.FindQuestionsByKeywords;
-    constructor(public payload: { keywords: string, questions: Question[] }) { }
-}
-
-export class OnCreateQuestion implements Action {
-    readonly type = ActionTypes.OnCreateQuestion;
-    constructor(public payload: { question: Question }) { }
-}
-
-export class CreateQuestion implements Action {
-    readonly type = ActionTypes.CreateQuestion;
-    constructor(public payload: { question: Question }) { }
-}
-
-export class OnEditQuestion implements Action {
-    readonly type = ActionTypes.OnEditQuestion;
-    constructor(public payload: { questionId: string, newQuestion: string }) { }
-}
-
-export class EditQuestion implements Action {
-    readonly type = ActionTypes.EditQuestion;
-    constructor(public payload: { questionId: string, newQuestion: string }) { }
-}
-
-export class OnDeleteQuestion implements Action {
-    readonly type = ActionTypes.OnDeleteQuestion;
-    constructor(public payload: { questionId: string }) { }
-}
-
-export class DeleteQuestion implements Action {
-    readonly type = ActionTypes.DeleteQuestion;
-    constructor(public payload: { questionId: string }) { }
-}
-
-export class OnVoteQuestion implements Action {
-    readonly type = ActionTypes.OnVoteQuestion;
-    constructor(public payload: { questionId: string, upvote: boolean }) { }
-}
-
-export class VoteQuestion implements Action {
-    readonly type = ActionTypes.VoteQuestion;
-    constructor(public payload: { questionId: string, upvote: boolean }) { }
-}
-
-export class OnAddAnswer implements Action {
-    readonly type = ActionTypes.OnAddAnswer;
-    constructor(public payload: { questionId: string, newAnswer: Answer }) { }
-}
-
-export class AddAnswer implements Action {
-    readonly type = ActionTypes.AddAnswer;
-    constructor(public payload: { questionId: string, newAnswer: Answer }) { }
-}
-
-export class OnEditAnswer implements Action {
-    readonly type = ActionTypes.OnEditAnswer;
-    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
-}
-
-export class EditAnswer implements Action {
-    readonly type = ActionTypes.EditAnswer;
-    constructor(public payload: { questionId: string, answerId: string, newAnswer: string }) { }
-}
-
-export class OnUpdateCorrectAnswer implements Action {
-    readonly type = ActionTypes.OnUpdateCorrectAnswer;
-    constructor(public payload: { questionId: string, correctAnswerId: string, undo: boolean }) { }
-}
-
-export class UpdateCorrectAnswer implements Action {
-    readonly type = ActionTypes.UpdateCorrectAnswer;
-    constructor(public payload: { questionId: string, correctAnswerId: string, undo: boolean }) { }
-}
-
-export class OnVoteAnswer implements Action {
-    readonly type = ActionTypes.OnVoteAnswer;
-    constructor(public payload: { questionId: string, answerId: string, upvote: boolean }) { }
-}
-
-export class VoteAnswer implements Action {
-    readonly type = ActionTypes.VoteAnswer;
-    constructor(public payload: { questionId: string, answerId: string, upvote: boolean }) { }
-}
-
-export class OnDeleteAnswer implements Action {
-    readonly type = ActionTypes.OnDeleteAnswer;
-    constructor(public payload: { questionId: string, answerId: string }) { }
-}
-
-export class DeleteAnswer implements Action {
-    readonly type = ActionTypes.DeleteAnswer;
-    constructor(public payload: { questionId: string, answerId: string }) { }
-}
-
-export type Union =
-    | OnGetPopularQuestions
-    | GetPopularQuestions
-    | OnGetRecentQuestions
-    | OnGetRelatedQuestions
-    | GetRelatedQuestions
-    | GetRecentQuestions
-    | OnGetFeaturedQuestions
-    | GetFeaturedQuestions
-    | OnGetUnansweredQuestions
-    | GetUnansweredQuestions
-    | OnGetTags
-    | GetTags
-    | OnFindQuestionById
-    | FindQuestionById
-    | OnFindQuestionsByTag
-    | FindQuestionsByTag
-    | OnFindQuestionsByKeywords
-    | FindQuestionsByKeywords
-    | OnCreateQuestion
-    | CreateQuestion
-    | OnEditQuestion
-    | EditQuestion
-    | OnDeleteQuestion
-    | DeleteQuestion
-    | OnVoteQuestion
-    | VoteQuestion
-    | OnAddAnswer
-    | AddAnswer
-    | OnEditAnswer
-    | EditAnswer
-    | OnUpdateCorrectAnswer
-    | UpdateCorrectAnswer
-    | OnVoteAnswer
-    | VoteAnswer
-    | OnDeleteAnswer
-    | DeleteAnswer;
+export const deleteAnswer = createAction(
+    '[Answer] Delete Answer',
+    props<{ questionId: string, answerId: string }>()
+);

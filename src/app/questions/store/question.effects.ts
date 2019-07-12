@@ -1,220 +1,185 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, catchError, mergeMap } from 'rxjs/operators'
-import { EMPTY, Observable } from 'rxjs';
-import { Action } from '@ngrx/store';
+import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { map, catchError, mergeMap } from 'rxjs/operators'
+import { EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { Question } from '../question.model';
 import { QuestionsService } from '../questions.service';
 import * as QuestionActions from './question.actions';
 
-interface LoadedQuestions {
-    totalQuestions: number,
-    questions: Question[]
-}
-
 @Injectable()
 export class QuestionEffects {
 
     @Effect()
-    getPopularQuestions$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnGetPopularQuestions),
-            switchMap((action: QuestionActions.OnGetPopularQuestions) => {
-                return this.questionService.getPopularQuestions(action.payload.next)
-                    .pipe(
-                        // map((loadedQuestions: LoadedQuestions) => {
-                        map((loadedQuestions: any) => {
-                            return new QuestionActions.GetPopularQuestions({
-                                totalQuestions: loadedQuestions.totalQuestions[0].count,
-                                questions: loadedQuestions.questions
-                            });
-                        }),
-                        catchError((error) => {
-                            console.log('Error (getPopularQuestions effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    getPopularQuestions$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onGetPopularQuestions),
+        mergeMap(action => {
+            return this.questionService.getPopularQuestions(action.next).pipe(
+                map((loadedQuestions: any) => {
+                    return QuestionActions.getPopularQuestions({
+                        totalQuestions: loadedQuestions.totalQuestions[0].count,
+                        questions: loadedQuestions.questions
+                    });
+                }),
+                catchError((error) => {
+                    console.log('Error (getPopularQuestions effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    getRecentQuestions$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnGetRecentQuestions),
-            switchMap((action: QuestionActions.OnGetRecentQuestions) => {
-                return this.questionService.getRecentQuestions(action.payload.next)
-                    .pipe(
-                        map((loadedQuestions: any) => {
-                            return new QuestionActions.GetRecentQuestions({
-                                totalQuestions: loadedQuestions.totalQuestions[0].count,
-                                questions: loadedQuestions.questions
-                            });
-                        }),
-                        catchError((error) => {
-                            console.log('Error (getRecentQuestions effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    getRecentQuestions$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onGetRecentQuestions),
+        mergeMap(action => {
+            return this.questionService.getRecentQuestions(action.next).pipe(
+                map((loadedQuestions: any) => {
+                    return QuestionActions.getRecentQuestions({
+                        totalQuestions: loadedQuestions.totalQuestions[0].count,
+                        questions: loadedQuestions.questions
+                    });
+                }),
+                catchError((error) => {
+                    console.log('Error (getRecentQuestions effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    getRelatedQuestions$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnGetRelatedQuestions),
-            switchMap((action: QuestionActions.OnGetRelatedQuestions) => {
-                return this.questionService.getRelatedQuestions(action.payload.tags)
-                    .pipe(
-                        map((questions: Question[]) => {
-                            return new QuestionActions.GetRelatedQuestions({ questions });
-                        }),
-                        catchError((error) => {
-                            console.log('Error (getRelatedQuestions effect)', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    getRelatedQuestions$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onGetRelatedQuestions),
+        mergeMap(action => {
+            return this.questionService.getRelatedQuestions(action.tags).pipe(
+                map((questions: Question[]) => {
+                    return QuestionActions.getRelatedQuestions({ questions });
+                }),
+                catchError((error) => {
+                    console.log('Error (getRelatedQuestions effect)', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    getFeaturedQuestions$: Observable<Action> = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnGetFeaturedQuestions),
-            switchMap(() => {
-                return this.questionService.getFeaturedQuestions()
-                    .pipe(
-                        map((questions: Question[]) => {
-                            return new QuestionActions.GetFeaturedQuestions({ questions });
-                        }),
-                        catchError((error) => {
-                            console.log('Error (getFeaturedQuestions effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    getFeaturedQuestions$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onGetFeaturedQuestions),
+        mergeMap(() => {
+            return this.questionService.getFeaturedQuestions().pipe(
+                map((questions: Question[]) => {
+                    return QuestionActions.getFeaturedQuestions({ questions });
+                }),
+                catchError((error) => {
+                    console.log('Error (getFeaturedQuestions effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    findQuestionById$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnFindQuestionById),
-            switchMap((action: QuestionActions.OnFindQuestionById) => {
-                return this.questionService.findQuestionById(action.payload.id)
-                    .pipe(
-                        map((question: Question) => {
-                            if (question) {
-                                return new QuestionActions.FindQuestionById({ question });
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (findQuestionById effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    findQuestionById$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onFindQuestionById),
+        mergeMap(action => {
+            return this.questionService.findQuestionById(action.id).pipe(
+                map((question: Question) => {
+                    if (question) {
+                        return QuestionActions.findQuestionById({ question });
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (findQuestionById effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    getUnansweredQuestions$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnGetUnansweredQuestions),
-            switchMap((action: QuestionActions.OnGetUnansweredQuestions) => {
-                return this.questionService.getUnansweredQuestions(action.payload.next)
-                    .pipe(
-                        map((loadedQuestions: any) => {
-                            return new QuestionActions.GetUnansweredQuestions({
-                                totalQuestions: loadedQuestions.totalQuestions[0].count,
-                                questions: loadedQuestions.questions
-                            });
-                        }),
-                        catchError((error) => {
-                            console.log('Error (getUnansweredQuestions effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        )
+    getUnansweredQuestions$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onGetUnansweredQuestions),
+        mergeMap(action => {
+            return this.questionService.getUnansweredQuestions(action.next).pipe(
+                map((loadedQuestions: any) => {
+                    return QuestionActions.getUnansweredQuestions({
+                        totalQuestions: loadedQuestions.totalQuestions[0].count,
+                        questions: loadedQuestions.questions
+                    });
+                }),
+                catchError((error) => {
+                    console.log('Error (getUnansweredQuestions effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    getTags$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnGetTags),
-            switchMap(() => {
-                return this.questionService.getTags()
-                    .pipe(
-                        map((tags: string[]) => {
-                            if (tags) {
-                                return new QuestionActions.GetTags({ tags });
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (getTags effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        )
+    getTags$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onGetTags),
+        mergeMap(() => {
+            return this.questionService.getTags().pipe(
+                map((tags: string[]) => {
+                    if (tags) {
+                        return QuestionActions.getTags({ tags });
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (getTags effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    findQuestionsByTag$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnFindQuestionsByTag),
-            switchMap((action: QuestionActions.OnFindQuestionsByTag) => {
-                return this.questionService.findQuestionsByTag(action.payload.tag, action.payload.next)
-                    .pipe(
-                        map((questions: Question[]) => {
-                            if (questions) {
-                                return new QuestionActions.FindQuestionsByTag({
-                                    tag: action.payload.tag,
-                                    questions
-                                });
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (findQuestionsByTag effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    findQuestionsByTag$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onFindQuestionsByTag),
+        mergeMap(action => {
+            return this.questionService.findQuestionsByTag(action.tag, action.next).pipe(
+                map((questions: Question[]) => {
+                    if (questions) {
+                        return QuestionActions.findQuestionsByTag({
+                            tag: action.tag,
+                            questions
+                        });
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (findQuestionsByTag effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
+    findQuestionsByKeywords$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onFindQuestionsByKeywords),
+        mergeMap((action) => {
+            return this.questionService.findQuestionsByKeywords(action.keywords, action.next).pipe(
+                map((questions: Question[]) => {
+                    if (questions) {
+                        return QuestionActions.findQuestionsByKeywords({
+                            keywords: action.keywords,
+                            questions
+                        });
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (findQuestionsByKeywords effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    findQuestionsByKeywords$ = this.actions$
+    createQuestion$ = createEffect(() => this.actions$
         .pipe(
-            ofType(QuestionActions.ActionTypes.OnFindQuestionsByKeywords),
-            switchMap((action: QuestionActions.OnFindQuestionsByKeywords) => {
-                return this.questionService.findQuestionsByKeywords(action.payload.keywords, action.payload.next)
-                    .pipe(
-                        map((questions: Question[]) => {
-                            if (questions) {
-                                return new QuestionActions.FindQuestionsByKeywords({
-                                    keywords: action.payload.keywords,
-                                    questions
-                                });
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (findQuestionsByKeywords effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
-
-    @Effect()
-    createQuestion$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnCreateQuestion),
-            switchMap((action: QuestionActions.OnCreateQuestion) => {
-                console.log('action payload', action.payload);
-                return this.questionService.createQuestion(action.payload.question)
+            ofType(QuestionActions.onCreateQuestion),
+            mergeMap((action) => {
+                console.log('action payload', action);
+                return this.questionService.createQuestion(action.question)
                     .pipe(
                         map((question: Question) => {
                             if (question) {
-                                return new QuestionActions.CreateQuestion({ question });
+                                return QuestionActions.createQuestion({ question });
                             }
                         }),
                         catchError((error) => {
@@ -223,227 +188,203 @@ export class QuestionEffects {
                         })
                     )
             })
-        );
+        ));
 
-    @Effect()
-    editQuestion$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnEditQuestion),
-            switchMap((action: QuestionActions.OnEditQuestion) => {
-                return this.questionService.editQuestion(action.payload.questionId, action.payload.newQuestion)
-                    .pipe(
-                        mergeMap((response: string) => {
-                            if (response === 'question-updated') {
-                                return [
-                                    new QuestionActions.EditQuestion({
-                                        questionId: action.payload.questionId,
-                                        newQuestion: action.payload.newQuestion
-                                    }),
-                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
-                                ];
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (editQuestion effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    editQuestion$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onEditQuestion),
+        mergeMap(action => {
+            return this.questionService.editQuestion(action.questionId, action.newQuestion).pipe(
+                mergeMap((response: string) => {
+                    if (response === 'question-updated') {
+                        return [
+                            QuestionActions.editQuestion({
+                                questionId: action.questionId,
+                                newQuestion: action.newQuestion
+                            }),
+                            QuestionActions.onFindQuestionById({ id: action.questionId })
+                        ];
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (editQuestion effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    voteQuestion$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnVoteQuestion),
-            switchMap((action: QuestionActions.OnVoteQuestion) => {
-                return this.questionService.voteQuestion(action.payload.questionId, action.payload.upvote)
-                    .pipe(
-                        mergeMap((response: string) => {
-                            if (response === 'question-voted') {
-                                return [
-                                    new QuestionActions.VoteQuestion({
-                                        questionId: action.payload.questionId,
-                                        upvote: action.payload.upvote
-                                    }),
-                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
-                                ];
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (voteQuestion effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    voteQuestion$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onVoteQuestion),
+        mergeMap(action => {
+            return this.questionService.voteQuestion(action.questionId, action.upvote).pipe(
+                mergeMap((response: string) => {
+                    if (response === 'question-voted') {
+                        return [
+                            QuestionActions.onVoteQuestion({
+                                questionId: action.questionId,
+                                upvote: action.upvote
+                            }),
+                            QuestionActions.onFindQuestionById({ id: action.questionId })
+                        ];
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (voteQuestion effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    deleteQuestion$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnDeleteQuestion),
-            switchMap((action: QuestionActions.OnDeleteQuestion) => {
-                return this.questionService.deleteQuestion(action.payload.questionId)
-                    .pipe(
-                        map((response: string) => {
-                            if (response === 'question-deleted') {
-                                this.router.navigate(['/']);
-                                return new QuestionActions.DeleteQuestion({
-                                    questionId: action.payload.questionId,
-                                });
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (deleteQuestion effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    deleteQuestion$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onDeleteQuestion),
+        mergeMap(action => {
+            return this.questionService.deleteQuestion(action.questionId).pipe(
+                map((response: string) => {
+                    if (response === 'question-deleted') {
+                        this.router.navigate(['/']);
+                        return QuestionActions.deleteQuestion({
+                            questionId: action.questionId,
+                        });
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (deleteQuestion effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    addAnswer$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnAddAnswer),
-            switchMap((action: QuestionActions.OnAddAnswer) => {
-                return this.questionService.addAnswer(action.payload.questionId, action.payload.newAnswer)
-                    .pipe(
-                        mergeMap((response: string) => {
-                            console.log(response);
-                            if (response === 'answer-added') {
-                                return [
-                                    new QuestionActions.AddAnswer({
-                                        questionId: action.payload.questionId,
-                                        newAnswer: action.payload.newAnswer
-                                    }),
-                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
-                                ];
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (addAnswer effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    addAnswer$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.addAnswer),
+        mergeMap(action => {
+            return this.questionService.addAnswer(action.questionId, action.newAnswer).pipe(
+                mergeMap((response: string) => {
+                    console.log(response);
+                    if (response === 'answer-added') {
+                        return [
+                            QuestionActions.addAnswer({
+                                questionId: action.questionId,
+                                newAnswer: action.newAnswer
+                            }),
+                            QuestionActions.onFindQuestionById({ id: action.questionId })
+                        ];
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (addAnswer effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    editAnswer$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnEditAnswer),
-            switchMap((action: QuestionActions.OnEditAnswer) => {
-                return this.questionService.editAnswer(
-                    action.payload.questionId,
-                    action.payload.answerId,
-                    action.payload.newAnswer
-                )
-                    .pipe(
-                        mergeMap((response: string) => {
-                            if (response === 'answer-edited') {
-                                return [
-                                    new QuestionActions.EditAnswer({
-                                        questionId: action.payload.questionId,
-                                        answerId: action.payload.answerId,
-                                        newAnswer: action.payload.newAnswer
-                                    }),
-                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
-                                ];
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (editAnswer effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    editAnswer$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onEditAnswer),
+        mergeMap(action => {
+            return this.questionService.editAnswer(
+                action.questionId,
+                action.answerId,
+                action.newAnswer
+            ).pipe(
+                mergeMap((response: string) => {
+                    if (response === 'answer-edited') {
+                        return [
+                            QuestionActions.editAnswer({
+                                questionId: action.questionId,
+                                answerId: action.answerId,
+                                newAnswer: action.newAnswer
+                            }),
+                            QuestionActions.onFindQuestionById({ id: action.questionId })
+                        ];
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (editAnswer effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    updateCorrectAnswer$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnUpdateCorrectAnswer),
-            switchMap((action: QuestionActions.OnUpdateCorrectAnswer) => {
-                return this.questionService.updateCorrectAnswer(
-                    action.payload.questionId,
-                    action.payload.correctAnswerId,
-                    action.payload.undo
-                )
-                    .pipe(
-                        mergeMap((response: string) => {
-                            if (response === 'correct-answer-updated') {
-                                return [
-                                    new QuestionActions.UpdateCorrectAnswer({ ...action.payload }),
-                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
-                                ];
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (updateCorrectAnswer effect) ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    updateCorrectAnswer$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onUpdateCorrectAnswer),
+        mergeMap(action => {
+            return this.questionService.updateCorrectAnswer(
+                action.questionId,
+                action.correctAnswerId,
+                action.undo
+            ).pipe(
+                mergeMap((response: string) => {
+                    if (response === 'correct-answer-updated') {
+                        return [
+                            QuestionActions.updateCorrectAnswer({ ...action }),
+                            QuestionActions.onFindQuestionById({ id: action.questionId })
+                        ];
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (updateCorrectAnswer effect) ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    voteAnswer$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnVoteAnswer),
-            switchMap((action: QuestionActions.OnVoteAnswer) => {
-                return this.questionService.voteAnswer(
-                    action.payload.questionId,
-                    action.payload.answerId,
-                    action.payload.upvote
-                )
-                    .pipe(
-                        mergeMap((response: string) => {
-                            if (response === 'answer-voted') {
-                                return [
-                                    new QuestionActions.VoteAnswer({
-                                        questionId: action.payload.questionId,
-                                        answerId: action.payload.answerId,
-                                        upvote: action.payload.upvote
-                                    }),
-                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
-                                ];
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (voteAnswer effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    voteAnswer$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onVoteAnswer),
+        mergeMap(action => {
+            return this.questionService.voteAnswer(
+                action.questionId,
+                action.answerId,
+                action.upvote
+            ).pipe(
+                mergeMap((response: string) => {
+                    if (response === 'answer-voted') {
+                        return [
+                            QuestionActions.voteAnswer({
+                                questionId: action.questionId,
+                                answerId: action.answerId,
+                                upvote: action.upvote
+                            }),
+                            QuestionActions.onFindQuestionById({ id: action.questionId })
+                        ];
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (voteAnswer effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
-    @Effect()
-    deleteAnswer$ = this.actions$
-        .pipe(
-            ofType(QuestionActions.ActionTypes.OnDeleteAnswer),
-            switchMap((action: QuestionActions.OnDeleteAnswer) => {
-                return this.questionService.deleteAnswer(
-                    action.payload.questionId,
-                    action.payload.answerId
-                )
-                    .pipe(
-                        mergeMap((response: string) => {
-                            if (response === 'answer-deleted') {
-                                return [
-                                    new QuestionActions.DeleteAnswer({
-                                        questionId: action.payload.questionId,
-                                        answerId: action.payload.answerId
-                                    }),
-                                    new QuestionActions.OnFindQuestionById({ id: action.payload.questionId })
-                                ];
-                            }
-                        }),
-                        catchError((error) => {
-                            console.log('Error (deleteAnswer effect): ', error);
-                            return EMPTY;
-                        })
-                    )
-            })
-        );
+    deleteAnswer$ = createEffect(() => this.actions$.pipe(
+        ofType(QuestionActions.onDeleteAnswer),
+        mergeMap(action => {
+            return this.questionService.deleteAnswer(
+                action.questionId,
+                action.answerId
+            ).pipe(
+                mergeMap((response: string) => {
+                    if (response === 'answer-deleted') {
+                        return [
+                            QuestionActions.deleteAnswer({
+                                questionId: action.questionId,
+                                answerId: action.answerId
+                            }),
+                            QuestionActions.onFindQuestionById({ id: action.questionId })
+                        ];
+                    }
+                }),
+                catchError((error) => {
+                    console.log('Error (deleteAnswer effect): ', error);
+                    return EMPTY;
+                })
+            )
+        })
+    ));
 
     constructor(private actions$: Actions, private questionService: QuestionsService, private router: Router) { }
 }

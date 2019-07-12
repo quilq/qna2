@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {    
-    this.authStore.dispatch(new OnSignup({
+    this.authStore.dispatch(OnSignup({
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
       password: this.signupForm.value.password
