@@ -60,7 +60,7 @@ export class NewAnswerComponent implements OnInit, OnDestroy {
       if (!didAnswer) {
         let newAnswer = new Answer(this.answerForm.value.newAnswer, this.user);
 
-        this.questionStore.dispatch(new QuestionActions.OnAddAnswer({
+        this.questionStore.dispatch(QuestionActions.onAddAnswer({
           questionId: this.question._id,
           newAnswer: newAnswer
         }));

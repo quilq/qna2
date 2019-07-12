@@ -33,7 +33,7 @@ export class QuestionsSearchResultsComponent implements OnInit, OnDestroy {
   }
 
   getMoreQuestions() {
-    this.questionStore.dispatch(new QuestionActions.OnFindQuestionsByKeywords({
+    this.questionStore.dispatch(QuestionActions.onFindQuestionsByKeywords({
       keywords: this.searchResults.keywords, next: this.searchResults.questions.length
     }));
   }

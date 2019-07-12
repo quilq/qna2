@@ -83,7 +83,7 @@ export class QuestionNewComponent implements OnInit, OnDestroy {
     );
 
     if (this.authService.isAuthenticated) {
-      this.questionStore.dispatch(new QuestionActions.OnCreateQuestion({ question: newQuestion }));
+      this.questionStore.dispatch(QuestionActions.onCreateQuestion({ question: newQuestion }));
       this.questionForm.reset('');
       this.tags = [];
 

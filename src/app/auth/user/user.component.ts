@@ -6,7 +6,7 @@ import { AuthState } from '../store/auth.reducers';
 import { User } from './user.model';
 import { selectUser, getUserQuestions, getUserAnswers } from '../store/auth.selectors';
 import { Question } from '../../questions/question.model';
-import { OnGetUserQuestions, OnGetUserAnswers } from '../store/auth.actions';
+import * as AuthActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-user',
@@ -27,11 +27,11 @@ export class UserComponent implements OnInit {
   }
 
   getUserQuestions(userId: string){
-    this.authStore.dispatch(OnGetUserQuestions({userId}));
+    this.authStore.dispatch(AuthActions.onGetUserQuestions({userId}));
   }
 
   getUserAnswers(userId: string){
-    this.authStore.dispatch(OnGetUserAnswers({userId}));
+    this.authStore.dispatch(AuthActions.onGetUserAnswers({userId}));
   }
 
 }

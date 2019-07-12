@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { Question } from '../question.model';
 import { getFeaturedQuestions } from '../store/question.selectors';
-import { OnGetFeaturedQuestions } from '../store/question.actions';
 import { QuestionState } from '../store/question.reducers';
+import * as QuestionActions from '../store/question.actions';
 
 @Component({
   selector: 'app-questions-featured',
@@ -18,7 +18,7 @@ export class QuestionsFeaturedComponent implements OnInit {
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.questionStore.dispatch(new OnGetFeaturedQuestions());
+    this.questionStore.dispatch(QuestionActions.onGetFeaturedQuestions());
     this.featuredQuestions$ = this.questionStore.select(getFeaturedQuestions);
   }
 }

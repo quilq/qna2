@@ -30,7 +30,7 @@ export class QuestionDetailsComponent implements OnInit {
 
   updateView() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.questionStore.dispatch(new QuestionActions.OnFindQuestionById({ id }));
+    this.questionStore.dispatch(QuestionActions.onFindQuestionById({ id }));
     this.question$ = this.questionStore.select(getQuestionById);
 
     //scroll to top

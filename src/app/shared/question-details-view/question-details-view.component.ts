@@ -51,7 +51,7 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   editQuestion(questionId: string, newQuestion: string) {
     if (this.isAuthenticated) {
-      this.questionStore.dispatch(new QuestionActions.OnEditQuestion({ questionId, newQuestion }));
+      this.questionStore.dispatch(QuestionActions.onEditQuestion({ questionId, newQuestion }));
       this.onCancelEditQuestion();
     } else {
       this.userService.toSignin();
@@ -68,7 +68,7 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   editAnswer(questionId: string, answerId: string, newAnswer: string) {
     if (this.isAuthenticated) {
-      this.questionStore.dispatch(new QuestionActions.OnEditAnswer({ questionId, answerId, newAnswer }));
+      this.questionStore.dispatch(QuestionActions.onEditAnswer({ questionId, answerId, newAnswer }));
       this.onCancelEditAnswer();
     } else {
       this.userService.toSignin();
@@ -77,7 +77,7 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   deleteQuestion(questionId: string) {
     if (this.isAuthenticated) {
-      this.questionStore.dispatch(new QuestionActions.OnDeleteQuestion({ questionId }));
+      this.questionStore.dispatch(QuestionActions.onDeleteQuestion({ questionId }));
     } else {
       this.userService.toSignin();
     }
@@ -85,22 +85,22 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
 
   voteQuestion(questionId: string, upvote: boolean) {
     if (this.isAuthenticated) {
-      this.questionStore.dispatch(new QuestionActions.OnVoteQuestion({ questionId, upvote }));
+      this.questionStore.dispatch(QuestionActions.onVoteQuestion({ questionId, upvote }));
     } else {
       this.userService.toSignin();
     }
   }
 
   deleteAnswer(questionId: string, answerId: string) {
-    this.questionStore.dispatch(new QuestionActions.OnDeleteAnswer({ questionId, answerId }));
+    this.questionStore.dispatch(QuestionActions.onDeleteAnswer({ questionId, answerId }));
   }
 
   voteAnswer(questionId: string, answerId: string, upvote: boolean) {
-    this.questionStore.dispatch(new QuestionActions.OnVoteAnswer({ questionId, answerId, upvote }));
+    this.questionStore.dispatch(QuestionActions.onVoteAnswer({ questionId, answerId, upvote }));
   }
 
   updateCorrectAnswer(questionId: string, correctAnswerId: string, undo: boolean) {
-    this.questionStore.dispatch(new QuestionActions.OnUpdateCorrectAnswer({ questionId, correctAnswerId, undo }));
+    this.questionStore.dispatch(QuestionActions.onUpdateCorrectAnswer({ questionId, correctAnswerId, undo }));
   }
 
   ngOnDestroy() {

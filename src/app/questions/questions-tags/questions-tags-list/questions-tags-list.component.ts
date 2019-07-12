@@ -17,7 +17,7 @@ export class QuestionsTagsListComponent implements OnInit {
   constructor(private questionStore: Store<QuestionState>) { }
 
   ngOnInit() {
-    this.questionStore.dispatch(new QuestionActions.OnGetTags());
+    this.questionStore.dispatch(QuestionActions.onGetTags());
     this.tags$ = this.questionStore.select(getTags);
   }
 }

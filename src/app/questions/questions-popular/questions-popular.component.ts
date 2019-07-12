@@ -33,7 +33,7 @@ export class QuestionsPopularComponent implements OnInit {
           this.totalQuestions = questionsState.totalQuestions;
           this.popularQuestions = questionsState.questions;
         } else {
-          this.questionStore.dispatch(new QuestionActions.OnGetPopularQuestions({ next: 0 }));
+          this.questionStore.dispatch(QuestionActions.onGetPopularQuestions({ next: 0 }));
         }
       });
 
@@ -43,7 +43,7 @@ export class QuestionsPopularComponent implements OnInit {
   }
 
   getMoreQuestions() {
-    this.questionStore.dispatch(new QuestionActions.OnGetPopularQuestions({ next: this.popularQuestions.length }));
+    this.questionStore.dispatch(QuestionActions.onGetPopularQuestions({ next: this.popularQuestions.length }));
   }
 
   ngOnDestroy() {

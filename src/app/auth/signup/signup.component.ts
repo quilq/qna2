@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { AuthState } from '../store/auth.reducers';
-import { OnSignup } from '../store/auth.actions';
+import * as AuthActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-signup',
@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {    
-    this.authStore.dispatch(OnSignup({
+    this.authStore.dispatch(AuthActions.onSignup({
       username: this.signupForm.value.username,
       email: this.signupForm.value.email,
       password: this.signupForm.value.password

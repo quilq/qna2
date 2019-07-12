@@ -33,7 +33,7 @@ export class QuestionsRecentComponent implements OnInit, OnDestroy {
           this.totalQuestions = questionsState.totalQuestions;
           this.recentQuestions = questionsState.questions;
         } else {
-          this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions({ next: 0 }));
+          this.questionStore.dispatch(QuestionActions.onGetRecentQuestions({ next: 0 }));
         }
       });
 
@@ -43,7 +43,7 @@ export class QuestionsRecentComponent implements OnInit, OnDestroy {
   }
 
   getMoreQuestions() {
-    this.questionStore.dispatch(new QuestionActions.OnGetRecentQuestions({ next: this.recentQuestions.length }));
+    this.questionStore.dispatch(QuestionActions.onGetRecentQuestions({ next: this.recentQuestions.length }));
   }
 
   ngOnDestroy() {

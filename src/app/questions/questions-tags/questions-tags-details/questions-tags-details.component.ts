@@ -29,7 +29,7 @@ export class QuestionsTagsDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.tag = this.activatedRoute.snapshot.paramMap.get('tag');
-    this.questionStore.dispatch(new QuestionActions.OnFindQuestionsByTag({ tag: this.tag, next: 0 }));
+    this.questionStore.dispatch(QuestionActions.onFindQuestionsByTag({ tag: this.tag, next: 0 }));
     this.questionStore.select(getQuestionsByTag)
       .pipe(takeUntil(this.ngUnsubscribe$))
       .subscribe(questions => this.questionsByTag = questions);
@@ -40,7 +40,7 @@ export class QuestionsTagsDetailsComponent implements OnInit {
   }
 
   getMoreQuestions() {
-    this.questionStore.dispatch(new QuestionActions.OnFindQuestionsByTag({
+    this.questionStore.dispatch(QuestionActions.onFindQuestionsByTag({
       tag: this.tag, next: this.questionsByTag.length
     }));
   }

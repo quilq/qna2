@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { QuestionState } from '../store/question.reducers';
 import { getRelatedQuestions } from '../store/question.selectors';
 import { Question } from '../question.model';
-import { OnGetRelatedQuestions } from '../store/question.actions';
+import * as QuestionActions from '../store/question.actions';
 
 @Component({
   selector: 'app-questions-related',
@@ -31,7 +31,7 @@ export class QuestionsRelatedComponent implements OnInit, OnChanges {
       // console.log('tag(s) did not change');
       return;
     } else {
-      this.questionStore.dispatch(new OnGetRelatedQuestions({ tags: newTags }));
+      this.questionStore.dispatch(QuestionActions.onGetRelatedQuestions({ tags: newTags }));
     }
   }
 

@@ -21,7 +21,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() { }
 
   onSearch(keywords: string) {
-    this.questionStore.dispatch(new QuestionActions.OnFindQuestionsByKeywords({ keywords, next: 0 }));
+    this.questionStore.dispatch(QuestionActions.onFindQuestionsByKeywords({ keywords, next: 0 }));
     this.router.navigate(['/questions/search-results']);
   }
 

@@ -33,7 +33,7 @@ export class QuestionsUnansweredComponent implements OnInit {
           this.totalQuestions = questionsState.totalQuestions;
           this.unansweredQuestions = questionsState.questions;
         } else {
-          this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions({ next: 0 }));
+          this.questionStore.dispatch(QuestionActions.onGetUnansweredQuestions({ next: 0 }));
         }
       });
 
@@ -43,7 +43,7 @@ export class QuestionsUnansweredComponent implements OnInit {
   }
 
   getMoreQuestions() {
-    this.questionStore.dispatch(new QuestionActions.OnGetUnansweredQuestions({ next: this.unansweredQuestions.length }));
+    this.questionStore.dispatch(QuestionActions.onGetUnansweredQuestions({ next: this.unansweredQuestions.length }));
   }
 
   ngOnDestroy() {
