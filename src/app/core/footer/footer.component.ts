@@ -12,4 +12,12 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteMe(){
+    if (confirm('are you sure')){
+      console.log('yes. delete confirmed');
+    } else {
+      console.log('no ');
+    }
+  }
+
 }

@@ -102,12 +102,12 @@ export const createQuestion = createAction(
 
 export const onEditQuestion = createAction(
     '[Question] On Edit Question',
-    props<{ questionId: string, newQuestion: string }>()
+    props<{ questionId: string, newQuestionContent: string }>()
 );
 
 export const editQuestion = createAction(
     '[Question] Edit Question',
-    props<{ questionId: string, newQuestion: string }>()
+    props<{ question: Question }>()
 );
 
 export const onDeleteQuestion = createAction(
@@ -117,7 +117,7 @@ export const onDeleteQuestion = createAction(
 
 export const deleteQuestion = createAction(
     '[Question] Delete Question',
-    props<{ questionId: string }>()
+    props<{ question: Question }>()
 );
 
 export const onVoteQuestion = createAction(
@@ -127,7 +127,7 @@ export const onVoteQuestion = createAction(
 
 export const voteQuestion = createAction(
     '[Question] Vote Question',
-    props<{ questionId: string, upvote: boolean }>()
+    props<{ question: Question }>()
 );
 
 export const onAddAnswer = createAction(
@@ -137,7 +137,7 @@ export const onAddAnswer = createAction(
 
 export const addAnswer = createAction(
     '[Answer] Add Answer',
-    props<{ questionId: string, newAnswer: Answer }>()
+    props<{ question: Question }>()
 );
 
 export const onEditAnswer = createAction(
@@ -147,7 +147,7 @@ export const onEditAnswer = createAction(
 
 export const editAnswer = createAction(
     '[Answer] Edit Answer',
-    props<{ questionId: string, answerId: string, newAnswer: string }>()
+    props<{ question: Question }>()
 );
 
 export const onUpdateCorrectAnswer = createAction(
@@ -157,7 +157,7 @@ export const onUpdateCorrectAnswer = createAction(
 
 export const updateCorrectAnswer = createAction(
     '[Answer] Update Correct Answer',
-    props<{ questionId: string, correctAnswerId: string, undo: boolean }>()
+    props<{ question: Question }>()
 );
 
 export const onVoteAnswer = createAction(
@@ -167,7 +167,7 @@ export const onVoteAnswer = createAction(
 
 export const voteAnswer = createAction(
     '[Answer] Vote Answer',
-    props<{ questionId: string, answerId: string, upvote: boolean }>()
+    props<{ question : Question }>()
 );
 
 export const onDeleteAnswer = createAction(
@@ -177,5 +177,5 @@ export const onDeleteAnswer = createAction(
 
 export const deleteAnswer = createAction(
     '[Answer] Delete Answer',
-    props<{ questionId: string, answerId: string }>()
+    props<{ question : Question }>()
 );

@@ -286,7 +286,7 @@ questionSchema.statics.voteQuestion = function (req, res) {
             if (err) {
                 console.log('Unable to update question votes ', err);
             } else {
-                res.json('question-voted');
+                res.status(200).json(doc);
             }
         });
 }
@@ -310,7 +310,7 @@ questionSchema.statics.editQuestion = function (req, res) {
             if (err) {
                 console.log('Unable to edit question ', err);
             } else {
-                res.status(200).json('question-updated');
+                res.status(200).json(doc);
             }
         });
 }
@@ -323,7 +323,7 @@ questionSchema.statics.deleteQuestion = function (req, res) {
         if (err) {
             console.log('Unable to delete question ', err);
         } else {
-            res.json('question-deleted');
+            res.status(200).json(doc);
         }
     });
 }
@@ -336,7 +336,7 @@ questionSchema.statics.findAnswersByUser = function (req, res) {
         if (err) {
             console.log('Unable to find answers by user ', err);
         } else {
-            res.json(doc);
+            res.status(200).json(doc);
         }
     });
 
@@ -355,11 +355,10 @@ questionSchema.statics.addAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to add answer ', err);
             } else {
-                res.json('answer-added');
+                res.status(200).json(doc);
             }
         }
     );
-
 }
 
 //edit answer
@@ -378,8 +377,7 @@ questionSchema.statics.editAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to edit answer ', err);
             } else {
-                console.log(doc);
-                res.json('answer-edited');
+                res.status(200).json(doc);
             }
         });
 }
@@ -399,16 +397,16 @@ questionSchema.statics.updateCorrectAnswer = function (req, res) {
                 console.log('Unable to update correct answer ', err);
             } else {
                 if (undo) {
-                    res.json('correct-answer-updated');
+                    res.status(200).json(doc);
                 } else {
                     Question.updateOne(
                         { _id: questionId, 'answers._id': correctAnswerId },
                         { $set: { 'answers.$.isCorrectAnswer': true } },
-                        (err, doc) => {
+                        (err2, doc2) => {
                             if (err) {
-                                console.log('Unable to update correct answer ', err);
+                                console.log('Unable to update correct answer ', err2);
                             } else {
-                                res.json('correct-answer-updated');
+                                res.status(200).json(doc2);
                             }
                         }
                     );
@@ -441,7 +439,7 @@ questionSchema.statics.voteAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to update answer votes ', err);
             } else {
-                res.json('answer-voted');
+                res.status(200).json(doc);
             }
         });
 }
@@ -459,7 +457,7 @@ questionSchema.statics.deleteAnswer = function (req, res) {
             if (err) {
                 console.log('Unable to delete answer ', err);
             } else {
-                res.json('answer-deleted');;
+                res.status(200).json(doc);
             }
         }
     )

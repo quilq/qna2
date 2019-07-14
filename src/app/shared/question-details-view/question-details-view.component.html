@@ -32,7 +32,7 @@
     <mat-card>
         <mat-card-content>
             <div> Asked: {{question.createdAt | date: 'MMM d, y'}}</div>
-            <div> Asked by user: {{question.askedByUser.username}}</div>
+            <div> By user: {{question.askedByUser.username}}</div>
         </mat-card-content>
     </mat-card>
 
@@ -64,7 +64,7 @@
             </div>
 
             <mat-form-field *ngIf="canEditAnswer">
-                <textarea matInput placeholder="New answer" rows="3" #newAnswer></textarea>
+                <textarea matInput placeholder="New answer" rows="10" #newAnswer></textarea>
                 <button mat-raised-button (click)="editAnswer(question._id, answer._id, newAnswer.value)">Edit</button>
                 <button mat-raised-button (click)="onCancelEditAnswer()">Cancel</button>
             </mat-form-field>
@@ -72,12 +72,17 @@
 
         <div fxLayout="row">
             <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, true)">+1</button>
-            <button mat-stroked-button> 
+            <button mat-stroked-button>
                 {{answer.answerVotes}} {{answer.answerVotes > 1 ? 'votes' : 'vote'}} </button>
             <button mat-stroked-button (click)="voteAnswer(question._id, answer._id, false)">-1</button>
         </div>
 
-        <div> Answered by: {{answer.answeredByUser.username}}</div>
+        <mat-card>
+            <mat-card-content>
+                <div> Answered:{{answer.createdAt | date: 'MMM d, y'}} </div>
+                <div> By user: {{answer.askedByUser.username}} </div>
+            </mat-card-content>
+        </mat-card>
 
     </div>
 </div>

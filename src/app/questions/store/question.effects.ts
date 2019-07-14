@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { map, catchError, mergeMap } from 'rxjs/operators'
 import { EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
@@ -10,8 +10,6 @@ import * as QuestionActions from './question.actions';
 
 @Injectable()
 export class QuestionEffects {
-
-    @Effect()
     getPopularQuestions$ = createEffect(() => this.actions$.pipe(
         ofType(QuestionActions.onGetPopularQuestions),
         mergeMap(action => {
@@ -155,12 +153,10 @@ export class QuestionEffects {
         mergeMap((action) => {
             return this.questionService.findQuestionsByKeywords(action.keywords, action.next).pipe(
                 map((questions: Question[]) => {
-                    if (questions) {
-                        return QuestionActions.findQuestionsByKeywords({
-                            keywords: action.keywords,
-                            questions
-                        });
-                    }
+                    return QuestionActions.findQuestionsByKeywords({
+                        keywords: action.keywords,
+                        questions
+                    });
                 }),
                 catchError((error) => {
                     console.log('Error (findQuestionsByKeywords effect): ', error);
@@ -174,13 +170,10 @@ export class QuestionEffects {
         .pipe(
             ofType(QuestionActions.onCreateQuestion),
             mergeMap((action) => {
-                console.log('action payload', action);
                 return this.questionService.createQuestion(action.question)
                     .pipe(
                         map((question: Question) => {
-                            if (question) {
-                                return QuestionActions.createQuestion({ question });
-                            }
+                            return QuestionActions.createQuestion({ question });
                         }),
                         catchError((error) => {
                             console.log('Error (createQuestion effect): ', error);
@@ -193,17 +186,12 @@ export class QuestionEffects {
     editQuestion$ = createEffect(() => this.actions$.pipe(
         ofType(QuestionActions.onEditQuestion),
         mergeMap(action => {
-            return this.questionService.editQuestion(action.questionId, action.newQuestion).pipe(
-                mergeMap((response: string) => {
-                    if (response === 'question-updated') {
-                        return [
-                            QuestionActions.editQuestion({
-                                questionId: action.questionId,
-                                newQuestion: action.newQuestion
-                            }),
-                            QuestionActions.onFindQuestionById({ id: action.questionId })
-                        ];
-                    }
+            return this.questionService.editQuestion(action.questionId, action.newQuestionContent).pipe(
+                mergeMap((question: Question) => {
+                    return [
+                        QuestionActions.editQuestion({ question }),
+                        QuestionActions.onFindQuestionById({ id: action.questionId })
+                    ];
                 }),
                 catchError((error) => {
                     console.log('Error (editQuestion effect): ', error);
@@ -217,16 +205,11 @@ export class QuestionEffects {
         ofType(QuestionActions.onVoteQuestion),
         mergeMap(action => {
             return this.questionService.voteQuestion(action.questionId, action.upvote).pipe(
-                mergeMap((response: string) => {
-                    if (response === 'question-voted') {
-                        return [
-                            QuestionActions.onVoteQuestion({
-                                questionId: action.questionId,
-                                upvote: action.upvote
-                            }),
-                            QuestionActions.onFindQuestionById({ id: action.questionId })
-                        ];
-                    }
+                mergeMap((question: Question) => {
+                    return [
+                        QuestionActions.voteQuestion({ question }),
+                        QuestionActions.onFindQuestionById({ id: action.questionId })
+                    ];
                 }),
                 catchError((error) => {
                     console.log('Error (voteQuestion effect): ', error);
@@ -240,13 +223,9 @@ export class QuestionEffects {
         ofType(QuestionActions.onDeleteQuestion),
         mergeMap(action => {
             return this.questionService.deleteQuestion(action.questionId).pipe(
-                map((response: string) => {
-                    if (response === 'question-deleted') {
-                        this.router.navigate(['/']);
-                        return QuestionActions.deleteQuestion({
-                            questionId: action.questionId,
-                        });
-                    }
+                map((question: Question) => {
+                    this.router.navigate(['/']);
+                    return QuestionActions.deleteQuestion({ question });
                 }),
                 catchError((error) => {
                     console.log('Error (deleteQuestion effect): ', error);
@@ -257,20 +236,14 @@ export class QuestionEffects {
     ));
 
     addAnswer$ = createEffect(() => this.actions$.pipe(
-        ofType(QuestionActions.addAnswer),
+        ofType(QuestionActions.onAddAnswer),
         mergeMap(action => {
             return this.questionService.addAnswer(action.questionId, action.newAnswer).pipe(
-                mergeMap((response: string) => {
-                    console.log(response);
-                    if (response === 'answer-added') {
-                        return [
-                            QuestionActions.addAnswer({
-                                questionId: action.questionId,
-                                newAnswer: action.newAnswer
-                            }),
-                            QuestionActions.onFindQuestionById({ id: action.questionId })
-                        ];
-                    }
+                mergeMap((question: Question) => {
+                    return [
+                        QuestionActions.addAnswer({ question }),
+                        QuestionActions.onFindQuestionById({ id: action.questionId })
+                    ];
                 }),
                 catchError((error) => {
                     console.log('Error (addAnswer effect): ', error);
@@ -288,17 +261,11 @@ export class QuestionEffects {
                 action.answerId,
                 action.newAnswer
             ).pipe(
-                mergeMap((response: string) => {
-                    if (response === 'answer-edited') {
-                        return [
-                            QuestionActions.editAnswer({
-                                questionId: action.questionId,
-                                answerId: action.answerId,
-                                newAnswer: action.newAnswer
-                            }),
-                            QuestionActions.onFindQuestionById({ id: action.questionId })
-                        ];
-                    }
+                mergeMap((question: Question) => {
+                    return [
+                        QuestionActions.editAnswer({ question }),
+                        QuestionActions.onFindQuestionById({ id: action.questionId })
+                    ];
                 }),
                 catchError((error) => {
                     console.log('Error (editAnswer effect): ', error);
@@ -316,13 +283,11 @@ export class QuestionEffects {
                 action.correctAnswerId,
                 action.undo
             ).pipe(
-                mergeMap((response: string) => {
-                    if (response === 'correct-answer-updated') {
-                        return [
-                            QuestionActions.updateCorrectAnswer({ ...action }),
-                            QuestionActions.onFindQuestionById({ id: action.questionId })
-                        ];
-                    }
+                mergeMap((question: Question) => {
+                    return [
+                        QuestionActions.updateCorrectAnswer({ question }),
+                        QuestionActions.onFindQuestionById({ id: action.questionId })
+                    ];
                 }),
                 catchError((error) => {
                     console.log('Error (updateCorrectAnswer effect) ', error);
@@ -340,17 +305,11 @@ export class QuestionEffects {
                 action.answerId,
                 action.upvote
             ).pipe(
-                mergeMap((response: string) => {
-                    if (response === 'answer-voted') {
-                        return [
-                            QuestionActions.voteAnswer({
-                                questionId: action.questionId,
-                                answerId: action.answerId,
-                                upvote: action.upvote
-                            }),
-                            QuestionActions.onFindQuestionById({ id: action.questionId })
-                        ];
-                    }
+                mergeMap((question: Question) => {
+                    return [
+                        QuestionActions.voteAnswer({ question }),
+                        QuestionActions.onFindQuestionById({ id: action.questionId })
+                    ];
                 }),
                 catchError((error) => {
                     console.log('Error (voteAnswer effect): ', error);
@@ -367,16 +326,11 @@ export class QuestionEffects {
                 action.questionId,
                 action.answerId
             ).pipe(
-                mergeMap((response: string) => {
-                    if (response === 'answer-deleted') {
-                        return [
-                            QuestionActions.deleteAnswer({
-                                questionId: action.questionId,
-                                answerId: action.answerId
-                            }),
-                            QuestionActions.onFindQuestionById({ id: action.questionId })
-                        ];
-                    }
+                mergeMap((question: Question) => {
+                    return [
+                        QuestionActions.deleteAnswer({ question }),
+                        QuestionActions.onFindQuestionById({ id: action.questionId })
+                    ];
                 }),
                 catchError((error) => {
                     console.log('Error (deleteAnswer effect): ', error);

@@ -29,5 +29,4 @@ export class SigninComponent implements OnInit {
       password: this.signinForm.value.password
     }));
   }
-
 }

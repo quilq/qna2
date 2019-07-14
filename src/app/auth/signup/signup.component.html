@@ -1,7 +1,9 @@
 <div class="c-full-page-80">
   <form fxLayout="column" fxLayoutAlign="center center" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <mat-card class="c-padding-32 signup-form" fxLayout="column" fxLayoutAlign="center center">
-      <button class="g-no-overlay nav-title" mat-button disableRipple="true" routerLink=""> qna2 </button>
+      <button class="g-no-overlay nav-title" mat-button type="button" disableRipple="true" routerLink=""> 
+        qna2 
+      </button>
       <h3>Sign up</h3>
 
       <mat-form-field>
@@ -33,7 +35,7 @@
         </mat-error>
       </mat-form-field>
 
-      <button class="c-margin-1-0" mat-raised-button type="submit" [disabled]="signupForm.invalid" >
+      <button class="c-margin-1-0" mat-raised-button type="submit" [disabled]="signupForm.invalid">
         Sign up
       </button>
       <a class="c-link c-margin-2-0" routerLink="/auth/signin" >Sign in instead</a>

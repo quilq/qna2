@@ -19,7 +19,6 @@ import { QuestionsFeaturedComponent } from './questions-featured/questions-featu
 import { QuestionsRelatedComponent } from './questions-related/questions-related.component';
 import { QuestionNewComponent } from './question-new/question-new.component';
 
-
 @NgModule({
   declarations: [
     QuestionsComponent,

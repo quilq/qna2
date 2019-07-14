@@ -6,12 +6,14 @@ export class Answer {
     answeredByUser: User;
     isCorrectAnswer: boolean;
     answerVotes: number;
+    createdAt: Date;
 
     constructor(answer: string, answeredByUser: User) {
         this.answer = answer;
         this.answerVotes = 0;
         this.answeredByUser = answeredByUser;
         this.isCorrectAnswer = false;
+        this.createdAt = new Date();
     }
 }
 

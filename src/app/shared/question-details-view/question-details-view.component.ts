@@ -49,9 +49,9 @@ export class QuestionDetailsViewComponent implements OnInit, OnDestroy {
     this.canEditQuestion = false;
   }
 
-  editQuestion(questionId: string, newQuestion: string) {
+  editQuestion(questionId: string, newQuestionContent: string) {
     if (this.isAuthenticated) {
-      this.questionStore.dispatch(QuestionActions.onEditQuestion({ questionId, newQuestion }));
+      this.questionStore.dispatch(QuestionActions.onEditQuestion({ questionId, newQuestionContent }));
       this.onCancelEditQuestion();
     } else {
       this.userService.toSignin();
