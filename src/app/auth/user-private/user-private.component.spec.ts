@@ -3,13 +3,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 
-import { UserComponent } from './user.component';
+import { UserPrivateComponent } from './user-private.component';
 import { SharedModule } from '../../shared/shared.module';
 import { authReducer } from '../store/auth.reducers';
 
 describe('UserComponent', () => {
-  let component: UserComponent;
-  let fixture: ComponentFixture<UserComponent>;
+  let component: UserPrivateComponent;
+  let fixture: ComponentFixture<UserPrivateComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,9 +19,9 @@ describe('UserComponent', () => {
           StoreModule.forRoot({auth: authReducer}),
           BrowserAnimationsModule
         ],
-      declarations: [ UserComponent ]
+      declarations: [ UserPrivateComponent ]
     })
-    fixture = TestBed.createComponent(UserComponent);
+    fixture = TestBed.createComponent(UserPrivateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

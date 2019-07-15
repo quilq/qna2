@@ -1,4 +1,4 @@
-import { User } from '../auth/user/user.model';
+import { User } from '../auth/user.model';
 
 export class Answer {
     _id?: string;

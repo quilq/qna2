@@ -12,7 +12,7 @@ import { QuestionDetailsViewComponent } from './question-details-view.component'
 import { MaterialModule } from '../../material/material.module';
 import { questionReducer } from '../../questions/store/question.reducers';
 import { Question } from '../../questions/question.model';
-import { User } from '../../auth/user/user.model';
+import { User } from '../../auth/user.model';
 
 describe('QuestionDetailsViewComponent', () => {
   let component: QuestionDetailsViewComponent;

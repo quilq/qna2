@@ -7,7 +7,7 @@ import { Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
 import { AuthService } from '../../auth/auth.service';
 import { isAuthenticated, selectUser } from '../../auth/store/auth.selectors';
-import { User } from '../../auth/user/user.model';
+import { User } from '../../auth/user.model';
 import * as QuestionActions from '../../questions/store/question.actions';
 
 @Component({

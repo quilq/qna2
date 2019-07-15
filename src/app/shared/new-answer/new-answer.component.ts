@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { Answer, Question } from '../../questions/question.model';
 import { QuestionState } from '../../questions/store/question.reducers';
-import { User } from '../../auth/user/user.model';
+import { User } from '../../auth/user.model';
 import { selectUser } from '../../auth/store/auth.selectors';
 import { AuthService } from '../../auth/auth.service';
 import { AuthState } from '../../auth/store/auth.reducers';

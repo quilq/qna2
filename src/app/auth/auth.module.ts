@@ -3,16 +3,18 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AuthRoutingModule } from './auth-routing.module';
-import { UserComponent } from './user/user.component';
+import { UserPrivateComponent } from './user-private/user-private.component';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthEffects } from './store/auth.effects';
 import { authReducer } from './store/auth.reducers';
 import { SharedModule } from '../shared/shared.module';
+import { UserPublicComponent } from './user-public/user-public.component';
 
 @NgModule({
   declarations: [
-    UserComponent,
+    UserPrivateComponent,
+    UserPublicComponent,
     SigninComponent,
     SignupComponent
   ],

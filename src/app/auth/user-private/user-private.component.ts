@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AuthState } from '../store/auth.reducers';
-import { User } from './user.model';
+import { User } from '../user.model';
 import { selectUser, getUserQuestions, getUserAnswers } from '../store/auth.selectors';
 import { Question } from '../../questions/question.model';
 import * as AuthActions from '../store/auth.actions';
@@ -13,7 +13,7 @@ import * as AuthActions from '../store/auth.actions';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserPrivateComponent implements OnInit {
   user$: Observable<User>;
   userQuestions$: Observable<Question[]>;
   userAnswers$: Observable<Question[]>;

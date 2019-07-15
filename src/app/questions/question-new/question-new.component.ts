@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Question } from '../question.model';
 import { AuthService } from '../../auth/auth.service';
-import { User } from '../../auth/user/user.model';
+import { User } from '../../auth/user.model';
 import { selectUser } from '../../auth/store/auth.selectors';
 import { AuthState } from '../../auth/store/auth.reducers';
 import { QuestionState } from '../store/question.reducers';
