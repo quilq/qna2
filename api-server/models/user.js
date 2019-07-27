@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
         minlength: 6
+    },
+    intro: {
+        type: String,
+        default: ''
+    },
+    memberSince: {
+        type: Date,
+        default: Date.now()
     }
 });
 

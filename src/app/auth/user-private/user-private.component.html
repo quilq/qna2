@@ -1,6 +1,7 @@
 <div class="c-margin-child-2-2 c-full-page-80" *ngIf="user$ | async as user; else loading">
     <div> Hello {{user.username}}</div>
     <div> {{user.email}}</div>
+    <p>Member since: ---</p>
 
     <button mat-raised-button routerLink="/questions/new-question">Ask new question </button>
 
@@ -11,8 +12,7 @@
                 <div *ngFor="let question of userQuestions">
 
                     <mat-divider></mat-divider>
-                    <a class="c-link c-margin-2-0" 
-                    [routerLink]="['/questions/question-details', question._id]">                    
+                    <a class="c-link c-margin-2-0" [routerLink]="['/questions/question-details', question._id]">
                         {{question.questionTitle}}
                     </a>
                 </div>

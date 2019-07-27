@@ -10,6 +10,9 @@ export class User {
     _id: string;
     username: string;
     email: string;
+    intro: string;
+    memberSince: number;
+
     constructor(_id = '', username = '', email = '') {
         this._id = _id;
         this.username = username;
