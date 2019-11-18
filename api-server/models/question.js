@@ -24,7 +24,8 @@ const questionSchema = new mongoose.Schema({
             autopopulate: true
         },
         isCorrectAnswer: Boolean,
-        answerVotes: Number
+        answerVotes: Number,
+        createdAt: Date
     }],
     createdAt: Date
 });

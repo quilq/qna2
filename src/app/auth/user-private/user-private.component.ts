@@ -10,8 +10,8 @@ import * as AuthActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  templateUrl: './user-private.component.html',
+  styleUrls: ['./user-private.component.scss']
 })
 export class UserPrivateComponent implements OnInit {
   user$: Observable<User>;

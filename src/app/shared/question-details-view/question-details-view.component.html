@@ -39,7 +39,7 @@
     <h3> {{question.answers.length}} {{question.answers.length > 1 ? 'answers' : 'answer' }} </h3>
 
     <!-- Answer -->
-    <div class="c-margin-child-2-0" *ngFor="let answer of question.answers; let i = index">
+    <div class="c-margin-child-2-0" *ngFor="let answer of question.answers">
         <mat-divider></mat-divider>
 
         <div class="c-margin-child-1-0">
@@ -80,9 +80,8 @@
         <mat-card>
             <mat-card-content>
                 <div> Answered:{{answer.createdAt | date: 'MMM d, y'}} </div>
-                <div> By user: {{answer.askedByUser.username}} </div>
+                <div> By user: {{answer.answeredByUser.username}} </div>
             </mat-card-content>
         </mat-card>
-
     </div>
 </div>
