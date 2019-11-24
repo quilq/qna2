@@ -133,8 +133,14 @@ export class QuestionEffects {
         mergeMap(action => {
             return this.questionService.findQuestionsByTag(action.tag, action.next).pipe(
                 map((questions: Question[]) => {
-                    if (questions) {
+                    if (questions && (action.next === 0)) {
+                        console.log('find questions by tag');
                         return QuestionActions.findQuestionsByTag({
+                            tag: action.tag,
+                            questions
+                        });
+                    } else if (questions && (action.next > 0)) {
+                        return QuestionActions.addQuestionsByTag({
                             tag: action.tag,
                             questions
                         });

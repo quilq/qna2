@@ -6,10 +6,11 @@
 
   <div fxLayout="row">
     <button mat-stroked-button>
-      {{question.questionVotes}} {{question.questionVotes > 1 ? 'votes' : 'vote' }}
+      {{question.questionVotes}} 
+      <mat-icon>{{question.questionVotes >= 0 ? 'thumb_up_alt' : 'thumb_down_alt'}}</mat-icon>
     </button>
     <button mat-stroked-button>
-      {{question.answers.length}} {{question.questionVotes > 1 ? 'answers' : 'answer' }}
+      {{question.answers.length}} {{question.answers.length > 1 ? 'answers' : 'answer' }}
     </button>
   </div>
 

@@ -4,7 +4,7 @@ import * as QuestionActions from './question.actions';
 import { Question } from '../question.model';
 
 export interface LoadedQuestions {
-    totalQuestions: number,  //total questions from database
+    totalQuestions: number,  //total questions in database
     questions: Question[]
 }
 
@@ -111,6 +111,13 @@ const reducer = createReducer(
         ...state, questionById: action.question
     })),
     on(QuestionActions.findQuestionsByTag, (state, action) => ({
+        ...state,
+        questionsByTag: {
+            tag: action.tag,
+            questions: action.questions
+        }
+    })),
+    on(QuestionActions.addQuestionsByTag, (state, action) => ({
         ...state,
         questionsByTag: {
             tag: action.tag,

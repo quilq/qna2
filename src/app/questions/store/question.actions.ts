@@ -80,6 +80,11 @@ export const findQuestionsByTag = createAction(
     props<{ tag: string, questions: Question[] }>()
 );
 
+export const addQuestionsByTag = createAction(
+    '[Question] Add Question By Tag',
+    props<{ tag: string, questions: Question[] }>()
+);
+
 export const onFindQuestionsByKeywords = createAction(
     '[Question] On Find Question By Keywords',
     props<{ keywords: string, next: number }>()

@@ -36,6 +36,7 @@ questionSchema.plugin(autopopulate);
 questionSchema.statics.getPopularQuestions = function (req, res) {
     const Question = this;
     const skip = ((req.query.next) * 1);
+    console.log('skip ', skip);
 
     //return doc = [{questions [{--}], totalQuestions [{count: --}]}]
     Question.aggregate(
@@ -58,7 +59,7 @@ questionSchema.statics.getPopularQuestions = function (req, res) {
                 console.log('Unable to get popular questions ', err);
             } else {
                 //aggregate wont apply autopopulate => need another query for populating
-                Question.populate(doc[0].questions, {path: 'askedByUser'}, (err2, doc2) => {
+                Question.populate(doc[0].questions, { path: 'askedByUser' }, (err2, doc2) => {
                     if (err2) {
                         console.log('Cannot populate popular questions ', err2);
                     } else {
@@ -93,7 +94,7 @@ questionSchema.statics.getRecentQuestions = function (req, res) {
             if (err) {
                 console.log('Unable to get recent questions ', err);
             } else {
-                Question.populate(doc[0].questions, {path: 'askedByUser'}, (err2, doc2) => {
+                Question.populate(doc[0].questions, { path: 'askedByUser' }, (err2, doc2) => {
                     if (err2) {
                         console.log('Cannot populate recent questions ', err2);
                     } else {
@@ -128,7 +129,7 @@ questionSchema.statics.getUnansweredQuestions = function (req, res) {
             if (err) {
                 console.log('Unable to get unanswered questions ', err);
             } else {
-                Question.populate(doc[0].questions, {path: 'askedByUser'}, (err2, doc2) => {
+                Question.populate(doc[0].questions, { path: 'askedByUser' }, (err2, doc2) => {
                     if (err2) {
                         console.log('Cannot populate unanswered questions ', err2);
                     } else {
@@ -302,18 +303,18 @@ questionSchema.statics.editQuestion = function (req, res) {
             //filter
             _id: questionId
         }, {
-            //update
-            $set: { questionContent: newQuestion }
-        }, {
-            //option
-            returnOriginal: false
-        }, (err, doc) => {
-            if (err) {
-                console.log('Unable to edit question ', err);
-            } else {
-                res.status(200).json(doc);
-            }
-        });
+        //update
+        $set: { questionContent: newQuestion }
+    }, {
+        //option
+        returnOriginal: false
+    }, (err, doc) => {
+        if (err) {
+            console.log('Unable to edit question ', err);
+        } else {
+            res.status(200).json(doc);
+        }
+    });
 }
 
 questionSchema.statics.deleteQuestion = function (req, res) {
