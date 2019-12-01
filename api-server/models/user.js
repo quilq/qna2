@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
 const { mongoose } = require('../database/mongoose');
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -34,7 +35,19 @@ const userSchema = new mongoose.Schema({
     memberSince: {
         type: Date,
         default: Date.now()
-    }
+    },
+    userQuestions: [{
+        type: ObjectId,
+        ref: 'Question',
+        autopopulate: true
+    }],
+    questionsUpvotes: Number,
+    userAnswers: [{
+        type: ObjectId,
+        ref: 'Question',
+        autopopulate: true
+    }],
+    answersUpvotes: Number
 });
 
 //Hash password before saving

@@ -6,12 +6,14 @@ import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthGuard } from './auth.guard';
 import { UserPublicComponent } from './user-public/user-public.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
-  {path: 'user/me', component: UserPrivateComponent, canActivate: [AuthGuard]},
-  {path: 'user/:id', component: UserPublicComponent},
-  {path: 'auth/signin', component: SigninComponent},
-  {path: 'auth/signup', component: SignupComponent}
+  { path: 'user/me', component: UserPrivateComponent, canActivate: [AuthGuard] },
+  { path: 'user/:id', component: UserPublicComponent },
+  { path: 'user/list', component: UserListComponent },
+  { path: 'auth/signin', component: SigninComponent },
+  { path: 'auth/signup', component: SignupComponent }
 ];
 
 @NgModule({

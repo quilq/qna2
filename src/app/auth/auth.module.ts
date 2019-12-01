@@ -10,13 +10,15 @@ import { AuthEffects } from './store/auth.effects';
 import { authReducer } from './store/auth.reducers';
 import { SharedModule } from '../shared/shared.module';
 import { UserPublicComponent } from './user-public/user-public.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
+    SigninComponent,
+    SignupComponent,
     UserPrivateComponent,
     UserPublicComponent,
-    SigninComponent,
-    SignupComponent
+    UserListComponent
   ],
   imports: [
     StoreModule.forFeature('auth', authReducer),

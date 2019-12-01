@@ -1,5 +1,5 @@
-const { mongoose } = require('../database/mongoose');
 const autopopulate = require('mongoose-autopopulate');
+const { mongoose } = require('../database/mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const questionSchema = new mongoose.Schema({
