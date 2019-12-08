@@ -30,25 +30,35 @@ const userSchema = new mongoose.Schema({
     },
     intro: {
         type: String,
-        default: ''
+        default: '',
+        maxlength: 200
     },
     memberSince: {
         type: Date,
         default: Date.now()
     },
-    userQuestions: [{
-        type: ObjectId,
-        ref: 'Question',
-        autopopulate: true
-    }],
-    questionsUpvotes: Number,
-    userAnswers: [{
-        type: ObjectId,
-        ref: 'Question',
-        autopopulate: true
-    }],
-    answersUpvotes: Number
+    totalQuestions: Number,
+    totalAnswers: Number
 });
+
+userSchema.statics.getAllUsers = function (option) {
+    const User = this;
+    let sortOption = {};
+
+    if (option === 'by-user') {
+        sortOption = { memberSince: -1 }
+    } else if (option === 'top-contributor') {
+        sortOption = { totalAnswers: -1 }
+    }
+
+    User.find({}, null, { sort: sortOption }, (err, doc) => {
+        if (err) {
+            console.log('Unable to find users ', err);
+        } else {
+            res.status(200).json(doc);
+        }
+    });
+}
 
 //Hash password before saving
 userSchema.pre('save', function (next) {

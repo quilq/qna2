@@ -36,7 +36,6 @@ questionSchema.plugin(autopopulate);
 questionSchema.statics.getPopularQuestions = function (req, res) {
     const Question = this;
     const skip = ((req.query.next) * 1);
-    console.log('skip ', skip);
 
     //return doc = [{questions [{--}], totalQuestions [{count: --}]}]
     Question.aggregate(
