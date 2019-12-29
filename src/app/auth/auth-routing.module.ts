@@ -10,8 +10,8 @@ import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
   { path: 'user/me', component: UserPrivateComponent, canActivate: [AuthGuard] },
-  { path: 'user/:id', component: UserPublicComponent },
   { path: 'user/list', component: UserListComponent },
+  { path: 'user/:id', component: UserPublicComponent },
   { path: 'auth/signin', component: SigninComponent },
   { path: 'auth/signup', component: SignupComponent }
 ];

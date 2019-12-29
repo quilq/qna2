@@ -265,7 +265,6 @@ questionSchema.statics.createQuestion = function (req, res) {
             res.status(200).json(doc);
         }
     });
-
 }
 
 questionSchema.statics.voteQuestion = function (req, res) {

@@ -19,7 +19,7 @@ export class AuthEffects {
                 map((response: any) => {
                     let token: string = response.headers.get('x-auth');
                     localStorage.setItem('token', token);
-                    this.router.navigate(['/user']);
+                    this.router.navigate(['/user/me']);
                     return AuthActions.signin({ ...response.body, token });
                 }),
                 catchError((error) => {
@@ -91,7 +91,7 @@ export class AuthEffects {
                 map((response: any) => {
                     let token: string = response.headers.get('x-auth');
                     localStorage.setItem('token', token);
-                    this.router.navigate(['/user']);
+                    this.router.navigate(['/user/me']);
                     return AuthActions.signup({ ...response.body, token });
                 }),
                 catchError((error) => {

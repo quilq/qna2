@@ -9,18 +9,18 @@
       </button>
     </div>
 
-    <nav *ngIf="!(isAuthenticated)">
+    <nav *ngIf="!(isAuthenticated$ | async)">
       <button class="white-font" mat-button routerLink="auth/signin"> Sign in </button>
       <button class="white-font white-border" mat-stroked-button routerLink="auth/signup"> Sign up </button>
     </nav>
 
-    <nav *ngIf="(isAuthenticated)">
-      <button class="white-font" mat-button routerLink="user"> My account </button>
+    <nav *ngIf="(isAuthenticated$ | async)">
+      <button class="white-font" mat-button routerLink="user/me"> My account </button>
       <button class="white-font white-border" mat-stroked-button (click)="onSignout()"> Sign out </button>
     </nav>
   </mat-toolbar-row>
 
-  <mat-toolbar-row class="bottom-toolbar" fxHide.lt-md="true">
+  <mat-toolbar-row class="bottom-toolbar" fxLayout="row" fxLayoutAlign="space-between center" fxHide.lt-md="true" >
     <nav>
       <button mat-button routerLink="questions/popular-questions">
         <mat-icon>trending_up</mat-icon>
@@ -41,8 +41,8 @@
     </nav>
 
     <nav>
-      <button mat-button routerLink="#">By users</button>
-      <button mat-button routerLink="#">Top contributors</button>
+      <button mat-button routerLink="user/list">By users</button>
+      <button mat-button routerLink="user/list">Top contributors</button>
     </nav>
   </mat-toolbar-row>
 </mat-toolbar>
